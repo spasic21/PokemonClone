@@ -1,0 +1,1934 @@
+{
+  "pokemon": [
+    {
+      "dexNumber": 1,
+      "name": "Bulbasaur",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 2,
+      "name": "Ivysaur",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 3,
+      "name": "Venusaur",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 4,
+      "name": "Charmander",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 5,
+      "name": "Charmeleon",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 6,
+      "name": "Charizard",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 7,
+      "name": "Squirtle",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 8,
+      "name": "Wartortle",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 9,
+      "name": "Blastoise",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 10,
+      "name": "Caterpie",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 11,
+      "name": "Metapod",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 12,
+      "name": "Butterfree",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 13,
+      "name": "Weedle",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 14,
+      "name": "Kakuna",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 15,
+      "name": "Beedrill",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 16,
+      "name": "PdexNumbergey",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 17,
+      "name": "PdexNumbergeotto",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 18,
+      "name": "PdexNumbergeot",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 19,
+      "name": "Rattata",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 20,
+      "name": "Raticate",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 21,
+      "name": "Spearow",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 22,
+      "name": "Fearow",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 23,
+      "name": "Ekans",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 24,
+      "name": "Arbok",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 25,
+      "name": "Pikachu",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 26,
+      "name": "Raichu",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 27,
+      "name": "Sandshrew",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 28,
+      "name": "Sandslash",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 29,
+      "name": "NdexNumberoran♀",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 30,
+      "name": "NdexNumberorina",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 31,
+      "name": "NdexNumberoqueen",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 32,
+      "name": "NdexNumberoran♂",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 33,
+      "name": "NdexNumberorino",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 34,
+      "name": "NdexNumberoking",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 35,
+      "name": "Clefairy",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 36,
+      "name": "Clefable",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 37,
+      "name": "Vulpix",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 38,
+      "name": "Ninetales",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 39,
+      "name": "Jigglypuff",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 40,
+      "name": "Wigglytuff",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 41,
+      "name": "Zubat",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 42,
+      "name": "Golbat",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 43,
+      "name": "Oddish",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 44,
+      "name": "Gloom",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 45,
+      "name": "Vileplume",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 46,
+      "name": "Paras",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 47,
+      "name": "Parasect",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 48,
+      "name": "Venonat",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 49,
+      "name": "Venomoth",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 50,
+      "name": "Diglett",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 51,
+      "name": "Dugtrio",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 52,
+      "name": "Meowth",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 53,
+      "name": "Persian",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 54,
+      "name": "Psyduck",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 55,
+      "name": "Golduck",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 56,
+      "name": "Mankey",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 57,
+      "name": "Primeape",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 58,
+      "name": "Growlithe",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 59,
+      "name": "Arcanine",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 60,
+      "name": "Poliwag",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 61,
+      "name": "Poliwhirl",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 62,
+      "name": "Poliwrath",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 63,
+      "name": "Abra",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 64,
+      "name": "Kadabra",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 65,
+      "name": "Alakazam",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 66,
+      "name": "Machop",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 67,
+      "name": "Machoke",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 68,
+      "name": "Machamp",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 69,
+      "name": "Bellsprout",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 70,
+      "name": "Weepinbell",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 71,
+      "name": "Victreebel",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 72,
+      "name": "Tentacool",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 73,
+      "name": "Tentacruel",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 74,
+      "name": "Geodude",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 75,
+      "name": "Graveler",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 76,
+      "name": "Golem",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 77,
+      "name": "Ponyta",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 78,
+      "name": "RapdexNumberash",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 79,
+      "name": "Slowpoke",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 80,
+      "name": "Slowbro",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 81,
+      "name": "Magnemite",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 82,
+      "name": "Magneton",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 83,
+      "name": "Farfetch'd",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 84,
+      "name": "Doduo",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 85,
+      "name": "Dodrio",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 86,
+      "name": "Seel",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 87,
+      "name": "Dewgong",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 88,
+      "name": "Grimer",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 89,
+      "name": "Muk",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 90,
+      "name": "Shellder",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 91,
+      "name": "Cloyster",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 92,
+      "name": "Gastly",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 93,
+      "name": "Haunter",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 94,
+      "name": "Gengar",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 95,
+      "name": "Onix",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 96,
+      "name": "Drowzee",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 97,
+      "name": "Hypno",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 98,
+      "name": "Krabby",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 99,
+      "name": "Kingler",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 100,
+      "name": "Voltorb",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 101,
+      "name": "Electrode",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 102,
+      "name": "Exeggcute",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 103,
+      "name": "Exeggutor",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 104,
+      "name": "Cubone",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 105,
+      "name": "Marowak",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 106,
+      "name": "Hitmonlee",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 107,
+      "name": "Hitmonchan",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 108,
+      "name": "Lickitung",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 109,
+      "name": "Koffing",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 110,
+      "name": "Weezing",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 111,
+      "name": "Rhyhorn",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 112,
+      "name": "Rhydon",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 113,
+      "name": "Chansey",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 114,
+      "name": "Tangela",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 115,
+      "name": "Kangaskhan",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 116,
+      "name": "Horsea",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 117,
+      "name": "Seadra",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 118,
+      "name": "Goldeen",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 119,
+      "name": "Seaking",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 120,
+      "name": "Staryu",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 121,
+      "name": "Starmie",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 122,
+      "name": "Mr. Mime",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 123,
+      "name": "Scyther",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 124,
+      "name": "Jynx",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 125,
+      "name": "Electabuzz",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 126,
+      "name": "Magmar",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 127,
+      "name": "Pinsir",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 128,
+      "name": "Tauros",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 129,
+      "name": "Magikarp",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 130,
+      "name": "Gyarados",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 131,
+      "name": "Lapras",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 132,
+      "name": "Ditto",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 133,
+      "name": "Eevee",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 134,
+      "name": "Vaporeon",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 135,
+      "name": "Jolteon",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 136,
+      "name": "Flareon",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 137,
+      "name": "Porygon",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 138,
+      "name": "Omanyte",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 139,
+      "name": "Omastar",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 140,
+      "name": "Kabuto",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 141,
+      "name": "Kabutops",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 142,
+      "name": "Aerodactyl",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 143,
+      "name": "Snorlax",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 144,
+      "name": "Articuno",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 145,
+      "name": "Zapdos",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 146,
+      "name": "Moltres",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 147,
+      "name": "Dratini",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 148,
+      "name": "Dragonair",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 149,
+      "name": "Dragonite",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 150,
+      "name": "Mewtwo",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 151,
+      "name": "Mew",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 152,
+      "name": "Chikorita",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 153,
+      "name": "Bayleef",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 154,
+      "name": "Meganium",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 155,
+      "name": "Cyndaquil",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 156,
+      "name": "Quilava",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 157,
+      "name": "Typhlosion",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 158,
+      "name": "Totodile",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 159,
+      "name": "Croconaw",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 160,
+      "name": "Feraligatr",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 161,
+      "name": "Sentret",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 162,
+      "name": "Furret",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 163,
+      "name": "Hoothoot",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 164,
+      "name": "Noctowl",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 165,
+      "name": "Ledyba",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 166,
+      "name": "Ledian",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 167,
+      "name": "Spinarak",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 168,
+      "name": "Ariados",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 169,
+      "name": "Crobat",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 170,
+      "name": "Chinchou",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 171,
+      "name": "Lanturn",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 172,
+      "name": "Pichu",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 173,
+      "name": "Cleffa",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 174,
+      "name": "Igglybuff",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 175,
+      "name": "Togepi",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 176,
+      "name": "Togetic",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 177,
+      "name": "Natu",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 178,
+      "name": "Xatu",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 179,
+      "name": "Mareep",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 180,
+      "name": "Flaaffy",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 181,
+      "name": "Ampharos",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 182,
+      "name": "Bellossom",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 183,
+      "name": "Marill",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 184,
+      "name": "Azumarill",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 185,
+      "name": "Sudowoodo",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 186,
+      "name": "Politoed",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 187,
+      "name": "Hoppip",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 188,
+      "name": "Skiploom",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 189,
+      "name": "Jumpluff",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 190,
+      "name": "Aipom",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 191,
+      "name": "Sunkern",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 192,
+      "name": "Sunflora",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 193,
+      "name": "Yanma",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 194,
+      "name": "Wooper",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 195,
+      "name": "Quagsire",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 196,
+      "name": "Espeon",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 197,
+      "name": "Umbreon",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 198,
+      "name": "Murkrow",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 199,
+      "name": "Slowking",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 200,
+      "name": "Misdreavus",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 201,
+      "name": "Unown",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 202,
+      "name": "Wobbuffet",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 203,
+      "name": "Girafarig",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 204,
+      "name": "Pineco",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 205,
+      "name": "Forretress",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 206,
+      "name": "Dunsparce",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 207,
+      "name": "Gligar",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 208,
+      "name": "Steelix",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 209,
+      "name": "Snubbull",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 210,
+      "name": "Granbull",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 211,
+      "name": "Qwilfish",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 212,
+      "name": "Scizor",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 213,
+      "name": "Shuckle",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 214,
+      "name": "Heracross",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 215,
+      "name": "Sneasel",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "dexNumber": 216,
+      "name": "Teddiursa",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 217,
+      "name": "Ursaring",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 218,
+      "name": "Slugma",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 219,
+      "name": "Magcargo",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 220,
+      "name": "Swinub",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 221,
+      "name": "Piloswine",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 222,
+      "name": "Corsola",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 223,
+      "name": "RemoradexNumber",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 224,
+      "name": "Octillery",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 225,
+      "name": "Delibird",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 226,
+      "name": "Mantine",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 227,
+      "name": "Skarmory",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 228,
+      "name": "Houndour",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 229,
+      "name": "Houndoom",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 230,
+      "name": "Kingdra",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 231,
+      "name": "Phanpy",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 232,
+      "name": "Donphan",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 233,
+      "name": "Porygon2",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 234,
+      "name": "Stantler",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 235,
+      "name": "Smeargle",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 236,
+      "name": "Tyrogue",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 237,
+      "name": "Hitmontop",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 238,
+      "name": "Smoochum",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 239,
+      "name": "ElekdexNumber",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 240,
+      "name": "Magby",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "dexNumber": 241,
+      "name": "Miltank",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 242,
+      "name": "Blissey",
+      "growthRate": "Fast"
+    },
+    {
+      "dexNumber": 243,
+      "name": "Raikou",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 244,
+      "name": "Entei",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 245,
+      "name": "Suicune",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 246,
+      "name": "Larvitar",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 247,
+      "name": "Pupitar",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 248,
+      "name": "Tyranitar",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 249,
+      "name": "Lugia",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 250,
+      "name": "Ho-Oh",
+      "growthRate": "Slow"
+    },
+    {
+      "dexNumber": 251,
+      "name": "Celebi",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 252,
+      "name": "Treecko",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 253,
+      "name": "Grovyle",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 254,
+      "name": "Sceptile",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 255,
+      "name": "Torchic",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 256,
+      "name": "Combusken",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 257,
+      "name": "Blaziken",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 258,
+      "name": "Mudkip",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 259,
+      "name": "Marshtomp",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 260,
+      "name": "Swampert",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 261,
+      "name": "Poochyena",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 262,
+      "name": "Mightyena",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 263,
+      "name": "Zigzagoon",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 264,
+      "name": "Linoone",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 265,
+      "name": "Wurmple",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 266,
+      "name": "Silcoon",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 267,
+      "name": "Beautifly",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 268,
+      "name": "Cascoon",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 269,
+      "name": "Dustox",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 270,
+      "name": "Lotad",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 271,
+      "name": "Lombre",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 272,
+      "name": "Ludicolo",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 273,
+      "name": "Seedot",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 274,
+      "name": "Nuzleaf",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 275,
+      "name": "Shiftry",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 276,
+      "name": "Taillow",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 277,
+      "name": "Swellow",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 278,
+      "name": "Wingull",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 279,
+      "name": "Pelipper",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 280,
+      "name": "Ralts",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 281,
+      "name": "Kirlia",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 282,
+      "name": "Gardevoir",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 283,
+      "name": "Surskit",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 284,
+      "name": "Masquerain",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 285,
+      "name": "Shroomish",
+      "growthRate": "Fluctuating"
+    },
+    {
+      "id": 286,
+      "name": "Breloom",
+      "growthRate": "Fluctuating"
+    },
+    {
+      "id": 287,
+      "name": "Slakoth",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 288,
+      "name": "Vigoroth",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 289,
+      "name": "Slaking",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 290,
+      "name": "Nincada",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 291,
+      "name": "Ninjask",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 292,
+      "name": "Shedinja",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 293,
+      "name": "Whismur",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 294,
+      "name": "Loudred",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 295,
+      "name": "Exploud",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 296,
+      "name": "Makuhita",
+      "growthRate": "Fluctuating"
+    },
+    {
+      "id": 297,
+      "name": "Hariyama",
+      "growthRate": "Fluctuating"
+    },
+    {
+      "id": 298,
+      "name": "Azurill",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 299,
+      "name": "Nosepass",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 300,
+      "name": "Skitty",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 301,
+      "name": "Delcatty",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 302,
+      "name": "Sableye",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 303,
+      "name": "Mawile",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 304,
+      "name": "Aron",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 305,
+      "name": "Lairon",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 306,
+      "name": "Aggron",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 307,
+      "name": "Meditite",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 308,
+      "name": "Medicham",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 309,
+      "name": "Electrike",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 310,
+      "name": "Manectric",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 311,
+      "name": "Plusle",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 312,
+      "name": "Minun",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 313,
+      "name": "Volbeat",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 314,
+      "name": "Illumise",
+      "growthRate": "Fluctuating"
+    },
+    {
+      "id": 315,
+      "name": "Roselia",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 316,
+      "name": "Gulpin",
+      "growthRate": "Fluctuating"
+    },
+    {
+      "id": 317,
+      "name": "Swalot",
+      "growthRate": "Fluctuating"
+    },
+    {
+      "id": 318,
+      "name": "Carvanha",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 319,
+      "name": "Sharpedo",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 320,
+      "name": "Wailmer",
+      "growthRate": "Fluctuating"
+    },
+    {
+      "id": 321,
+      "name": "Wailord",
+      "growthRate": "Fluctuating"
+    },
+    {
+      "id": 322,
+      "name": "Numel",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 323,
+      "name": "Camerupt",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 324,
+      "name": "Torkoal",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 325,
+      "name": "Spoink",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 326,
+      "name": "Grumpig",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 327,
+      "name": "Spinda",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 328,
+      "name": "Trapinch",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 329,
+      "name": "Vibrava",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 330,
+      "name": "Flygon",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 331,
+      "name": "Cacnea",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 332,
+      "name": "Cacturne",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 333,
+      "name": "Swablu",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 334,
+      "name": "Altaria",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 335,
+      "name": "Zangoose",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 336,
+      "name": "Seviper",
+      "growthRate": "Fluctuating"
+    },
+    {
+      "id": 337,
+      "name": "Lunatone",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 338,
+      "name": "Solrock",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 339,
+      "name": "Barboach",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 340,
+      "name": "Whiscash",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 341,
+      "name": "Corphish",
+      "growthRate": "Fluctuating"
+    },
+    {
+      "id": 342,
+      "name": "Crawdaunt",
+      "growthRate": "Fluctuating"
+    },
+    {
+      "id": 343,
+      "name": "Baltoy",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 344,
+      "name": "Claydol",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 345,
+      "name": "Lileep",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 346,
+      "name": "Cradily",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 347,
+      "name": "Anorith",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 348,
+      "name": "Armaldo",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 349,
+      "name": "Feebas",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 350,
+      "name": "Milotic",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 351,
+      "name": "Castform",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 352,
+      "name": "Kecleon",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 353,
+      "name": "Shuppet",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 354,
+      "name": "Banette",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 355,
+      "name": "Duskull",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 356,
+      "name": "Dusclops",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 357,
+      "name": "Tropius",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 358,
+      "name": "Chimecho",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 359,
+      "name": "Absol",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 360,
+      "name": "Wynaut",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 361,
+      "name": "Snorunt",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 362,
+      "name": "Glalie",
+      "growthRate": "Medium Fast"
+    },
+    {
+      "id": 363,
+      "name": "Spheal",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 364,
+      "name": "Sealeo",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 365,
+      "name": "Walrein",
+      "growthRate": "Medium Slow"
+    },
+    {
+      "id": 366,
+      "name": "Clamperl",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 367,
+      "name": "Huntail",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 368,
+      "name": "Gorebyss",
+      "growthRate": "Erratic"
+    },
+    {
+      "id": 369,
+      "name": "Relicanth",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 370,
+      "name": "Luvdisc",
+      "growthRate": "Fast"
+    },
+    {
+      "id": 371,
+      "name": "Bagon",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 372,
+      "name": "Shelgon",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 373,
+      "name": "Salamence",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 374,
+      "name": "Beldum",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 375,
+      "name": "Metang",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 376,
+      "name": "Metagross",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 377,
+      "name": "Regirock",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 378,
+      "name": "Regice",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 379,
+      "name": "Registeel",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 380,
+      "name": "Latias",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 381,
+      "name": "Latios",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 382,
+      "name": "Kyogre",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 383,
+      "name": "Groudon",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 384,
+      "name": "Rayquaza",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 385,
+      "name": "Jirachi",
+      "growthRate": "Slow"
+    },
+    {
+      "id": 386,
+      "name": "Deoxys",
+      "growthRate": "Slow"
+    }
+  ]
+}
