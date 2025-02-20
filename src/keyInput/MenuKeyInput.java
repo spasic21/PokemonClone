@@ -1,0 +1,84 @@
+package keyInput;
+
+import framework.Handler;
+import framework.SoundManager;
+import framework.enums.GameState;
+
+import java.awt.event.KeyEvent;
+
+public class MenuKeyInput extends KeyInput {
+
+    private Handler handler;
+
+    private int menuOptionId = 0;
+
+    public MenuKeyInput(Handler handler) {
+        this.handler = handler;
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_W) {
+            if(menuOptionId == 0) {
+                menuOptionId = 6;
+            } else {
+                menuOptionId--;
+            }
+
+            SoundManager.playSound("ButtonSound");
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_S) {
+            if(menuOptionId == 6) {
+                menuOptionId = 0;
+            } else {
+                menuOptionId++;
+            }
+
+            SoundManager.playSound("ButtonSound");
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_J) {
+            switch(menuOptionId) {
+                case 0:
+                    System.out.println("Pokedex");
+                    break;
+                case 1:
+                    handler.getGame().setGameState(GameState.PokemonMenu);
+                    break;
+                case 2:
+                    System.out.println("Bag");
+                    break;
+                case 3:
+                    System.out.println("ID Card");
+                    break;
+                case 4:
+                    System.out.println("Save");
+                    break;
+                case 5:
+                    System.out.println("Options");
+                    break;
+                default:
+                    handler.getGame().setGameState(GameState.Game);
+                    break;
+            }
+
+            menuOptionId = 0;
+            SoundManager.playSound("ButtonSound");
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_K) {
+            SoundManager.playSound("ButtonSound");
+            handler.getGame().setGameState(GameState.Game);
+        }
+    }
+
+    public int getMenuOptionId() {
+        return menuOptionId;
+    }
+}
