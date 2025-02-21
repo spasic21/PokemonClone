@@ -63,16 +63,16 @@ public class PokemonGenerator {
             JSONObject effortValueObject = (JSONObject) parser.parse(effortValueReader);
             JSONArray effortValueArray = (JSONArray) effortValueObject.get("pokemon");
 
-            Random random = new Random();
+//            Random random = new Random();
 //            int index = random.nextInt(random.nextInt(24));
-            int index = statArray.size() - 2;
+            int index = 0;
 
             JSONObject pokemonObject = (JSONObject) statArray.get(index);
             JSONObject expObject = (JSONObject) expTypeArray.get(index);
             JSONObject effortObject = (JSONObject) effortValueArray.get(index);
 
             pokemon.setName(String.valueOf(pokemonObject.get("name")));
-            pokemon.setLevel(random.nextInt(5) + 20);
+            pokemon.setLevel(10);
 
             JSONArray typeList = (JSONArray) pokemonObject.get("type");
 

@@ -8,7 +8,10 @@ import framework.enums.Type;
 import objects.Pokemon;
 import objects.PokemonMove;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class BattleManager {
 
@@ -28,42 +31,19 @@ public class BattleManager {
 
     private boolean battleOver;
 
-    private static BattleOption battleOption;
-
     private static BattleScreenState battleScreenState;
 
-    private static int moveSelectId;
+    private int battleOptionId = 1;
+
+    private static int moveSelectId = 1;
 
     private int trainerPartyIndex = 0;
 
-    private TypeTable typeTable;
+    private int playerFaintLine = 0;
 
-    public enum BattleOption {
-        FIGHT(1),
-        BAG(2),
-        POKEMON(3),
-        RUN(4);
+    private int trainerFaintLine = 400;
 
-        private int optionId;
-
-        BattleOption(int optionId) {
-            this.optionId = optionId;
-        }
-
-        int getOptionId() {
-            return optionId;
-        }
-
-        void setOptionId(int optionId) {
-            this.optionId = optionId;
-        }
-
-        Optional<BattleOption> valueOf(int optionId) {
-            return Arrays.stream(values())
-                    .filter(option -> option.optionId == optionId)
-                    .findFirst();
-        }
-    }
+    private TypeTable typeTable = new TypeTable();
 
     public enum BattleScreenState {
         Dialogue,
@@ -87,20 +67,17 @@ public class BattleManager {
         return battleManager;
     }
 
-    public void init(List<Pokemon> playerParty, List<Pokemon> trainerParty) {
-        PokemonGenerator generator = new PokemonGenerator();
+    public void init(List<Pokemon> playerParty) {
         this.playerParty = playerParty;
-        this.trainerParty = Collections.singletonList(generator.generatePokemon());
+        this.trainerParty = Collections.singletonList(new PokemonGenerator().generatePokemon());
 
         this.playerPokemon = playerParty.get(0);
         this.trainerPokemon = this.trainerParty.get(0);
-        this.typeTable = new TypeTable();
-        battleOption = BattleOption.FIGHT;
+
         battleScreenState = BattleScreenState.BattleOptionSelect;
-        moveSelectId = 1;
     }
 
-    public int calculateDamage(PokemonMove pokemonMove, Pokemon attacker, Pokemon defender) {
+    private int calculateDamage(PokemonMove pokemonMove, Pokemon attacker, Pokemon defender) {
         int damage;
         double attackDefenseRatio = 1.0;
         int targets = 1;
@@ -146,58 +123,11 @@ public class BattleManager {
         if (isFirstTurn()) {
             battleTurn(playerMove, playerPokemon, trainerPokemon);
 
-            if (trainerPokemon.isFainted()) {
-                trainerFaintCondition();
-            } else {
-                battleTurn(trainerMove, trainerPokemon, playerPokemon);
-
-                if(playerPokemon.isFainted()) {
-                    playerFaintCondition();
-                }
-            }
+            if(!trainerPokemon.isFainted()) battleTurn(trainerMove, trainerPokemon, trainerPokemon);
         } else {
             battleTurn(trainerMove, trainerPokemon, playerPokemon);
 
-            if(playerPokemon.isFainted()) {
-                playerFaintCondition();
-            } else {
-                battleTurn(playerMove, playerPokemon, trainerPokemon);
-
-                if (trainerPokemon.isFainted()) {
-                    trainerFaintCondition();
-                }
-            }
-        }
-    }
-
-    private void playerFaintCondition() {
-        battleEventQueue.add(new PlayerFaintEvent(playerPokemon.getBackSprite(), getPlayerFaintLine()));
-        battleEventQueue.add(new TextEvent(playerPokemon.getName() + " has fainted!"));
-
-        if(!allPokemonFainted(playerParty)) {
-            // Choose another pokemon in pokemon party screen
-        }else {
-            battleOver = true;
-            battleEventQueue.add(new TextEvent(trainerPokemon.getName() + " has won the battle!"));
-        }
-    }
-
-    private void trainerFaintCondition() {
-        ExperienceCalculator calculator = new ExperienceCalculator();
-        int exp = calculator.calculateExp(trainerPokemon);
-
-        battleEventQueue.add(new TrainerFaintEvent(trainerPokemon.getFrontSprite(), getTrainerFaintLine()));
-        battleEventQueue.add(new TextEvent(trainerPokemon.getName() + " has fainted!"));
-        battleEventQueue.add(new TextEvent(playerPokemon.getName() + " gained " + exp + " EXP. Points!"));
-        battleEventQueue.add(new ExpAnimationEvent(playerPokemon, exp));
-
-        if (!allPokemonFainted(trainerParty)) {
-            trainerPartyIndex++;
-            battleEventQueue.add(new TextEvent("Trainer sent out " + trainerParty.get(trainerPartyIndex).getName() + " !"));
-            battleEventQueue.add(new ChangeSpriteEvent(battleManager, trainerParty.get(trainerPartyIndex)));
-        } else {
-            battleOver = true;
-            battleEventQueue.add(new TextEvent("Gugi's " + playerPokemon.getName() + " has won the battle!"));
+            if(!playerPokemon.isFainted()) battleTurn(playerMove, playerPokemon, playerPokemon);
         }
     }
 
@@ -210,12 +140,46 @@ public class BattleManager {
 
             battleEventQueue.add(new HPAnimationEvent(defender, damage));
 
-            if (defender.getCurrentHealth() - damage < 0) {
-                defender.setFainted(true);
-            }
+            if (defender.getCurrentHealth() - damage < 0) defender.setFainted(true);
         } else {
             battleEventQueue.add(new TextEvent(attacker.getName() + " did nothing!"));
         }
+
+        if(defender.isFainted()) handleFaint(defender);
+    }
+
+    private void handleFaint(Pokemon faintedPokemon) {
+        if(faintedPokemon == playerPokemon) {
+            battleEventQueue.add(new PokemonFaintEvent(faintedPokemon.getBackSprite(), playerFaintLine));
+            battleEventQueue.add(new TextEvent(faintedPokemon.getName() + " has fainted!"));
+
+            if(allPokemonFainted(playerParty)) {
+                battleOver = true;
+                battleEventQueue.add(new TextEvent(trainerPokemon.getName() + " wins!"));
+            }
+        } else {
+            battleEventQueue.add(new PokemonFaintEvent(faintedPokemon.getFrontSprite(), trainerFaintLine));
+            battleEventQueue.add(new TextEvent(faintedPokemon.getName() + " has fainted!"));
+
+            gainExperience();
+
+            if(allPokemonFainted(trainerParty)) {
+                battleOver = true;
+                battleEventQueue.add(new TextEvent(playerPokemon.getName() + " wins!"));
+            } else {
+                trainerPartyIndex++;
+                battleEventQueue.add(new TextEvent("Trainer sent out " + trainerParty.get(trainerPartyIndex).getName() + " !"));
+//                battleEventQueue.add(new ChangeSpriteEvent(battleManager, trainerParty.get(trainerPartyIndex)));
+            }
+        }
+    }
+
+    private void gainExperience() {
+        ExperienceCalculator calculator = new ExperienceCalculator();
+        int exp = calculator.calculateExp(trainerPokemon);
+
+        battleEventQueue.add(new TextEvent(playerPokemon.getName() + " gained " + exp + " EXP. Points!"));
+        battleEventQueue.add(new ExpAnimationEvent(playerPokemon, exp));
     }
 
     private PokemonMove getTrainerMove() {
@@ -256,11 +220,11 @@ public class BattleManager {
     }
 
     public int getBattleOptionId() {
-        return battleOption.getOptionId();
+        return battleOptionId;
     }
 
-    public void setBattleOption(int optionId) {
-        battleOption = BattleOption.values()[optionId - 1];
+    public void setBattleOptionId(int battleOptionId) {
+        this.battleOptionId = battleOptionId;
     }
 
     public BattleScreenState getBattleScreenState() {
@@ -317,13 +281,5 @@ public class BattleManager {
 
     public void setTrainerPokemon(Pokemon trainerPokemon) {
         this.trainerPokemon = trainerPokemon;
-    }
-
-    public int getPlayerFaintLine() {
-        return 0;
-    }
-
-    public int getTrainerFaintLine() {
-        return 400;
     }
 }

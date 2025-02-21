@@ -9,9 +9,6 @@ import java.io.IOException;
 public class PokemonBackSprite extends PokemonSprite {
 
     private BufferedImage sprite;
-    private int x;
-    private int y;
-    private float alpha = 1.0f;
 
     public PokemonBackSprite(int column, int row, int width, int height) {
         super(column, row, width, height);
@@ -28,30 +25,6 @@ public class PokemonBackSprite extends PokemonSprite {
 
     public BufferedImage getSprite() {
         return sprite;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public float getAlpha() {
-        return alpha;
-    }
-
-    public void setAlpha(float alpha) {
-        this.alpha = alpha;
     }
 
     public int getSpriteWidth() {

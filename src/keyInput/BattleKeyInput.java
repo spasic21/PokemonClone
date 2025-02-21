@@ -65,7 +65,7 @@ public class BattleKeyInput extends KeyInput {
             SoundManager.playSound("ButtonSound");
         }
 
-        battleManager.setBattleOption(battleOptionId);
+        battleManager.setBattleOptionId(battleOptionId);
     }
 
     private void moveSelectControls(int keyCode) {

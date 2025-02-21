@@ -1,6 +1,5 @@
 package framework;
 
-import framework.enums.EntityDirection;
 import keyInput.GameKeyInput;
 import objects.NPC;
 import objects.World;
@@ -11,11 +10,14 @@ import ui.Game;
 public class Handler {
 
     private Game game;
+
     private World world;
+
     private Screen screen;
+
     private boolean entityCollision = false;
+
     private NPC currentNpc;
-    private EntityDirection npcDirection;
 
     public Handler(Game game) {
         this.game = game;

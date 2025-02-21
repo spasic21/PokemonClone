@@ -1,16 +1,16 @@
 package battle.event;
 
-import objects.PokemonBackSprite;
+import objects.PokemonSprite;
 
 import java.awt.*;
 
-public class PlayerFaintEvent extends BattleEvent {
+public class PokemonFaintEvent extends BattleEvent {
 
-    private PokemonBackSprite sprite;
+    private PokemonSprite sprite;
 
     private int faintLine;
 
-    public PlayerFaintEvent(PokemonBackSprite sprite, int faintLine) {
+    public PokemonFaintEvent(PokemonSprite sprite, int faintLine) {
         this.sprite = sprite;
         this.faintLine = faintLine;
         this.isFinished = false;

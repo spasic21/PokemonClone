@@ -2,10 +2,14 @@ package objects;
 
 public abstract class PokemonSprite {
 
+    protected int x;
+    protected int y;
     protected int column;
     protected int row;
     protected int width;
     protected int height;
+
+    protected float alpha = 1.0f;
 
     public PokemonSprite(int column, int row, int width, int height) {
         this.column = column;
@@ -14,20 +18,20 @@ public abstract class PokemonSprite {
         this.height = height;
     }
 
-    public int getColumn() {
-        return column;
+    public int getX() {
+        return x;
     }
 
-    public void setColumn(int column) {
-        this.column = column;
+    public void setX(int x) {
+        this.x = x;
     }
 
-    public int getRow() {
-        return row;
+    public int getY() {
+        return y;
     }
 
-    public void setRow(int row) {
-        this.row = row;
+    public void setY(int y) {
+        this.y = y;
     }
 
     public int getWidth() {
@@ -45,4 +49,10 @@ public abstract class PokemonSprite {
     public void setHeight(int height) {
         this.height = height;
     }
+
+    public float getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(float alpha) { this.alpha = alpha; }
 }

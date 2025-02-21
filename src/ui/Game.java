@@ -124,17 +124,17 @@ public class Game implements Runnable {
     private void update() {
         switch (gameState) {
             case Game, Menu, Dialogue -> {
-                playMusicIfNeeded("/sounds/azalea_city.wav");
+//                playMusicIfNeeded("/sounds/azalea_city.wav");
                 gameScreen.update();
             }
 
             case Battle -> {
                 if (!battleStarted) {
                     gameKeyInput.resetKeys();
-                    this.battleManager.init(getPlayerParty(), builder.createPokemonTeam());
+                    this.battleManager.init(getPlayerParty());
                     battleStarted = true;
 
-                    playMusicIfNeeded("/sounds/rival_battle.wav");
+//                    playMusicIfNeeded("/sounds/rival_battle.wav");
                 }
 
                 battleScreen.update();
