@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class Player extends Entity {
 
@@ -162,11 +163,16 @@ public class Player extends Entity {
             for (Tile tile : collisionTiles) {
                 if (tile != null) {
                     if (tile.getId() == ObjectId.GrassTile && getBounds(false).intersects(tile.getBounds()) && entityState == EntityState.Walking) {
-                        int randomNumber = (int) (Math.random() * 99) + 1;
+                        Random rand = new Random();
+                        int randomNumber = rand.nextInt(199) + 1;
 
                         if (randomNumber == 5) {
+
+                            int transitionType = rand.nextInt(3) + 1;
+
+                            handler.setTransitionType(transitionType);
                             entityState = EntityState.Standing;
-                            handler.getGame().setGameState(GameState.Battle);
+                            handler.getGame().setGameState(GameState.Transition);
                         }
                     } else if (tile.getId() == ObjectId.DoorTile && getBounds(false).intersects(tile.getBounds()) && velY < 0) {
                         System.out.println("You walked into a door!");

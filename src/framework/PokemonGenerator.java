@@ -72,7 +72,7 @@ public class PokemonGenerator {
             JSONObject effortObject = (JSONObject) effortValueArray.get(index);
 
             pokemon.setName(String.valueOf(pokemonObject.get("name")));
-            pokemon.setLevel(10);
+            pokemon.setLevel(30);
 
             JSONArray typeList = (JSONArray) pokemonObject.get("type");
 

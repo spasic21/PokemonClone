@@ -35,31 +35,6 @@ public class Tile {
         g.drawImage(image, renderX, renderY, width, height, null);
     }
 
-//    @Override
-//    public void collision(Player player) {
-//        if(getBounds().intersects(player.getBounds())) {
-//            int collisionReduction = player.getMovementSpeed() + 5;
-//
-//            if(player.getVelX() > 0) {
-//                player.setX(player.getX() - collisionReduction);
-//                if(player.getVelY() > 0) player.setY(player.getY() - collisionReduction);
-//                else if(player.getVelY() < 0) player.setY(player.getY() + collisionReduction);
-//            }else if(player.getVelX() < 0) {
-//                player.setX(player.getX() + collisionReduction);
-//                if(player.getVelY() > 0) player.setY(player.getY() - collisionReduction);
-//                else if(player.getVelY() < 0) player.setY(player.getY() + collisionReduction);
-//            }else if(player.getVelY() > 0) {
-//                player.setY(player.getY() - collisionReduction);
-//                if(player.getVelX() > 0) player.setX(player.getX() - collisionReduction);
-//                else if(player.getVelX() < 0) player.setX(player.getX() + collisionReduction);
-//            }else {
-//                player.setY(player.getY() + collisionReduction);
-//                if(player.getVelX() > 0) player.setX(player.getX() - collisionReduction);
-//                else if(player.getVelX() < 0) player.setX(player.getX() + collisionReduction);
-//            }
-//        }
-//    }
-
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
     }

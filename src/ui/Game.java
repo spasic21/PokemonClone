@@ -10,6 +10,7 @@ import objects.Pokemon;
 import screen.BattleScreen;
 import screen.GameScreen;
 import screen.PokemonMenuScreen;
+import screen.TransitionScreen;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -30,12 +31,13 @@ public class Game implements Runnable {
 
     private GameScreen gameScreen;
     private BattleScreen battleScreen;
+    private TransitionScreen transitionScreen;
     private PokemonMenuScreen pokemonMenuScreen;
     private BattleManager battleManager;
     private boolean running = false;
     private Thread thread;
 
-    private static boolean battleStarted = false;
+    private boolean battleStarted = false;
 
     public static GameState gameState = GameState.Game;
 
@@ -53,6 +55,7 @@ public class Game implements Runnable {
 
         this.gameScreen = new GameScreen(handler);
         this.battleScreen = new BattleScreen(this.handler, this.battleManager);
+        this.transitionScreen = new TransitionScreen(this.handler);
         this.pokemonMenuScreen = new PokemonMenuScreen(handler);
 
         loadSounds();
@@ -125,13 +128,16 @@ public class Game implements Runnable {
                 gameScreen.update();
             }
 
+            case Transition -> {
+                transitionScreen.update(handler.getTransitionType());
+                playMusicIfNeeded("/sounds/johto_wild_pokemon_battle.wav");
+            }
+
             case Battle -> {
                 if (!battleStarted) {
                     gameKeyInput.resetKeys();
                     this.battleManager.init(getPlayerParty());
                     battleStarted = true;
-
-                    playMusicIfNeeded("/sounds/rival_battle.wav");
                 }
 
                 battleScreen.update();
@@ -155,6 +161,15 @@ public class Game implements Runnable {
         switch (gameState) {
             case Game, Menu, Dialogue -> gameScreen.render(g);
 
+            case Transition -> {
+                transitionScreen.render(g, handler.getTransitionType());
+
+                if(transitionScreen.isFinished(handler.getTransitionType())) {
+                    gameState = GameState.Battle;
+                    battleStarted = false;
+                }
+            }
+
             case Battle -> {
                 if (battleStarted) {
                     battleScreen.render(g);
@@ -173,6 +188,7 @@ public class Game implements Runnable {
         SoundManager.loadSound("ButtonSound", "/sounds/button_sound.wav");
         SoundManager.loadSound("RunningAwaySound", "/sounds/running_away_sound.wav");
         SoundManager.loadSound("FaintedSound", "/sounds/fainted_sound.wav");
+        SoundManager.loadSound("LowHealthSound", "/sounds/low_health_sound.wav");
     }
 
     public void playMusicIfNeeded(String path) {
@@ -193,25 +209,13 @@ public class Game implements Runnable {
         List<Pokemon> playerParty = new ArrayList<>();
         PokemonGenerator pokemonGenerator = new PokemonGenerator();
         Pokemon pokemon1 = pokemonGenerator.createMyPokemon("Charmander");
-//        Pokemon pokemon2 = pokemonGenerator.createMyPokemon("Squirtle");
-//        Pokemon pokemon3 = pokemonGenerator.createMyPokemon("Bulbasaur");
-////        Pokemon pokemon4 = pokemonGenerator.createMyPokemon("Charizard");
-//        Pokemon pokemon5 = pokemonGenerator.createMyPokemon("Blastoise");
-//        Pokemon pokemon6 = pokemonGenerator.createMyPokemon("Venusaur");
 
         playerParty.add(pokemon1);
-//        playerParty.add(pokemon2);
-//        playerParty.add(pokemon3);
-//        playerParty.add(pokemon4);
-//        playerParty.add(pokemon5);
-//        playerParty.add(pokemon6);
 
         return playerParty;
     }
 
-    public void setBattleStarted(boolean battleStarted) {
-        Game.battleStarted = battleStarted;
-    }
+    public void setBattleStarted(boolean battleStarted) { this.battleStarted = battleStarted; }
 
     public GameKeyInput getGameKeyInput() {
         return gameKeyInput;

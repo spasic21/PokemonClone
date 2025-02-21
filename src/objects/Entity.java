@@ -68,12 +68,12 @@ public abstract class Entity {
                     } else {
                         y -= Math.signum(velocity);
                     }
-                }
 
-                if (isX) {
-                    velX = 0;
-                } else {
-                    velY = 0;
+                    if (isX) {
+                        velX = 0;
+                    } else {
+                        velY = 0;
+                    }
                 }
             }
         }

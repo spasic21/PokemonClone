@@ -70,7 +70,7 @@ public class SoundManager {
 
             backgroundMusic = (Clip) AudioSystem.getLine(info);
             backgroundMusic.open(audioInputStream);
-            backgroundMusic.getFrameLength();
+//            backgroundMusic.getFrameLength();
 
 //            int sampleRate = (int) audioFormat.getFrameRate();
 //            int startFrame = (int)4.168 * sampleRate;

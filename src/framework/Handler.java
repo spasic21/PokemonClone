@@ -19,6 +19,8 @@ public class Handler {
 
     private NPC currentNpc;
 
+    private int transitionType;
+
     public Handler(Game game) {
         this.game = game;
     }
@@ -73,5 +75,13 @@ public class Handler {
 
     public void setCurrentNpc(NPC currentNpc) {
         this.currentNpc = currentNpc;
+    }
+
+    public int getTransitionType() {
+        return transitionType;
+    }
+
+    public void setTransitionType(int transitionType) {
+        this.transitionType = transitionType;
     }
 }

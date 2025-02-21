@@ -25,13 +25,13 @@ public class BattleManager {
 
     private Pokemon trainerPokemon;
 
-    public Queue<BattleEvent> battleEventQueue = new LinkedList<>();
+    public Queue<BattleEvent> battleEventQueue;
 
     private BattleEvent currentEvent = null;
 
     private boolean battleOver;
 
-    private static BattleScreenState battleScreenState;
+    private BattleScreenState battleScreenState;
 
     private int battleOptionId = 1;
 
@@ -39,7 +39,7 @@ public class BattleManager {
 
     private int trainerPartyIndex = 0;
 
-    private int playerFaintLine = 0;
+    private int playerFaintLine = 580;
 
     private int trainerFaintLine = 400;
 
@@ -74,7 +74,10 @@ public class BattleManager {
         this.playerPokemon = playerParty.get(0);
         this.trainerPokemon = this.trainerParty.get(0);
 
+        battleEventQueue = new LinkedList<>();
+
         battleScreenState = BattleScreenState.BattleOptionSelect;
+        battleOver = false;
     }
 
     private int calculateDamage(PokemonMove pokemonMove, Pokemon attacker, Pokemon defender) {
@@ -123,11 +126,11 @@ public class BattleManager {
         if (isFirstTurn()) {
             battleTurn(playerMove, playerPokemon, trainerPokemon);
 
-            if(!trainerPokemon.isFainted()) battleTurn(trainerMove, trainerPokemon, trainerPokemon);
+            if(!trainerPokemon.isFainted()) battleTurn(trainerMove, trainerPokemon, playerPokemon);
         } else {
             battleTurn(trainerMove, trainerPokemon, playerPokemon);
 
-            if(!playerPokemon.isFainted()) battleTurn(playerMove, playerPokemon, playerPokemon);
+            if(!playerPokemon.isFainted()) battleTurn(playerMove, playerPokemon, trainerPokemon);
         }
     }
 
@@ -232,7 +235,7 @@ public class BattleManager {
     }
 
     public void setBattleScreenState(BattleScreenState battleScreenState) {
-        BattleManager.battleScreenState = battleScreenState;
+        this.battleScreenState = battleScreenState;
     }
 
     public int getMoveSelectId() {
@@ -281,5 +284,11 @@ public class BattleManager {
 
     public void setTrainerPokemon(Pokemon trainerPokemon) {
         this.trainerPokemon = trainerPokemon;
+    }
+
+    public boolean isPlayerPokemonLowHealth() {
+        double healthRatio = (double) playerPokemon.getCurrentHealth() / playerPokemon.getMaxHealth();
+
+        return  healthRatio > 0.0 && healthRatio <= 0.25;
     }
 }
