@@ -82,7 +82,7 @@ public class PokemonMenuKeyInput extends KeyInput {
         }
 
         if (e.getKeyCode() == KeyEvent.VK_K) {
-            handler.getGame().setGameState(GameState.Menu);
+            handler.setNextTransition(1, GameState.Menu);
             SoundManager.playSound("ButtonSound");
         }
     }

@@ -31,7 +31,6 @@ public class TileMapLoader {
     private Tile[][] tileLayer1;
     private Tile[][] tileLayer2;
     private Tile[][] tileLayer3;
-    private Tile[][] tileLayer4;
     private Tile[][] collisionLayer;
     private SpriteSheet spriteSheet, collisionSheet;
 
@@ -116,7 +115,6 @@ public class TileMapLoader {
                 }
 
                 count++;
-//				System.out.println("X-Coordinate: " + i + " Y-Coordinate: " + j + " Tile Id: " + tileId + " TileLocationX: " + tileLocationX + " TileLocationY: " + tileLocationY);
             }
         }
     }
@@ -141,7 +139,6 @@ public class TileMapLoader {
                 }
 
                 count++;
-//				System.out.println("X-Coordinate: " + i + " Y-Coordinate: " + j + " Tile Id: " + tileId + " TileLocationX: " + tileLocationX + " TileLocationY: " + tileLocationY);
             }
         }
     }
@@ -168,14 +165,6 @@ public class TileMapLoader {
 
     public void setTileLayer3(Tile[][] tileLayer3) {
         this.tileLayer3 = tileLayer3;
-    }
-
-    public Tile[][] getTileLayer4() {
-        return tileLayer4;
-    }
-
-    public void setTileLayer4(Tile[][] tileLayer4) {
-        this.tileLayer4 = tileLayer4;
     }
 
     public Tile[][] getCollisionLayer() {

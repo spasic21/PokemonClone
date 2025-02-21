@@ -167,12 +167,10 @@ public class Player extends Entity {
                         int randomNumber = rand.nextInt(199) + 1;
 
                         if (randomNumber == 5) {
-
                             int transitionType = rand.nextInt(3) + 1;
-
-                            handler.setTransitionType(transitionType);
                             entityState = EntityState.Standing;
-                            handler.getGame().setGameState(GameState.Transition);
+
+                            handler.setNextTransition(transitionType, GameState.Battle);
                         }
                     } else if (tile.getId() == ObjectId.DoorTile && getBounds(false).intersects(tile.getBounds()) && velY < 0) {
                         System.out.println("You walked into a door!");

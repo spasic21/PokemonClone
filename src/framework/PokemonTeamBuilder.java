@@ -40,9 +40,6 @@ public class PokemonTeamBuilder {
                 } else if (pokemonObject.get("name").equals("Squirtle")) {
                     pokemonParty.add(createPokemon(pokemonObject));
                 }
-//                if(pokemonObject.get("name").equals("Venusaur")) {
-//                    pokemonParty.add(createPokemon(pokemonObject));
-//                }
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();

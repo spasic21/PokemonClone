@@ -49,7 +49,7 @@ public class MenuKeyInput extends KeyInput {
                     System.out.println("Pokedex");
                     break;
                 case 1:
-                    handler.getGame().setGameState(GameState.PokemonMenu);
+                    handler.setNextTransition(1, GameState.PokemonMenu);
                     break;
                 case 2:
                     System.out.println("Bag");

@@ -124,13 +124,14 @@ public class Game implements Runnable {
     private void update() {
         switch (gameState) {
             case Game, Menu, Dialogue -> {
-                playMusicIfNeeded("/sounds/azalea_city.wav");
+//                playMusicIfNeeded("/sounds/azalea_city.wav");
                 gameScreen.update();
             }
 
             case Transition -> {
+//                if(handler.getNextGameState() == GameState.Battle) playMusicIfNeeded("/sounds/johto_wild_pokemon_battle.wav");
+
                 transitionScreen.update(handler.getTransitionType());
-                playMusicIfNeeded("/sounds/johto_wild_pokemon_battle.wav");
             }
 
             case Battle -> {
@@ -165,8 +166,12 @@ public class Game implements Runnable {
                 transitionScreen.render(g, handler.getTransitionType());
 
                 if(transitionScreen.isFinished(handler.getTransitionType())) {
-                    gameState = GameState.Battle;
-                    battleStarted = false;
+                    if(handler.getNextGameState() == GameState.Battle) {
+                        gameState = GameState.Battle;
+                        battleStarted = false;
+                    } else {
+                        gameState = handler.getNextGameState();
+                    }
                 }
             }
 

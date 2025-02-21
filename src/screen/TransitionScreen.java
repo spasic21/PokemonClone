@@ -10,8 +10,8 @@ import java.util.List;
 public class TransitionScreen extends Screen {
 
     private int alpha = 0;
-    private int fadeSpeed = 5;
-    private int transitionTime = 120;
+    private int fadeSpeed = 3;
+    private int transitionTime = 90;
     private boolean fadingOut = true;
 
     private int startAngle = 270;
@@ -54,19 +54,12 @@ public class TransitionScreen extends Screen {
 
     public void update(int transitionType) {
         switch (transitionType) {
-            case 1 -> {
-                fadeInUpdate();
-            }
+            case 1 -> fadeOutUpdate();
 
-            case 2 -> {
-                radarSweepUpdate();
-            }
+            case 2 -> radarSweepUpdate();
 
-            case 3 -> {
-                pixelatedUpdate();
-            }
+            case 3 -> pixelatedUpdate();
         }
-
     }
 
     @Override
@@ -76,47 +69,15 @@ public class TransitionScreen extends Screen {
         g.setColor(Color.BLACK);
 
         switch(transitionType) {
-            case 1 -> {
-                fadeInRender(g);
-            }
+            case 1 -> fadeOutRender(g);
 
-            case 2 -> {
-                radarSweepRender(g);
-            }
+            case 2 -> radarSweepRender(g);
 
-            case 3 -> {
-                pixelatedRender(g);
-            }
+            case 3 -> pixelatedRender(g);
         }
-
     }
 
-    public boolean isFinished(int transitionType) {
-        switch(transitionType) {
-            case 1 -> {
-                if(transitionTime <= 0) {
-                    transitionTime = 120;
-                    fadingOut = true;
-
-                    return true;
-                }
-            }
-
-            case 2, 3 -> {
-                if(finished) {
-                    tilesFilled = 0;
-                    resetTiles();
-                    finished = false;
-                    return true;
-                }
-            }
-        }
-
-
-        return false;
-    }
-
-    private void fadeInUpdate() {
+    private void fadeOutUpdate() {
         if(fadingOut) {
             alpha += fadeSpeed;
 
@@ -137,7 +98,7 @@ public class TransitionScreen extends Screen {
 
     private void radarSweepUpdate() {
         if(sweepAngle <= maxAngle) {
-            sweepAngle += 10;
+            sweepAngle += 2;
         } else {
             sweepAngle = 0;
             finished = true;
@@ -159,7 +120,7 @@ public class TransitionScreen extends Screen {
         }
     }
 
-    private void fadeInRender(Graphics g) {
+    private void fadeOutRender(Graphics g) {
         g.setColor(new Color(0, 0, 0, Math.min(alpha, 255)));
         g.fillRect(0, 0, handler.getGame().getWidth(), handler.getGame().getHeight());
     }
@@ -177,6 +138,32 @@ public class TransitionScreen extends Screen {
                 }
             }
         }
+    }
+
+    public boolean isFinished(int transitionType) {
+        switch(transitionType) {
+            case 1 -> {
+                if(transitionTime <= 0) {
+                    transitionTime = 90;
+                    alpha = 0;
+                    fadingOut = true;
+
+                    return true;
+                }
+            }
+
+            case 2, 3 -> {
+                if(finished) {
+                    tilesFilled = 0;
+                    finished = false;
+                    resetTiles();
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private void resetTiles() {

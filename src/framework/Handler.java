@@ -1,5 +1,6 @@
 package framework;
 
+import framework.enums.GameState;
 import keyInput.GameKeyInput;
 import objects.NPC;
 import objects.World;
@@ -13,13 +14,13 @@ public class Handler {
 
     private World world;
 
-    private Screen screen;
-
     private boolean entityCollision = false;
 
     private NPC currentNpc;
 
     private int transitionType;
+
+    private GameState nextGameState;
 
     public Handler(Game game) {
         this.game = game;
@@ -39,18 +40,6 @@ public class Handler {
 
     public Game getGame() {
         return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-    public Screen getScreen() {
-        return screen;
-    }
-
-    public void setScreen(Screen screen) {
-        this.screen = screen;
     }
 
     public World getWorld() {
@@ -81,7 +70,13 @@ public class Handler {
         return transitionType;
     }
 
-    public void setTransitionType(int transitionType) {
+    public GameState getNextGameState() {
+        return nextGameState;
+    }
+
+    public void setNextTransition(int transitionType, GameState nextGameState) {
         this.transitionType = transitionType;
+        this.nextGameState = nextGameState;
+        this.game.setGameState(GameState.Transition);
     }
 }
