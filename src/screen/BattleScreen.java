@@ -145,7 +145,7 @@ public class BattleScreen extends Screen {
             renderBattleOptions(g);
         } else if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.MoveSelect) {
             renderMoveSelectBox(g, playerPokemon);
-        } else if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.Battle) {
+        } else if (battleManager.getCurrentEvent() != null && battleManager.getBattleScreenState() == BattleManager.BattleScreenState.Battle) {
             Font textFont = font.deriveFont(60f);
             g.setFont(textFont);
             battleManager.getCurrentEvent().render(g, textLocationX, textLocationY);

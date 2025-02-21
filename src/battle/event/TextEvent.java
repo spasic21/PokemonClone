@@ -23,4 +23,8 @@ public class TextEvent extends BattleEvent {
 
         isFinished = true;
     }
+
+    public String getText() {
+        return text;
+    }
 }

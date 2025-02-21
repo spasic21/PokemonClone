@@ -1,6 +1,8 @@
 package keyInput;
 
 import battle.BattleManager;
+import battle.event.PokemonFaintEvent;
+import battle.event.TextEvent;
 import framework.Handler;
 import framework.SoundManager;
 import framework.enums.GameState;
@@ -58,6 +60,7 @@ public class BattleKeyInput extends KeyInput {
             if (battleOptionId == 1) {
                 battleManager.setBattleScreenState(BattleManager.BattleScreenState.MoveSelect);
             } else if (battleOptionId == 4) {
+                SoundManager.playSound("RunningAwaySound");
                 handler.getGame().setBattleStarted(false);
                 handler.getGame().setGameState(GameState.Game);
             }
@@ -112,6 +115,10 @@ public class BattleKeyInput extends KeyInput {
     private void progressControls(int keyCode) {
         if (keyCode == KeyEvent.VK_J) {
             if (battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() != null) {
+                if(battleManager.getBattleEventQueue().peek() instanceof PokemonFaintEvent) SoundManager.playSound("FaintedSound");
+
+                if(battleManager.getBattleEventQueue().peek() instanceof TextEvent textEvent && textEvent.getText().contains("wins")) handler.getGame().playMusicIfNeeded("/sounds/victory_wild_pokemon.wav");
+
                 battleManager.setCurrentEvent(battleManager.getBattleEventQueue().poll());
             } else if (battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() == null) {
                 battleManager.setCurrentEvent(null);

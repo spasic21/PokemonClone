@@ -3,7 +3,6 @@ package ui;
 import battle.BattleManager;
 import framework.Handler;
 import framework.PokemonGenerator;
-import framework.PokemonTeamBuilder;
 import framework.SoundManager;
 import framework.enums.GameState;
 import keyInput.GameKeyInput;
@@ -39,8 +38,6 @@ public class Game implements Runnable {
     private static boolean battleStarted = false;
 
     public static GameState gameState = GameState.Game;
-
-    private final PokemonTeamBuilder builder = new PokemonTeamBuilder();
 
     public Game(String title, int width, int height) {
         this.title = title;
@@ -124,7 +121,7 @@ public class Game implements Runnable {
     private void update() {
         switch (gameState) {
             case Game, Menu, Dialogue -> {
-//                playMusicIfNeeded("/sounds/azalea_city.wav");
+                playMusicIfNeeded("/sounds/azalea_city.wav");
                 gameScreen.update();
             }
 
@@ -134,7 +131,7 @@ public class Game implements Runnable {
                     this.battleManager.init(getPlayerParty());
                     battleStarted = true;
 
-//                    playMusicIfNeeded("/sounds/rival_battle.wav");
+                    playMusicIfNeeded("/sounds/rival_battle.wav");
                 }
 
                 battleScreen.update();
@@ -174,9 +171,11 @@ public class Game implements Runnable {
     private void loadSounds() {
         SoundManager.loadSound("MenuSound", "/sounds/menu_sound.wav");
         SoundManager.loadSound("ButtonSound", "/sounds/button_sound.wav");
+        SoundManager.loadSound("RunningAwaySound", "/sounds/running_away_sound.wav");
+        SoundManager.loadSound("FaintedSound", "/sounds/fainted_sound.wav");
     }
 
-    private void playMusicIfNeeded(String path) {
+    public void playMusicIfNeeded(String path) {
         if(!SoundManager.isPlaying(path)) {
             SoundManager.playMusic(path);
         }
