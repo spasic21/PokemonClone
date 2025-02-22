@@ -5,6 +5,8 @@ import battle.BattleOptions;
 import framework.Handler;
 import framework.SpriteSheet;
 import objects.Pokemon;
+import objects.PokemonFrontSprite;
+import objects.TrainerBackSprite;
 import ui.Hud;
 import ui.MoveSelectBox;
 import ui.PlayerHud;
@@ -23,20 +25,16 @@ public class BattleScreen extends Screen {
     private Pokemon playerPokemon;
     private Pokemon trainerPokemon;
 
-    private BufferedImage battleBackground, battleBase, playerPokemonSprite, trainerPokemonSprite;
-    private SpriteSheet battleBackgroundSpriteSheet, battleOptionsSpriteSheet, kantoPokemonSpriteSheetBack, kantoPokemonSpriteSheetFront;
+    private TrainerBackSprite playerSprite;
 
-    private int playerBaseMiddleX, playerBaseMiddleY;
-    private int trainerBaseMiddleX, trainerBaseMiddleY;
-    private int playerPokemonStartX, playerPokemonStartY, playerPokemonX, playerPokemonY;
-    private int trainerPokemonStartX, trainerPokemonStartY, trainerPokemonX, trainerPokemonY, trainerPokemonFaintLine;
+    private BufferedImage battleBackground;
+    private SpriteSheet battleBackgroundSpriteSheet;
+
     private int textBoxHeight;
     private int textLocationX, textLocationY;
     private int playerHudX, playerHudY, trainerHudX, trainerHudY;
     private int playerHudWidth, playerHudHeight, trainerHudWidth, trainerHudHeight;
     private int battleOptionsX, battleOptionsY, battleOptionsWidth, battleOptionsHeight;
-
-    private int optionSizeX, optionSizeY;
 
     private Font font;
 
@@ -55,11 +53,6 @@ public class BattleScreen extends Screen {
         try {
             battleBackgroundSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/battle_background_daytime_two.png")));
             battleBackground = battleBackgroundSpriteSheet.grabImage(1, 3, 428, 321);
-
-            kantoPokemonSpriteSheetBack = new SpriteSheet(ImageIO.read(getClass().getResource("/sprites/kanto_pokemon_back_sprites.png")));
-            kantoPokemonSpriteSheetFront = new SpriteSheet(ImageIO.read(getClass().getResource("/sprites/kanto_pokemon_front_sprites.png")));
-
-            battleBase = ImageIO.read(getClass().getResource("/battle_base_grass_daytime.png"));
 
             InputStream inputStream = getClass().getResourceAsStream("/font/PokemonFont.ttf");
             font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
@@ -80,21 +73,6 @@ public class BattleScreen extends Screen {
         textBoxHeight = 220;
         textLocationX = 75;
         textLocationY = handler.getHeight() - 125;
-
-        playerBaseMiddleX = 60 + ((battleBase.getWidth() * 4) / 2);
-        playerBaseMiddleY = 520 + ((battleBase.getHeight() * 3) / 2);
-
-//        playerPokemonX = playerBaseMiddleX - ((playerPokemonSprite.getWidth() * 5) / 2);
-//        playerPokemonX = playerBaseMiddleX - ((58 * 5) / 2);
-//        playerPokemonY = Game.HEIGHT - textBoxHeight - (58 * 5) + 23;
-//        playerPokemonY = Game.HEIGHT - textBoxHeight - playerPokemonSprite.getHeight() * 5 + 23;
-
-        trainerBaseMiddleX = 660 + ((battleBase.getWidth() * 4) / 2);
-        trainerBaseMiddleY = 300 + ((battleBase.getHeight() * 3) / 2);
-
-//        trainerPokemonX = Game.WIDTH - (trainerPokemonSprite.getWidth() * 5) - 200;
-//        trainerPokemonX = Game.WIDTH - (58 * 5) - 200;
-//        trainerPokemonY = 150;
 
         playerHudWidth = 430;
         playerHudHeight = 150;
@@ -119,13 +97,16 @@ public class BattleScreen extends Screen {
     public void update() {
         this.playerPokemon = battleManager.getPlayerPokemon();
         this.trainerPokemon = battleManager.getTrainerPokemon();
+        this.playerSprite = (TrainerBackSprite) battleManager.getTrainerBackSprite();
 
         playerHud.update();
         trainerHud.update();
 
-        if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.Battle) {
-            if (battleManager.getCurrentEvent() != null) {
-                battleManager.getCurrentEvent().update();
+        switch(battleManager.getBattleScreenState()) {
+            case Introduction, Battle -> {
+                if (battleManager.getCurrentEvent() != null) {
+                    battleManager.getCurrentEvent().update();
+                }
             }
         }
     }
@@ -134,31 +115,40 @@ public class BattleScreen extends Screen {
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         renderBackground(g);
-//        renderBattleBase(g);
-        renderPokemon(g);
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-
         renderTextBox(g);
-        renderHud(g);
 
-        if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.BattleOptionSelect) {
-            renderBattleOptions(g);
-        } else if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.MoveSelect) {
-            renderMoveSelectBox(g, playerPokemon);
-        } else if (battleManager.getCurrentEvent() != null && battleManager.getBattleScreenState() == BattleManager.BattleScreenState.Battle) {
-            Font textFont = font.deriveFont(60f);
-            g.setFont(textFont);
-            battleManager.getCurrentEvent().render(g, textLocationX, textLocationY);
+        if(battleManager.getBattleScreenState() == BattleManager.BattleScreenState.Introduction) {
+            PokemonFrontSprite trainerPokemonFrontSprite = trainerPokemon.getFrontSprite();
+
+            g.drawImage(playerSprite.getSprite(), playerSprite.getStartX(), playerSprite.getStartY(), playerSprite.getSpriteWidth(), playerSprite.getSpriteHeight(), null);
+            g.drawImage(trainerPokemonFrontSprite.getSprite(), trainerPokemonFrontSprite.getStartX(), trainerPokemonFrontSprite.getStartY(), trainerPokemonFrontSprite.getSpriteWidth(), trainerPokemonFrontSprite.getSpriteHeight(), null);
+
+            if(battleManager.getCurrentEvent() != null) {
+                Font textFont = font.deriveFont(60f);
+                g.setFont(textFont);
+                battleManager.getCurrentEvent().render(g, textLocationX, textLocationY);
+            }
+        } else {
+            renderPokemon(g);
+
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+
+            renderHud(g);
+
+            if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.BattleOptionSelect) {
+                renderBattleOptions(g);
+            } else if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.MoveSelect) {
+                renderMoveSelectBox(g, playerPokemon);
+            } else if (battleManager.getCurrentEvent() != null && battleManager.getBattleScreenState() == BattleManager.BattleScreenState.Battle) {
+                Font textFont = font.deriveFont(60f);
+                g.setFont(textFont);
+                battleManager.getCurrentEvent().render(g, textLocationX, textLocationY);
+            }
         }
     }
 
     private void renderBackground(Graphics g) {
         g.drawImage(battleBackground, 0, 0, handler.getWidth(), handler.getHeight(), null);
-    }
-
-    private void renderBattleBase(Graphics g) {
-//        g.drawImage(battleBase, 60, 520, battleBase.getWidth()*4, battleBase.getHeight()*3, null);
-//        g.drawImage(battleBase, 660, 300, battleBase.getWidth()*4, battleBase.getHeight()*3, null);
     }
 
     private void renderPokemon(Graphics g) {
@@ -167,10 +157,10 @@ public class BattleScreen extends Screen {
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, playerPokemon.getBackSprite().getAlpha()));
-        g.drawImage(playerPokemonSprite, playerPokemon.getBackSprite().getX(), playerPokemon.getBackSprite().getY(), playerPokemon.getBackSprite().getSpriteWidth(), playerPokemon.getBackSprite().getSpriteHeight(), null);
+        g.drawImage(playerPokemonSprite, playerPokemon.getBackSprite().getEndX(), playerPokemon.getBackSprite().getEndY(), playerPokemon.getBackSprite().getSpriteWidth(), playerPokemon.getBackSprite().getSpriteHeight(), null);
 
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, trainerPokemon.getFrontSprite().getAlpha()));
-        g.drawImage(trainerPokemonSprite, trainerPokemon.getFrontSprite().getX(), trainerPokemon.getFrontSprite().getY(), trainerPokemon.getFrontSprite().getSpriteWidth(), trainerPokemon.getFrontSprite().getSpriteHeight(), null);
+        g.drawImage(trainerPokemonSprite, trainerPokemon.getFrontSprite().getEndX(), trainerPokemon.getFrontSprite().getEndY(), trainerPokemon.getFrontSprite().getSpriteWidth(), trainerPokemon.getFrontSprite().getSpriteHeight(), null);
     }
 
     private void renderTextBox(Graphics g) {

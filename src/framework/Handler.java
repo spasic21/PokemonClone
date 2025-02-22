@@ -4,7 +4,6 @@ import framework.enums.GameState;
 import keyInput.GameKeyInput;
 import objects.NPC;
 import objects.World;
-import screen.Screen;
 import ui.Game;
 
 

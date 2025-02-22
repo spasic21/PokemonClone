@@ -124,12 +124,12 @@ public class Game implements Runnable {
     private void update() {
         switch (gameState) {
             case Game, Menu, Dialogue -> {
-//                playMusicIfNeeded("/sounds/azalea_city.wav");
+                playMusicIfNeeded("/sounds/azalea_city.wav");
                 gameScreen.update();
             }
 
             case Transition -> {
-//                if(handler.getNextGameState() == GameState.Battle) playMusicIfNeeded("/sounds/johto_wild_pokemon_battle.wav");
+                if(handler.getNextGameState() == GameState.Battle) playMusicIfNeeded("/sounds/johto_wild_pokemon_battle.wav");
 
                 transitionScreen.update(handler.getTransitionType());
             }

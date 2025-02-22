@@ -26,7 +26,9 @@ public class BattleKeyInput extends KeyInput {
     public void keyPressed(KeyEvent e) {}
 
     public void keyReleased(KeyEvent e) {
-        if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.BattleOptionSelect) {
+        if(battleManager.getBattleScreenState() == BattleManager.BattleScreenState.Introduction) {
+            introductionControls(e.getKeyCode());
+        } else if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.BattleOptionSelect) {
             battleControls(e.getKeyCode());
         } else if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.MoveSelect) {
             moveSelectControls(e.getKeyCode());
@@ -36,6 +38,18 @@ public class BattleKeyInput extends KeyInput {
 
             handler.getGame().setBattleStarted(false);
             handler.getGame().setGameState(GameState.Game);
+        }
+    }
+
+    private void introductionControls(int keyCode) {
+        if(keyCode == KeyEvent.VK_J) {
+            if(battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() != null) {
+                battleManager.setCurrentEvent(battleManager.getBattleEventQueue().poll());
+                SoundManager.playSound("ButtonSound");
+            } else if (battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() == null) {
+                battleManager.setCurrentEvent(null);
+                battleManager.setBattleScreenState(BattleManager.BattleScreenState.BattleOptionSelect);
+            }
         }
     }
 

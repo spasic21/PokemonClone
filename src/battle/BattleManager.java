@@ -7,6 +7,8 @@ import framework.TypeTable;
 import framework.enums.Type;
 import objects.Pokemon;
 import objects.PokemonMove;
+import objects.Sprite;
+import objects.TrainerBackSprite;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -24,6 +26,8 @@ public class BattleManager {
     private Pokemon playerPokemon;
 
     private Pokemon trainerPokemon;
+
+    private Sprite playerSprite;
 
     public Queue<BattleEvent> battleEventQueue;
 
@@ -46,6 +50,7 @@ public class BattleManager {
     private TypeTable typeTable = new TypeTable();
 
     public enum BattleScreenState {
+        Introduction,
         Dialogue,
         BattleOptionSelect,
         MoveSelect,
@@ -74,9 +79,19 @@ public class BattleManager {
         this.playerPokemon = playerParty.get(0);
         this.trainerPokemon = this.trainerParty.get(0);
 
+        this.playerSprite = new TrainerBackSprite(1, 1, 58, 58);
+
         battleEventQueue = new LinkedList<>();
 
-        battleScreenState = BattleScreenState.BattleOptionSelect;
+        battleEventQueue.add(new BattleIntroductionEvent(playerSprite, trainerPokemon.getFrontSprite()));
+        battleEventQueue.add(new TextEvent("A wild " + trainerPokemon.getName() + " appeared!"));
+        battleEventQueue.add(new TextEvent("Go! " + playerPokemon.getName() + "!"));
+        battleEventQueue.add(new TrainerSummonPokemonEvent(playerSprite, playerPokemon.getBackSprite()));
+
+        currentEvent = battleEventQueue.poll();
+
+        battleScreenState = BattleScreenState.Introduction;
+
         battleOver = false;
     }
 
@@ -284,6 +299,10 @@ public class BattleManager {
 
     public void setTrainerPokemon(Pokemon trainerPokemon) {
         this.trainerPokemon = trainerPokemon;
+    }
+
+    public Sprite getTrainerBackSprite() {
+        return playerSprite;
     }
 
     public boolean isPlayerPokemonLowHealth() {

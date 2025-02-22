@@ -6,14 +6,14 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class PokemonBackSprite extends PokemonSprite {
+public class PokemonBackSprite extends Sprite {
 
     private BufferedImage sprite;
 
     public PokemonBackSprite(int column, int row, int width, int height) {
         super(column, row, width, height);
-        this.x = 167;
-        this.y = 313;
+        this.endX = 167;
+        this.endY = 313;
 
         try {
             SpriteSheet spriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/sprites/kanto_pokemon_back_sprites.png")));

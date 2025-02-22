@@ -8,7 +8,6 @@ public class TextEvent extends BattleEvent {
 
     public TextEvent(String text) {
         this.text = text;
-        this.isFinished = false;
     }
 
     @Override

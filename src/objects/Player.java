@@ -60,9 +60,9 @@ public class Player extends Entity {
         playerAnimations.get("playerWalkLeft").update();
         playerAnimations.get("playerWalkRight").update();
 
+        checkBattleEncounter();
         getKeyInput();
         move();
-        checkBattleEncounter();
     }
 
     @Override
@@ -169,6 +169,8 @@ public class Player extends Entity {
                         if (randomNumber == 5) {
                             int transitionType = rand.nextInt(3) + 1;
                             entityState = EntityState.Standing;
+
+                            handler.getGameKeyInput().resetKeys();
 
                             handler.setNextTransition(transitionType, GameState.Battle);
                         }
