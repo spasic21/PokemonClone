@@ -2,35 +2,35 @@ package screen;
 
 import framework.DialogueScreen;
 import framework.Handler;
+import framework.enums.EntityDirection;
 import framework.enums.GameState;
+import framework.enums.Location;
 import objects.World;
 
 import java.awt.*;
 
 public class GameScreen extends Screen {
 
-    private World world;
     private MenuScreen menuScreen;
     private DialogueScreen dialogueScreen;
 
     public GameScreen(Handler handler) {
         super(handler);
 
-        world = new World(handler, "resources/map2.json");
         menuScreen = new MenuScreen(handler);
         dialogueScreen = new DialogueScreen(handler);
 
-        handler.setWorld(world);
+        handler.setWorld(new World(handler, Location.World, 1240, 1816, EntityDirection.DOWN));
     }
 
     @Override
     public void update() {
-        world.update();
+        handler.getWorld().update();
     }
 
     @Override
     public void render(Graphics g) {
-        world.render(g);
+        handler.getWorld().render(g);
 
         if(handler.getGame().getGameState() == GameState.Menu) {
             menuScreen.render(g);

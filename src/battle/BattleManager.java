@@ -43,11 +43,7 @@ public class BattleManager {
 
     private int trainerPartyIndex = 0;
 
-    private int playerFaintLine = 580;
-
-    private int trainerFaintLine = 400;
-
-    private TypeTable typeTable = new TypeTable();
+    private final TypeTable typeTable = new TypeTable();
 
     public enum BattleScreenState {
         Introduction,
@@ -83,9 +79,7 @@ public class BattleManager {
 
         battleEventQueue = new LinkedList<>();
 
-        battleEventQueue.add(new BattleIntroductionEvent(playerSprite, trainerPokemon.getFrontSprite()));
-        battleEventQueue.add(new TextEvent("A wild " + trainerPokemon.getName() + " appeared!"));
-        battleEventQueue.add(new TextEvent("Go! " + playerPokemon.getName() + "!"));
+        battleEventQueue.add(new BattleIntroductionEvent(playerSprite, trainerPokemon));
         battleEventQueue.add(new TrainerSummonPokemonEvent(playerSprite, playerPokemon.getBackSprite()));
 
         currentEvent = battleEventQueue.poll();
@@ -168,6 +162,8 @@ public class BattleManager {
 
     private void handleFaint(Pokemon faintedPokemon) {
         if(faintedPokemon == playerPokemon) {
+            int playerFaintLine = 580;
+
             battleEventQueue.add(new PokemonFaintEvent(faintedPokemon.getBackSprite(), playerFaintLine));
             battleEventQueue.add(new TextEvent(faintedPokemon.getName() + " has fainted!"));
 
@@ -176,6 +172,8 @@ public class BattleManager {
                 battleEventQueue.add(new TextEvent(trainerPokemon.getName() + " wins!"));
             }
         } else {
+            int trainerFaintLine = 400;
+
             battleEventQueue.add(new PokemonFaintEvent(faintedPokemon.getFrontSprite(), trainerFaintLine));
             battleEventQueue.add(new TextEvent(faintedPokemon.getName() + " has fainted!"));
 

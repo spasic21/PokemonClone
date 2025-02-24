@@ -1,5 +1,6 @@
 package battle.event;
 
+import objects.Pokemon;
 import objects.Sprite;
 
 import java.awt.*;
@@ -8,13 +9,16 @@ public class BattleIntroductionEvent extends BattleEvent {
 
     private Sprite playerSprite, opponentSprite;
 
+    private Pokemon opponentPokemon;
+
     private boolean positionOne = false;
 
     private boolean positionTwo = false;
 
-    public BattleIntroductionEvent(Sprite playerSprite, Sprite opponentSprite) {
+    public BattleIntroductionEvent(Sprite playerSprite, Pokemon opponentPokemon) {
         this.playerSprite = playerSprite;
-        this.opponentSprite = opponentSprite;
+        this.opponentPokemon = opponentPokemon;
+        this.opponentSprite = this.opponentPokemon.getFrontSprite();
     }
 
     @Override
@@ -32,14 +36,14 @@ public class BattleIntroductionEvent extends BattleEvent {
             opponentSprite.setStartX(opponentSprite.getEndX());
             positionTwo = true;
         }
-
-        if(positionOne && positionTwo) {
-            isFinished = true;
-        }
     }
 
     @Override
     public void render(Graphics g, int x, int y) {
-
+        if(positionOne && positionTwo) {
+            g.setColor(new Color(201, 211, 211));
+            g.drawString("A wild " + opponentPokemon.getName() + " appeared!", x, y);
+            isFinished = true;
+        }
     }
 }

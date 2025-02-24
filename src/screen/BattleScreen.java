@@ -118,32 +118,13 @@ public class BattleScreen extends Screen {
         renderTextBox(g);
 
         if(battleManager.getBattleScreenState() == BattleManager.BattleScreenState.Introduction) {
-            PokemonFrontSprite trainerPokemonFrontSprite = trainerPokemon.getFrontSprite();
-
-            g.drawImage(playerSprite.getSprite(), playerSprite.getStartX(), playerSprite.getStartY(), playerSprite.getSpriteWidth(), playerSprite.getSpriteHeight(), null);
-            g.drawImage(trainerPokemonFrontSprite.getSprite(), trainerPokemonFrontSprite.getStartX(), trainerPokemonFrontSprite.getStartY(), trainerPokemonFrontSprite.getSpriteWidth(), trainerPokemonFrontSprite.getSpriteHeight(), null);
-
-            if(battleManager.getCurrentEvent() != null) {
-                Font textFont = font.deriveFont(60f);
-                g.setFont(textFont);
-                battleManager.getCurrentEvent().render(g, textLocationX, textLocationY);
-            }
+            renderBattleIntroduction(g);
+            renderEventText(g);
         } else {
             renderPokemon(g);
-
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
-
             renderHud(g);
-
-            if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.BattleOptionSelect) {
-                renderBattleOptions(g);
-            } else if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.MoveSelect) {
-                renderMoveSelectBox(g, playerPokemon);
-            } else if (battleManager.getCurrentEvent() != null && battleManager.getBattleScreenState() == BattleManager.BattleScreenState.Battle) {
-                Font textFont = font.deriveFont(60f);
-                g.setFont(textFont);
-                battleManager.getCurrentEvent().render(g, textLocationX, textLocationY);
-            }
+            renderBattleState(g);
         }
     }
 
@@ -151,16 +132,27 @@ public class BattleScreen extends Screen {
         g.drawImage(battleBackground, 0, 0, handler.getWidth(), handler.getHeight(), null);
     }
 
-    private void renderPokemon(Graphics g) {
-        BufferedImage playerPokemonSprite = playerPokemon.getBackSprite().getSprite();
-        BufferedImage trainerPokemonSprite = trainerPokemon.getFrontSprite().getSprite();
+    private void renderBattleIntroduction(Graphics g) {
+        PokemonFrontSprite trainerPokemonFrontSprite = trainerPokemon.getFrontSprite();
 
+        g.drawImage(playerSprite.getSprite(), playerSprite.getStartX(), playerSprite.getStartY(), playerSprite.getSpriteWidth(), playerSprite.getSpriteHeight(), null);
+        g.drawImage(trainerPokemonFrontSprite.getSprite(), trainerPokemonFrontSprite.getStartX(), trainerPokemonFrontSprite.getStartY(), trainerPokemonFrontSprite.getSpriteWidth(), trainerPokemonFrontSprite.getSpriteHeight(), null);
+    }
+
+    private void renderEventText(Graphics g) {
+        if(battleManager.getCurrentEvent() != null) {
+            g.setFont(font.deriveFont(60f));
+            battleManager.getCurrentEvent().render(g, textLocationX, textLocationY);
+        }
+    }
+
+    private void renderPokemon(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, playerPokemon.getBackSprite().getAlpha()));
-        g.drawImage(playerPokemonSprite, playerPokemon.getBackSprite().getEndX(), playerPokemon.getBackSprite().getEndY(), playerPokemon.getBackSprite().getSpriteWidth(), playerPokemon.getBackSprite().getSpriteHeight(), null);
+        g.drawImage(playerPokemon.getBackSprite().getSprite(), playerPokemon.getBackSprite().getEndX(), playerPokemon.getBackSprite().getEndY(), playerPokemon.getBackSprite().getSpriteWidth(), playerPokemon.getBackSprite().getSpriteHeight(), null);
 
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, trainerPokemon.getFrontSprite().getAlpha()));
-        g.drawImage(trainerPokemonSprite, trainerPokemon.getFrontSprite().getEndX(), trainerPokemon.getFrontSprite().getEndY(), trainerPokemon.getFrontSprite().getSpriteWidth(), trainerPokemon.getFrontSprite().getSpriteHeight(), null);
+        g.drawImage(trainerPokemon.getFrontSprite().getSprite(), trainerPokemon.getFrontSprite().getEndX(), trainerPokemon.getFrontSprite().getEndY(), trainerPokemon.getFrontSprite().getSpriteWidth(), trainerPokemon.getFrontSprite().getSpriteHeight(), null);
     }
 
     private void renderTextBox(Graphics g) {
@@ -174,21 +166,26 @@ public class BattleScreen extends Screen {
     }
 
     private void renderHud(Graphics g) {
-        Font hudFont = font.deriveFont(48f);
-        g.setFont(hudFont);
+        g.setFont(font.deriveFont(48f));
         playerHud.render(g);
         trainerHud.render(g);
     }
 
+    private void renderBattleState(Graphics g) {
+        switch(battleManager.getBattleScreenState()) {
+            case BattleOptionSelect -> renderBattleOptions(g);
+            case MoveSelect -> renderMoveSelectBox(g, battleManager.getPlayerPokemon());
+            case Battle -> renderEventText(g);
+        }
+    }
+
     private void renderBattleOptions(Graphics g) {
-        Font battleOptionFont = font.deriveFont(60f);
-        g.setFont(battleOptionFont);
+        g.setFont(font.deriveFont(60f));
         battleOptions.render(g);
     }
 
     private void renderMoveSelectBox(Graphics g, Pokemon pokemon) {
-        Font moveSelectFont = font.deriveFont(60f);
-        g.setFont(moveSelectFont);
+        g.setFont(font.deriveFont(60f));
         moveSelectBox.render(g, pokemon);
     }
 }

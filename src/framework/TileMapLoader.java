@@ -76,10 +76,6 @@ public class TileMapLoader {
         layerData = (JSONArray) index.get("data");
         loadTiles(tileMapWidth, tileMapHeight, layerData, tileLayer3);
 
-//        index = (JSONObject) layers.get(3);
-//        layerData = (JSONArray) index.get("data");
-//        loadTiles(width, height, layerData, tileLayer4);
-
         index = (JSONObject) layers.get(3);
         layerData = (JSONArray) index.get("data");
         loadCollisionTiles(tileMapWidth, tileMapHeight, layerData, collisionLayer);
@@ -128,11 +124,11 @@ public class TileMapLoader {
             for (int j = 0; j < width; j++) {
                 int tileId = Integer.parseInt(String.valueOf(layerData.get(count)));
 
-                if (tileId == 1821) {
+                if (tileId == 3265) {
                     tileLayer[j][i] = new Tile(j * scaleWidth, i * scaleHeight, scaleWidth, scaleHeight, ObjectId.RestrictionTile, collisionSheet.grabImage(1, 1, tileWidth, tileHeight));
-                } else if (tileId == 1822) {
+                } else if (tileId == 3266) {
                     tileLayer[j][i] = new Tile(j * scaleWidth, i * scaleHeight, scaleWidth, scaleHeight, ObjectId.GrassTile, collisionSheet.grabImage(2, 1, tileWidth, tileHeight));
-                } else if (tileId == 1823) {
+                } else if (tileId == 3267) {
                     tileLayer[j][i] = new Tile(j * scaleWidth, i * scaleHeight, scaleWidth, scaleHeight, ObjectId.DoorTile, collisionSheet.grabImage(3, 1, tileWidth, tileHeight));
                 } else {
                     tileLayer[j][i] = null;
@@ -147,32 +143,16 @@ public class TileMapLoader {
         return tileLayer1;
     }
 
-    public void setTileLayer1(Tile[][] tileLayer1) {
-        this.tileLayer1 = tileLayer1;
-    }
-
     public Tile[][] getTileLayer2() {
         return tileLayer2;
-    }
-
-    public void setTileLayer2(Tile[][] tileLayer2) {
-        this.tileLayer2 = tileLayer2;
     }
 
     public Tile[][] getTileLayer3() {
         return tileLayer3;
     }
 
-    public void setTileLayer3(Tile[][] tileLayer3) {
-        this.tileLayer3 = tileLayer3;
-    }
-
     public Tile[][] getCollisionLayer() {
         return collisionLayer;
-    }
-
-    public void setCollisionLayer(Tile[][] collisionLayer) {
-        this.collisionLayer = collisionLayer;
     }
 
     public int getTileWidth() {

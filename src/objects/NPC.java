@@ -22,8 +22,8 @@ public class NPC extends Entity {
     private BufferedImage[][] actions = new BufferedImage[4][3];
     private SpriteSheet spriteSheet;
 
-    public NPC(Handler handler, float x, float y, int width, int height, ObjectId id) {
-        super(handler, x, y, width, height, id);
+    public NPC(Handler handler, float x, float y, int width, int height, EntityDirection entityDirection, ObjectId id) {
+        super(handler, x, y, width, height, entityDirection, id);
 
         init();
     }

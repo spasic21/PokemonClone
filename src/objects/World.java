@@ -4,7 +4,7 @@ import framework.Camera;
 import framework.Handler;
 import framework.TileMapLoader;
 import framework.enums.EntityDirection;
-import framework.enums.EntityState;
+import framework.enums.Location;
 import framework.enums.ObjectId;
 
 import java.awt.*;
@@ -12,6 +12,8 @@ import java.awt.*;
 public class World {
 
     private Handler handler;
+
+    private Location location;
 
     private EntityManager entityManager;
 
@@ -23,14 +25,16 @@ public class World {
     private Tile[][] tileLayer3;
     private Tile[][] collisionLayer;
 
-    public World(Handler handler, String path) {
+    public World(Handler handler, Location location, int spawnX, int spawnY, EntityDirection entityDirection) {
         this.handler = handler;
-        this.entityManager = new EntityManager(handler, new Player(handler, 1240, 1816, 72, 72, ObjectId.Player));
+        this.location = location;
+        this.entityManager = new EntityManager(handler, new Player(handler, spawnX, spawnY, 72, 72, entityDirection, ObjectId.Player));
         this.camera = new Camera(handler.getWidth(), handler.getHeight());
 
-        this.entityManager.addEntity(new NPC(handler, 1545, 1103, 72, 72, EntityDirection.RIGHT, EntityState.Standing, ObjectId.NPC));
+//        this.entityManager.addEntity(new NPC(handler, 1535, 1103, 72, 72, EntityDirection.RIGHT, EntityState.Standing, ObjectId.NPC));
 
         try {
+            String path = getFilePath(this.location);
             tileMapLoader = new TileMapLoader(path);
             tileLayer1 = tileMapLoader.getTileLayer1();
             tileLayer2 = tileMapLoader.getTileLayer2();
@@ -52,7 +56,8 @@ public class World {
     }
 
     public void render(Graphics g) {
-        Color backgroundColor = new Color(182, 226, 160);
+//        Color backgroundColor = new Color(182, 226, 160);
+        Color backgroundColor = Color.BLACK;
 
         g.setColor(backgroundColor);
         g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
@@ -64,7 +69,22 @@ public class World {
 
         renderTileLayer(tileLayer3, g);
 
+        // Debugging
+//        g.setColor(Color.RED);
+//        g.setFont(new Font("TimesRoman", Font.BOLD, 60));
+//        g.drawString(entityManager.getPlayer().getX() + " " + entityManager.getPlayer().getY(), 100, 100);
+
 //        renderTileLayer(collisionLayer, g);
+    }
+
+    private String getFilePath(Location location) {
+        return switch (location) {
+            case World -> "resources/map2.json";
+            case House_One -> "resources/map3.json";
+        };
+    }
+
+    private void getSpawnPoints() {
     }
 
     private void renderTileLayer(Tile[][] tileLayer, Graphics g) {
@@ -97,6 +117,10 @@ public class World {
                 }
             }
         }
+    }
+
+    public Location getLocation() {
+        return location;
     }
 
     public Tile[][] getCollisionLayer() {

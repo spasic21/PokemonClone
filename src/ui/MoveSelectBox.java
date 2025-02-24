@@ -126,18 +126,10 @@ public class MoveSelectBox {
 
     private void renderOptionPointer(Graphics g, int moveOptionId) {
         switch (moveOptionId) {
-            case 2:
-                g.drawImage(optionPointer, optionTwoX, optionTwoY, optionPointerWidth, optionPointerHeight, null);
-                break;
-            case 3:
-                g.drawImage(optionPointer, optionThreeX, optionThreeY, optionPointerWidth, optionPointerHeight, null);
-                break;
-            case 4:
-                g.drawImage(optionPointer, optionFourX, optionFourY, optionPointerWidth, optionPointerHeight, null);
-                break;
-            default:
-                g.drawImage(optionPointer, optionOneX, optionOneY, optionPointerWidth, optionPointerHeight, null);
-                break;
+            case 2 -> g.drawImage(optionPointer, optionTwoX, optionTwoY, optionPointerWidth, optionPointerHeight, null);
+            case 3 -> g.drawImage(optionPointer, optionThreeX, optionThreeY, optionPointerWidth, optionPointerHeight, null);
+            case 4 -> g.drawImage(optionPointer, optionFourX, optionFourY, optionPointerWidth, optionPointerHeight, null);
+            default -> g.drawImage(optionPointer, optionOneX, optionOneY, optionPointerWidth, optionPointerHeight, null);
         }
     }
 

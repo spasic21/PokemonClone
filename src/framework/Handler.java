@@ -1,6 +1,7 @@
 package framework;
 
 import framework.enums.GameState;
+import framework.spawn.SpawnManager;
 import keyInput.GameKeyInput;
 import objects.NPC;
 import objects.World;
@@ -10,6 +11,8 @@ import ui.Game;
 public class Handler {
 
     private Game game;
+
+    private SpawnManager spawnManager;
 
     private World world;
 
@@ -25,8 +28,8 @@ public class Handler {
         this.game = game;
     }
 
-    public GameKeyInput getGameKeyInput() {
-        return game.getGameKeyInput();
+    public Game getGame() {
+        return game;
     }
 
     public int getWidth() {
@@ -37,8 +40,16 @@ public class Handler {
         return game.getHeight();
     }
 
-    public Game getGame() {
-        return game;
+    public GameKeyInput getGameKeyInput() {
+        return game.getGameKeyInput();
+    }
+
+    public SpawnManager getSpawnManager() {
+        return spawnManager;
+    }
+
+    public void setSpawnManager(SpawnManager spawnManager) {
+        this.spawnManager = spawnManager;
     }
 
     public World getWorld() {

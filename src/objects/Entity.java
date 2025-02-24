@@ -21,7 +21,7 @@ public abstract class Entity {
     protected EntityDirection entityDirection;
     protected EntityState entityState;
 
-    public Entity(Handler handler, float x, float y, int width, int height, ObjectId id) {
+    public Entity(Handler handler, float x, float y, int width, int height, EntityDirection entityDirection, ObjectId id) {
         this.handler = handler;
         this.x = x;
         this.y = y;
@@ -29,7 +29,7 @@ public abstract class Entity {
         this.height = height;
         this.id = id;
 
-        this.entityDirection = EntityDirection.DOWN;
+        this.entityDirection = entityDirection;
         this.entityState = EntityState.Standing;
     }
 

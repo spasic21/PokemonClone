@@ -81,6 +81,9 @@ public class TrainerSummonPokemonEvent extends BattleEvent {
 
     @Override
     public void render(Graphics g, int x, int y) {
+        g.setColor(new Color(201, 211, 211));
+        g.drawString("Go! Charmander!", x, y);
+
         if(summonState == SummonState.PokeballThrow || summonState == SummonState.PokeballAnimation) {
             g.drawImage(
                     summonState == SummonState.PokeballThrow ? pokeballSprite[0] : pokeballAnimation.getCurrentFrame(),

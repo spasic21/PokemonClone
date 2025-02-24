@@ -5,6 +5,7 @@ import framework.Handler;
 import framework.PokemonGenerator;
 import framework.SoundManager;
 import framework.enums.GameState;
+import framework.spawn.SpawnManager;
 import keyInput.GameKeyInput;
 import objects.Pokemon;
 import screen.BattleScreen;
@@ -26,6 +27,8 @@ public class Game implements Runnable {
     private final int height;
 
     private Handler handler;
+
+    private SpawnManager spawnManager;
 
     private GameKeyInput gameKeyInput;
 
@@ -49,6 +52,11 @@ public class Game implements Runnable {
 
     private void init() {
         this.handler = new Handler(this);
+        this.spawnManager = SpawnManager.getInstance();
+
+        spawnManager.init();
+
+        this.handler.setSpawnManager(spawnManager);
 
         this.battleManager = BattleManager.getInstance();
         this.gameKeyInput = new GameKeyInput(this.handler, this.battleManager);

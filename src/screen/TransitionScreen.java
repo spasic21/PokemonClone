@@ -10,7 +10,7 @@ import java.util.List;
 public class TransitionScreen extends Screen {
 
     private int alpha = 0;
-    private int fadeSpeed = 3;
+    private int fadeSpeed = 5;
     private int transitionTime = 90;
     private boolean fadingOut = true;
 
@@ -55,9 +55,7 @@ public class TransitionScreen extends Screen {
     public void update(int transitionType) {
         switch (transitionType) {
             case 1 -> fadeOutUpdate();
-
             case 2 -> radarSweepUpdate();
-
             case 3 -> pixelatedUpdate();
         }
     }
@@ -70,9 +68,7 @@ public class TransitionScreen extends Screen {
 
         switch(transitionType) {
             case 1 -> fadeOutRender(g);
-
             case 2 -> radarSweepRender(g);
-
             case 3 -> pixelatedRender(g);
         }
     }

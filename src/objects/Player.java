@@ -7,11 +7,13 @@ import framework.enums.EntityDirection;
 import framework.enums.EntityState;
 import framework.enums.GameState;
 import framework.enums.ObjectId;
+import framework.spawn.SpawnPoint;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -23,8 +25,8 @@ public class Player extends Entity {
     private BufferedImage[][] playerActions = new BufferedImage[4][3];
     private SpriteSheet spriteSheet;
 
-    public Player(Handler handler, float x, float y, int width, int height, ObjectId id) {
-        super(handler, x, y, width, height, id);
+    public Player(Handler handler, float x, float y, int width, int height, EntityDirection entityDirection, ObjectId id) {
+        super(handler, x, y, width, height, entityDirection, id);
 
         this.speed = 4;
 
@@ -171,11 +173,18 @@ public class Player extends Entity {
                             entityState = EntityState.Standing;
 
                             handler.getGameKeyInput().resetKeys();
-
                             handler.setNextTransition(transitionType, GameState.Battle);
                         }
-                    } else if (tile.getId() == ObjectId.DoorTile && getBounds(false).intersects(tile.getBounds()) && velY < 0) {
-                        System.out.println("You walked into a door!");
+                    } else if (tile.getId() == ObjectId.DoorTile && getBounds(false).intersects(tile.getBounds()) && velY != 0) {
+                        List<SpawnPoint> spawnPoints = handler.getSpawnManager().getSpawnPoints(handler.getWorld().getLocation());
+
+                        for(SpawnPoint spawnPoint : spawnPoints) {
+                            if(spawnPoint.rectangle().intersects(getBounds(false))) {
+                                handler.getGameKeyInput().resetKeys();
+                                handler.setNextTransition(1, GameState.Game);
+                                handler.setWorld(new World(handler, spawnPoint.targetLocation(), (int)spawnPoint.spawnX(), (int)spawnPoint.spawnY(), this.entityDirection));
+                            }
+                        }
                     }
                 }
             }
