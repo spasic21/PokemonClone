@@ -131,7 +131,7 @@ public class BattleKeyInput extends KeyInput {
             if (battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() != null) {
                 if(battleManager.getBattleEventQueue().peek() instanceof PokemonFaintEvent) SoundManager.playSound("FaintedSound");
 
-                if(battleManager.getBattleEventQueue().peek() instanceof TextEvent textEvent && textEvent.getText().contains("wins")) handler.getGame().playMusicIfNeeded("/sounds/victory_wild_pokemon.wav");
+//                if(battleManager.getBattleEventQueue().peek() instanceof TextEvent textEvent && textEvent.getText().contains("wins")) handler.getGame().playMusicIfNeeded("/sounds/victory_wild_pokemon.wav");
 
                 battleManager.setCurrentEvent(battleManager.getBattleEventQueue().poll());
             } else if (battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() == null) {

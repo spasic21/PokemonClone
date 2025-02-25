@@ -81,16 +81,24 @@ public class PokemonMenuKeyInput extends KeyInput {
             SoundManager.playSound("ButtonSound");
         }
 
+        if(e.getKeyCode() == KeyEvent.VK_J) {
+            handler.setNextTransition(1, GameState.PokemonSummary);
+            SoundManager.playSound("ButtonSound");
+        }
+
         if (e.getKeyCode() == KeyEvent.VK_K) {
             handler.setNextTransition(1, GameState.Menu);
+            SoundManager.playSound("ButtonSound");
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+            handler.setNextTransition(1, GameState.Game);
             SoundManager.playSound("ButtonSound");
         }
     }
 
     private void checkValidTiles() {
-        int size = handler.getGame().getPlayerParty().size();
-
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < handler.getPokemonParty().size(); i++) {
             restrictedTiles[i] = false;
         }
     }

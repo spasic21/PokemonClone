@@ -18,6 +18,8 @@ public class GameKeyInput extends KeyAdapter {
 
     private PokemonMenuKeyInput pokemonMenuKeyInput;
 
+    private PokemonSummaryKeyInput pokemonSummaryKeyInput;
+
     private DialogueKeyInput dialogueKeyInput;
 
     public GameKeyInput(Handler handler, BattleManager battleManager) {
@@ -26,22 +28,14 @@ public class GameKeyInput extends KeyAdapter {
         this.battleKeyInput = new BattleKeyInput(handler, battleManager);
         this.menuKeyInput = new MenuKeyInput(handler);
         this.pokemonMenuKeyInput = new PokemonMenuKeyInput(handler);
+        this.pokemonSummaryKeyInput = new PokemonSummaryKeyInput(handler);
         this.dialogueKeyInput = new DialogueKeyInput(handler);
     }
 
     public void keyPressed(KeyEvent e) {
         switch (handler.getGame().getGameState()) {
-            case Game:
-                playerKeyInput.keyPressed(e);
-                break;
-
-            case Transition:
-                break;
-
-            case Battle:
-                battleKeyInput.keyPressed(e);
-                break;
-
+            case Game -> playerKeyInput.keyPressed(e);
+            case Battle -> battleKeyInput.keyPressed(e);
         }
     }
 
@@ -51,25 +45,12 @@ public class GameKeyInput extends KeyAdapter {
         }
 
         switch (handler.getGame().getGameState()) {
-            case Game:
-                playerKeyInput.keyReleased(e);
-                break;
-
-            case Battle:
-                battleKeyInput.keyReleased(e);
-                break;
-
-            case Menu:
-                menuKeyInput.keyReleased(e);
-                break;
-
-            case PokemonMenu:
-                pokemonMenuKeyInput.keyReleased(e);
-                break;
-
-            case Dialogue:
-                dialogueKeyInput.keyReleased(e);
-                break;
+            case Game -> playerKeyInput.keyReleased(e);
+            case Battle -> battleKeyInput.keyReleased(e);
+            case Menu -> menuKeyInput.keyReleased(e);
+            case PokemonMenu -> pokemonMenuKeyInput.keyReleased(e);
+            case PokemonSummary -> pokemonSummaryKeyInput.keyReleased(e);
+            case Dialogue -> dialogueKeyInput.keyReleased(e);
         }
     }
 
@@ -102,5 +83,21 @@ public class GameKeyInput extends KeyAdapter {
 
     public int getPokemonMenuOptionId() {
         return pokemonMenuKeyInput.getPokemonOptionId();
+    }
+
+    public int getPokemonSummaryPageId() {
+        return pokemonSummaryKeyInput.getPageId();
+    }
+
+    public int getPokemonId() {
+        return pokemonSummaryKeyInput.getPokemonId();
+    }
+
+    public boolean isMoveSelect() {
+        return pokemonSummaryKeyInput.isMoveSelect();
+    }
+
+    public int getMoveId() {
+        return pokemonSummaryKeyInput.getMoveId();
     }
 }

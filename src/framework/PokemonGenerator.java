@@ -49,7 +49,7 @@ public class PokemonGenerator {
     }
 
     private void setBaseStats(Pokemon pokemon) {
-        try (FileReader baseStatReader = new FileReader("resources/baseStat.json");
+        try (FileReader baseStatReader = new FileReader("resources/1st_Gen_BaseStat.json");
              FileReader expTypeReader = new FileReader("resources/expType.json");
              FileReader effortValueReader = new FileReader("resources/effortValueYield.json")) {
 
@@ -112,7 +112,7 @@ public class PokemonGenerator {
     }
 
     private void setMyPokemonStats(Pokemon pokemon, String name) {
-        try (FileReader baseStatReader = new FileReader("resources/baseStat.json");
+        try (FileReader baseStatReader = new FileReader("resources/1st_Gen_BaseStat.json");
              FileReader expTypeReader = new FileReader("resources/expType.json")) {
 
             JSONParser parser = new JSONParser();

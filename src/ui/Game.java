@@ -8,10 +8,7 @@ import framework.enums.GameState;
 import framework.spawn.SpawnManager;
 import keyInput.GameKeyInput;
 import objects.Pokemon;
-import screen.BattleScreen;
-import screen.GameScreen;
-import screen.PokemonMenuScreen;
-import screen.TransitionScreen;
+import screen.*;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -36,6 +33,7 @@ public class Game implements Runnable {
     private BattleScreen battleScreen;
     private TransitionScreen transitionScreen;
     private PokemonMenuScreen pokemonMenuScreen;
+    private PokemonSummaryScreen pokemonSummaryScreen;
     private BattleManager battleManager;
     private boolean running = false;
     private Thread thread;
@@ -52,6 +50,7 @@ public class Game implements Runnable {
 
     private void init() {
         this.handler = new Handler(this);
+        this.handler.setPokemonParty(getPlayerParty());
         this.spawnManager = SpawnManager.getInstance();
 
         spawnManager.init();
@@ -65,6 +64,7 @@ public class Game implements Runnable {
         this.battleScreen = new BattleScreen(this.handler, this.battleManager);
         this.transitionScreen = new TransitionScreen(this.handler);
         this.pokemonMenuScreen = new PokemonMenuScreen(handler);
+        this.pokemonSummaryScreen = new PokemonSummaryScreen(handler);
 
         loadSounds();
 
@@ -132,12 +132,12 @@ public class Game implements Runnable {
     private void update() {
         switch (gameState) {
             case Game, Menu, Dialogue -> {
-                playMusicIfNeeded("/sounds/azalea_city.wav");
+//                playMusicIfNeeded("/sounds/azalea_city.wav");
                 gameScreen.update();
             }
 
             case Transition -> {
-                if(handler.getNextGameState() == GameState.Battle) playMusicIfNeeded("/sounds/johto_wild_pokemon_battle.wav");
+//                if(handler.getNextGameState() == GameState.Battle) playMusicIfNeeded("/sounds/johto_wild_pokemon_battle.wav");
 
                 transitionScreen.update(handler.getTransitionType());
             }
@@ -145,7 +145,7 @@ public class Game implements Runnable {
             case Battle -> {
                 if (!battleStarted) {
                     gameKeyInput.resetKeys();
-                    this.battleManager.init(getPlayerParty());
+                    this.battleManager.init(handler.getPokemonParty());
                     battleStarted = true;
                 }
 
@@ -153,6 +153,7 @@ public class Game implements Runnable {
             }
 
             case PokemonMenu -> pokemonMenuScreen.update();
+            case PokemonSummary -> pokemonSummaryScreen.update();
 
         }
     }
@@ -190,6 +191,7 @@ public class Game implements Runnable {
             }
 
             case PokemonMenu -> pokemonMenuScreen.render(g);
+            case PokemonSummary -> pokemonSummaryScreen.render(g);
         }
 
         bs.show();
@@ -211,7 +213,7 @@ public class Game implements Runnable {
     }
 
     public GameState getGameState() {
-        return  gameState;
+        return gameState;
     }
 
     public void setGameState(GameState gameState) {

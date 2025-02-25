@@ -4,13 +4,18 @@ import framework.enums.GameState;
 import framework.spawn.SpawnManager;
 import keyInput.GameKeyInput;
 import objects.NPC;
+import objects.Pokemon;
 import objects.World;
 import ui.Game;
+
+import java.util.List;
 
 
 public class Handler {
 
     private Game game;
+
+    private List<Pokemon> pokemonParty;
 
     private SpawnManager spawnManager;
 
@@ -42,6 +47,14 @@ public class Handler {
 
     public GameKeyInput getGameKeyInput() {
         return game.getGameKeyInput();
+    }
+
+    public List<Pokemon> getPokemonParty() {
+        return pokemonParty;
+    }
+
+    public void setPokemonParty(List<Pokemon> pokemonParty) {
+        this.pokemonParty = pokemonParty;
     }
 
     public SpawnManager getSpawnManager() {

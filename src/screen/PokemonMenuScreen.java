@@ -15,7 +15,7 @@ public class PokemonMenuScreen extends Screen {
     public PokemonMenuScreen(Handler handler) {
         super(handler);
 
-        List<Pokemon> pokemonParty = handler.getGame().getPlayerParty();
+        List<Pokemon> pokemonParty = handler.getPokemonParty();
 
         if (pokemonParty.size() < 6) {
             emptyTiles = new ArrayList<>();
@@ -56,7 +56,6 @@ public class PokemonMenuScreen extends Screen {
     @Override
     public void render(Graphics g) {
         g.setColor(new Color(254, 255, 221));
-
         g.fillRect(0, 0, handler.getWidth(), handler.getHeight());
 
         for(PokemonMenuTile pokemonMenuTile : pokemonMenuTiles) {

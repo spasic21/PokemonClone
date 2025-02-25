@@ -6,5 +6,6 @@ public enum GameState {
     Transition,
     Battle,
     PokemonMenu,
+    PokemonSummary,
     Dialogue
 }
