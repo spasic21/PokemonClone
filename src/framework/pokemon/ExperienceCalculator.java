@@ -1,6 +1,6 @@
 package framework;
 
-import objects.Pokemon;
+import objects.pokemon.Pokemon;
 
 public class ExperienceCalculator {
 

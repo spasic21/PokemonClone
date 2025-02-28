@@ -2,10 +2,7 @@ package framework;
 
 import framework.enums.ExpType;
 import framework.enums.Type;
-import objects.Pokemon;
-import objects.PokemonBackSprite;
-import objects.PokemonFrontSprite;
-import objects.PokemonMove;
+import objects.pokemon.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -49,30 +46,20 @@ public class PokemonGenerator {
     }
 
     private void setBaseStats(Pokemon pokemon) {
-        try (FileReader baseStatReader = new FileReader("resources/1st_Gen_BaseStat.json");
-             FileReader expTypeReader = new FileReader("resources/expType.json");
-             FileReader effortValueReader = new FileReader("resources/effortValueYield.json")) {
+        try (FileReader baseStatReader = new FileReader("resources/1st_Gen_BaseStat.json")) {
 
             JSONParser parser = new JSONParser();
             JSONObject pokemonStatObject = (JSONObject) parser.parse(baseStatReader);
             JSONArray statArray = (JSONArray) pokemonStatObject.get("pokemon");
-
-            JSONObject baseStatObject = (JSONObject) parser.parse(expTypeReader);
-            JSONArray expTypeArray = (JSONArray) baseStatObject.get("pokemon");
-
-            JSONObject effortValueObject = (JSONObject) parser.parse(effortValueReader);
-            JSONArray effortValueArray = (JSONArray) effortValueObject.get("pokemon");
 
 //            Random random = new Random();
 //            int index = random.nextInt(random.nextInt(24));
             int index = 0;
 
             JSONObject pokemonObject = (JSONObject) statArray.get(index);
-            JSONObject expObject = (JSONObject) expTypeArray.get(index);
-            JSONObject effortObject = (JSONObject) effortValueArray.get(index);
 
             pokemon.setName(String.valueOf(pokemonObject.get("name")));
-            pokemon.setLevel(30);
+            pokemon.setLevel(8);
 
             JSONArray typeList = (JSONArray) pokemonObject.get("type");
 
@@ -83,6 +70,21 @@ public class PokemonGenerator {
                 pokemon.setType1(getType(typeList.get(0).toString()));
             }
 
+            JSONArray baseStatArray = (JSONArray) pokemonObject.get("baseStats");
+            List<PokemonBaseStat> baseStats = new ArrayList<>();
+
+            if(baseStatArray != null) {
+                baseStatArray.forEach(stat -> {
+                    JSONObject s = (JSONObject) stat;
+                    baseStats.add(new PokemonBaseStat(
+                            String.valueOf(s.get("name")),
+                            Integer.parseInt(String.valueOf(s.get("baseStat"))),
+                            Integer.parseInt(String.valueOf(s.get("effortValue"))))
+                    );
+                });
+            }
+
+
             pokemon.setBaseHP(Integer.parseInt(String.valueOf(pokemonObject.get("hp"))));
             pokemon.setBaseAttack(Integer.parseInt(String.valueOf(pokemonObject.get("attack"))));
             pokemon.setBaseDefense(Integer.parseInt(String.valueOf(pokemonObject.get("defense"))));
@@ -90,8 +92,8 @@ public class PokemonGenerator {
             pokemon.setBaseSpecialDefense(Integer.parseInt(String.valueOf(pokemonObject.get("specialDefense"))));
             pokemon.setBaseSpeed(Integer.parseInt(String.valueOf(pokemonObject.get("speed"))));
 
-            int row = Integer.parseInt(pokemonObject.get("row").toString());
             int col = Integer.parseInt(pokemonObject.get("col").toString());
+            int row = Integer.parseInt(pokemonObject.get("row").toString());
 
             pokemon.setFrontSprite(new PokemonFrontSprite(col, row, 58, 58));
             pokemon.setBackSprite(new PokemonBackSprite(col, row, 58, 58));
@@ -99,8 +101,8 @@ public class PokemonGenerator {
             switch(String.valueOf(expObject.get("growthRate"))) {
                 case "Erratic" -> pokemon.setExpType(ExpType.Erratic);
                 case "Fast" -> pokemon.setExpType(ExpType.Fast);
-                case "Medium Fast" -> pokemon.setExpType(ExpType.MediumFast);
-                case "Medium Slow" -> pokemon.setExpType(ExpType.MediumSlow);
+                case "Medium-Fast" -> pokemon.setExpType(ExpType.MediumFast);
+                case "Medium-Slow" -> pokemon.setExpType(ExpType.MediumSlow);
                 case "Slow" -> pokemon.setExpType(ExpType.Slow);
                 default -> pokemon.setExpType(ExpType.Fluctuating);
             }
@@ -163,8 +165,8 @@ public class PokemonGenerator {
                     switch (String.valueOf(expTypeObject.get("growthRate"))) {
                         case "Erratic" -> pokemon.setExpType(ExpType.Erratic);
                         case "Fast" -> pokemon.setExpType(ExpType.Fast);
-                        case "Medium Fast" -> pokemon.setExpType(ExpType.MediumFast);
-                        case "Medium Slow" -> pokemon.setExpType(ExpType.MediumSlow);
+                        case "Medium-Fast" -> pokemon.setExpType(ExpType.MediumFast);
+                        case "Medium-Slow" -> pokemon.setExpType(ExpType.MediumSlow);
                         case "Slow" -> pokemon.setExpType(ExpType.Slow);
                         default -> pokemon.setExpType(ExpType.Fluctuating);
                     }
