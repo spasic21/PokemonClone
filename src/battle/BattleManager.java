@@ -1,14 +1,16 @@
 package battle;
 
 import battle.event.*;
-import framework.ExperienceCalculator;
-import framework.PokemonGenerator;
 import framework.TypeTable;
+import framework.enums.MoveCategory;
 import framework.enums.Type;
-import objects.Pokemon;
-import objects.PokemonMove;
+import framework.pokemon.ExperienceCalculator;
+import framework.pokemon.PokemonDatabase;
+import framework.pokemon.PokemonGenerator;
 import objects.Sprite;
 import objects.TrainerBackSprite;
+import objects.pokemon.Pokemon;
+import objects.pokemon.PokemonMove;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -68,14 +70,24 @@ public class BattleManager {
         return battleManager;
     }
 
-    public void init(List<Pokemon> playerParty) {
+    public void init(PokemonDatabase pokemonDatabase, List<Pokemon> playerParty) {
+        PokemonGenerator pokemonGenerator = new PokemonGenerator(pokemonDatabase);
         this.playerParty = playerParty;
-        this.trainerParty = Collections.singletonList(new PokemonGenerator().generatePokemon());
+        this.trainerParty = Collections.singletonList(pokemonGenerator.generatePokemon(false));
 
         this.playerPokemon = playerParty.get(0);
         this.trainerPokemon = this.trainerParty.get(0);
 
         this.playerSprite = new TrainerBackSprite(1, 1, 58, 58);
+
+        this.playerPokemon.getBackSprite().setAlpha(1.0f);
+        this.trainerPokemon.getFrontSprite().setAlpha(1.0f);
+        this.trainerPokemon.getFrontSprite().setStartX(-trainerPokemon.getFrontSprite().getWidth());
+        this.trainerPokemon.getFrontSprite().setEndY(100);
+
+        if(battleEventQueue != null) {
+            battleEventQueue.clear();
+        }
 
         battleEventQueue = new LinkedList<>();
 
@@ -101,9 +113,9 @@ public class BattleManager {
 
         int movePower = pokemonMove.getDamage();
 
-        if (pokemonMove.getMoveCategory() == PokemonMove.MoveCategory.Physical) {
+        if (pokemonMove.getMoveCategory() == MoveCategory.Physical) {
             attackDefenseRatio = (double) attacker.getAttack() / (double) defender.getDefense();
-        } else if (pokemonMove.getMoveCategory() == PokemonMove.MoveCategory.Special) {
+        } else if (pokemonMove.getMoveCategory() == MoveCategory.Special) {
             attackDefenseRatio = (double) attacker.getSpecialAttack() / (double) defender.getSpecialDefense();
         }
 
@@ -147,7 +159,7 @@ public class BattleManager {
         move.setCurrentPowerPoints(move.getCurrentPowerPoints() - 1);
         battleEventQueue.add(new TextEvent(attacker.getName() + " used " + move.getName() + "!"));
 
-        if(move.getMoveCategory() == PokemonMove.MoveCategory.Physical || move.getMoveCategory() == PokemonMove.MoveCategory.Special) {
+        if(move.getMoveCategory() == MoveCategory.Physical || move.getMoveCategory() == MoveCategory.Special) {
             int damage = calculateDamage(move, attacker, defender);
 
             battleEventQueue.add(new HPAnimationEvent(defender, damage));
@@ -218,7 +230,7 @@ public class BattleManager {
             }
         }
 
-        return highestDamageMove != null ? highestDamageMove : new PokemonMove("Struggle", Type.Normal, 50, 100, 100, 100, PokemonMove.MoveCategory.Physical);
+        return highestDamageMove != null ? highestDamageMove : new PokemonMove("Struggle", Type.Normal, 50, 100, 100, 100, MoveCategory.Physical);
     }
 
     private double getEffectiveRatio(PokemonMove move, Pokemon defender) {
@@ -229,7 +241,7 @@ public class BattleManager {
             double typeRatio2 = typeTable.getMoveEffectiveValue(move.getType(), defender.getType2());
             effectiveRatio = typeRatio1 * typeRatio2;
         } else {
-            effectiveRatio = typeTable.getMoveEffectiveValue(move.getType(), playerPokemon.getType1());
+            effectiveRatio = typeTable.getMoveEffectiveValue(move.getType(), defender.getType1());
         }
 
         return effectiveRatio;

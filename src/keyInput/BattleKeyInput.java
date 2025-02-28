@@ -2,11 +2,10 @@ package keyInput;
 
 import battle.BattleManager;
 import battle.event.PokemonFaintEvent;
-import battle.event.TextEvent;
 import framework.Handler;
 import framework.SoundManager;
 import framework.enums.GameState;
-import objects.Pokemon;
+import objects.pokemon.Pokemon;
 
 import java.awt.event.KeyEvent;
 

@@ -3,8 +3,8 @@ package ui;
 import battle.BattleManager;
 import framework.Handler;
 import framework.SpriteSheet;
-import objects.Pokemon;
-import objects.PokemonMove;
+import objects.pokemon.Pokemon;
+import objects.pokemon.PokemonMove;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

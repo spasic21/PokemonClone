@@ -1,4 +1,4 @@
-package objects;
+package objects.pokemon;
 
 import framework.enums.ExpType;
 import framework.enums.Type;
@@ -11,6 +11,8 @@ public class Pokemon {
     private String name;
     private int dexNumber;
     private int gender;
+    private int height;
+    private int weight;
     private Type type1;
     private Type type2;
     private String ability;
@@ -29,12 +31,7 @@ public class Pokemon {
     private int specialDefense;
     private int speed;
 
-    private int baseHP;
-    private int baseAttack;
-    private int baseDefense;
-    private int baseSpecialAttack;
-    private int baseSpecialDefense;
-    private int baseSpeed;
+    private List<PokemonBaseStat> baseStats;
 
     private int healthIV;
     private int attackIV;
@@ -42,6 +39,14 @@ public class Pokemon {
     private int specialAttackIV;
     private int specialDefenseIV;
     private int speedIV;
+
+    private int baseHappiness;
+
+    private int captureRate;
+
+    private List<String> eggGroups;
+
+    private String description;
 
     private boolean shiny;
 
@@ -92,6 +97,22 @@ public class Pokemon {
 
     public void setGender(int gender) {
         this.gender = gender;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     public Type getType1() {
@@ -222,52 +243,12 @@ public class Pokemon {
         this.speed = speed;
     }
 
-    public int getBaseHP() {
-        return baseHP;
+    public List<PokemonBaseStat> getBaseStats() {
+        return baseStats;
     }
 
-    public void setBaseHP(int baseHP) {
-        this.baseHP = baseHP;
-    }
-
-    public int getBaseAttack() {
-        return baseAttack;
-    }
-
-    public void setBaseAttack(int baseAttack) {
-        this.baseAttack = baseAttack;
-    }
-
-    public int getBaseDefense() {
-        return baseDefense;
-    }
-
-    public void setBaseDefense(int baseDefense) {
-        this.baseDefense = baseDefense;
-    }
-
-    public int getBaseSpecialAttack() {
-        return baseSpecialAttack;
-    }
-
-    public void setBaseSpecialAttack(int baseSpecialAttack) {
-        this.baseSpecialAttack = baseSpecialAttack;
-    }
-
-    public int getBaseSpecialDefense() {
-        return baseSpecialDefense;
-    }
-
-    public void setBaseSpecialDefense(int baseSpecialDefense) {
-        this.baseSpecialDefense = baseSpecialDefense;
-    }
-
-    public int getBaseSpeed() {
-        return baseSpeed;
-    }
-
-    public void setBaseSpeed(int baseSpeed) {
-        this.baseSpeed = baseSpeed;
+    public void setBaseStats(List<PokemonBaseStat> baseStats) {
+        this.baseStats = baseStats;
     }
 
     public int getHealthIV() {
@@ -316,6 +297,38 @@ public class Pokemon {
 
     public void setSpeedIV(int speedIV) {
         this.speedIV = speedIV;
+    }
+
+    public int getBaseHappiness() {
+        return baseHappiness;
+    }
+
+    public void setBaseHappiness(int baseHappiness) {
+        this.baseHappiness = baseHappiness;
+    }
+
+    public int getCaptureRate() {
+        return captureRate;
+    }
+
+    public void setCaptureRate(int captureRate) {
+        this.captureRate = captureRate;
+    }
+
+    public List<String> getEggGroups() {
+        return eggGroups;
+    }
+
+    public void setEggGroups(List<String> eggGroups) {
+        this.eggGroups = eggGroups;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isShiny() {

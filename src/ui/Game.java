@@ -2,12 +2,13 @@ package ui;
 
 import battle.BattleManager;
 import framework.Handler;
-import framework.PokemonGenerator;
 import framework.SoundManager;
 import framework.enums.GameState;
+import framework.pokemon.PokemonDatabase;
+import framework.pokemon.PokemonGenerator;
 import framework.spawn.SpawnManager;
 import keyInput.GameKeyInput;
-import objects.Pokemon;
+import objects.pokemon.Pokemon;
 import screen.*;
 
 import java.awt.*;
@@ -24,6 +25,8 @@ public class Game implements Runnable {
     private final int height;
 
     private Handler handler;
+
+    private PokemonDatabase pokemonDatabase;
 
     private SpawnManager spawnManager;
 
@@ -50,10 +53,19 @@ public class Game implements Runnable {
 
     private void init() {
         this.handler = new Handler(this);
+        this.pokemonDatabase = new PokemonDatabase();
+
+        long start = System.currentTimeMillis();
+        this.pokemonDatabase.initDatabase();
+        long end = System.currentTimeMillis();
+
+        System.out.println("Pokemon Database Initialization took " + (end - start)/1000 + "s");
+
         this.handler.setPokemonParty(getPlayerParty());
+
         this.spawnManager = SpawnManager.getInstance();
 
-        spawnManager.init();
+        this.spawnManager.init();
 
         this.handler.setSpawnManager(spawnManager);
 
@@ -145,7 +157,7 @@ public class Game implements Runnable {
             case Battle -> {
                 if (!battleStarted) {
                     gameKeyInput.resetKeys();
-                    this.battleManager.init(handler.getPokemonParty());
+                    this.battleManager.init(pokemonDatabase, handler.getPokemonParty());
                     battleStarted = true;
                 }
 
@@ -222,8 +234,8 @@ public class Game implements Runnable {
 
     public List<Pokemon> getPlayerParty() {
         List<Pokemon> playerParty = new ArrayList<>();
-        PokemonGenerator pokemonGenerator = new PokemonGenerator();
-        Pokemon pokemon1 = pokemonGenerator.createMyPokemon("Charmander");
+        PokemonGenerator pokemonGenerator = new PokemonGenerator(pokemonDatabase);
+        Pokemon pokemon1 = pokemonGenerator.createMyPokemon();
 
         playerParty.add(pokemon1);
 

@@ -1,4 +1,4 @@
-package framework;
+package framework.pokemon;
 
 import objects.pokemon.Pokemon;
 

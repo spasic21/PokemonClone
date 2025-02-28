@@ -1,28 +1,20 @@
-package objects;
+package objects.pokemon;
 
+import framework.enums.MoveCategory;
 import framework.enums.Type;
 
 public class PokemonMove {
 
-    public enum MoveCategory {
-        Physical,
-        Special,
-        Status
-    }
-
     private String name;
-    private String description;
     private Type type;
     private int damage;
     private int accuracy;
-
-    private int maxPowerPoints;
-
     private int currentPowerPoints;
-
+    private int maxPowerPoints;
     private MoveCategory moveCategory;
-
-    public PokemonMove() {}
+    private int priority;
+    private int levelLearnedAt;
+    private String description;
 
     public PokemonMove(String name, Type type, int damage, int accuracy, int currentPowerPoints, int maxPowerPoints, MoveCategory moveCategory) {
         this.name = name;
@@ -34,20 +26,25 @@ public class PokemonMove {
         this.moveCategory = moveCategory;
     }
 
+    public PokemonMove(String name, Type type, int damage, int accuracy, int currentPowerPoints, int maxPowerPoints, MoveCategory moveCategory, int priority, int levelLearnedAt, String description) {
+        this.name = name;
+        this.type = type;
+        this.damage = damage;
+        this.accuracy = accuracy;
+        this.currentPowerPoints = currentPowerPoints;
+        this.maxPowerPoints = maxPowerPoints;
+        this.moveCategory = moveCategory;
+        this.priority = priority;
+        this.levelLearnedAt = levelLearnedAt;
+        this.description = description;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Type getType() {
@@ -98,5 +95,27 @@ public class PokemonMove {
         this.moveCategory = moveCategory;
     }
 
-    public void moveEffect(Pokemon playerPokemon, Pokemon trainerPokemon) {}
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public int getLevelLearnedAt() {
+        return levelLearnedAt;
+    }
+
+    public void setLevelLearnedAt(int levelLearnedAt) {
+        this.levelLearnedAt = levelLearnedAt;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

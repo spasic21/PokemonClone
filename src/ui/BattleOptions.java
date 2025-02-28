@@ -1,5 +1,6 @@
-package battle;
+package ui;
 
+import battle.BattleManager;
 import framework.Handler;
 
 import javax.imageio.ImageIO;

@@ -3,7 +3,7 @@ package ui;
 import battle.BattleManager;
 import framework.SpriteSheet;
 import framework.TypeTable;
-import objects.Pokemon;
+import objects.pokemon.Pokemon;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

@@ -2,8 +2,8 @@ package battle.event;
 
 import framework.Animation;
 import framework.SpriteSheet;
-import objects.PokemonBackSprite;
 import objects.Sprite;
+import objects.pokemon.PokemonBackSprite;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

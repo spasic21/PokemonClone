@@ -1,6 +1,7 @@
-package objects;
+package objects.pokemon;
 
 import framework.SpriteSheet;
+import objects.Sprite;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

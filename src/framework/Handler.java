@@ -4,8 +4,8 @@ import framework.enums.GameState;
 import framework.spawn.SpawnManager;
 import keyInput.GameKeyInput;
 import objects.NPC;
-import objects.Pokemon;
 import objects.World;
+import objects.pokemon.Pokemon;
 import ui.Game;
 
 import java.util.List;

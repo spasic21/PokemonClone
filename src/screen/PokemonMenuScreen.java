@@ -1,7 +1,7 @@
 package screen;
 
 import framework.Handler;
-import objects.Pokemon;
+import objects.pokemon.Pokemon;
 
 import java.awt.*;
 import java.util.ArrayList;

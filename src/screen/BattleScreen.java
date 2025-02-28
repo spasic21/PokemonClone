@@ -1,16 +1,12 @@
 package screen;
 
 import battle.BattleManager;
-import battle.BattleOptions;
 import framework.Handler;
 import framework.SpriteSheet;
-import objects.Pokemon;
-import objects.PokemonFrontSprite;
 import objects.TrainerBackSprite;
-import ui.Hud;
-import ui.MoveSelectBox;
-import ui.PlayerHud;
-import ui.TrainerHud;
+import objects.pokemon.Pokemon;
+import objects.pokemon.PokemonFrontSprite;
+import ui.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -20,7 +16,7 @@ import java.io.InputStream;
 
 public class BattleScreen extends Screen {
 
-    private BattleManager battleManager;
+    private final BattleManager battleManager;
 
     private Pokemon playerPokemon;
     private Pokemon trainerPokemon;
@@ -28,7 +24,6 @@ public class BattleScreen extends Screen {
     private TrainerBackSprite playerSprite;
 
     private BufferedImage battleBackground;
-    private SpriteSheet battleBackgroundSpriteSheet;
 
     private int textBoxHeight;
     private int textLocationX, textLocationY;
@@ -38,20 +33,20 @@ public class BattleScreen extends Screen {
 
     private Font font;
 
-    private Hud playerHud, trainerHud;
+    private final Hud playerHud, trainerHud;
 
-    private BattleOptions battleOptions;
+    private final BattleOptions battleOptions;
 
-    private MoveSelectBox moveSelectBox;
+    private final MoveSelectBox moveSelectBox;
 
     public BattleScreen(Handler handler, BattleManager battleManager) {
         super(handler);
         this.battleManager = battleManager;
-        this.playerPokemon = battleManager.getPlayerPokemon();
-        this.trainerPokemon = battleManager.getTrainerPokemon();
+//        this.playerPokemon = battleManager.getPlayerPokemon();
+//        this.trainerPokemon = battleManager.getTrainerPokemon();
 
         try {
-            battleBackgroundSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/battle_background_daytime_two.png")));
+            SpriteSheet battleBackgroundSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/battle_background_daytime_two.png")));
             battleBackground = battleBackgroundSpriteSheet.grabImage(1, 3, 428, 321);
 
             InputStream inputStream = getClass().getResourceAsStream("/font/PokemonFont.ttf");

@@ -1,6 +1,6 @@
 package battle.event;
 
-import objects.Pokemon;
+import objects.pokemon.Pokemon;
 
 import java.awt.*;
 

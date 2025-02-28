@@ -1,7 +1,7 @@
 package battle.event;
 
-import objects.Pokemon;
 import objects.Sprite;
+import objects.pokemon.Pokemon;
 
 import java.awt.*;
 
@@ -18,7 +18,7 @@ public class BattleIntroductionEvent extends BattleEvent {
     public BattleIntroductionEvent(Sprite playerSprite, Pokemon opponentPokemon) {
         this.playerSprite = playerSprite;
         this.opponentPokemon = opponentPokemon;
-        this.opponentSprite = this.opponentPokemon.getFrontSprite();
+        this.opponentSprite = opponentPokemon.getFrontSprite();
     }
 
     @Override

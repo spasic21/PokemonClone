@@ -3,8 +3,8 @@ package screen;
 import framework.Handler;
 import framework.SpriteSheet;
 import framework.enums.Type;
-import objects.Pokemon;
-import objects.PokemonMove;
+import objects.pokemon.Pokemon;
+import objects.pokemon.PokemonMove;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

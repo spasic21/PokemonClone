@@ -3,7 +3,7 @@ package screen;
 import framework.Animation;
 import framework.Handler;
 import framework.SpriteSheet;
-import objects.Pokemon;
+import objects.pokemon.Pokemon;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -81,8 +81,7 @@ public class PokemonMenuTile {
         g.drawImage(hpSymbol, x + 120, y + 105, 43, 18, null);
         g.setColor(new Color(85, 106, 89));
         g.fillRect(x + 170, y + 105, 200, 18);
-        g.setColor(new Color(117, 254, 172));
-        g.fillRect(x + 170, y+ 105, 200, 18);
+        renderNewHealth(g, pokemon, x + 170, y + 105);
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(5));
@@ -98,5 +97,21 @@ public class PokemonMenuTile {
         }
 
         g.drawImage(pokemonAnimation.getCurrentFrame(), x + 20, y + 85, 75, 75, null);
+    }
+
+    private void renderNewHealth(Graphics g, Pokemon pokemon, int x, int y) {
+        double healthRatio = (double) pokemon.getCurrentHealth() / pokemon.getMaxHealth();
+
+        if (healthRatio <= 0.25) {
+            g.setColor(new Color(243, 90, 64));
+        } else if (healthRatio <= 0.5) {
+            g.setColor(new Color(252, 232, 57));
+        } else {
+            g.setColor(new Color(117, 254, 172));
+        }
+
+        int newHealthBarWidth = (int) Math.round(healthRatio * 200);
+
+        g.fillRect(x, y, newHealthBarWidth, 18);
     }
 }
