@@ -28,10 +28,9 @@ public class Game implements Runnable {
 
     private PokemonDatabase pokemonDatabase;
 
-    private SpawnManager spawnManager;
-
     private GameKeyInput gameKeyInput;
 
+    private LoadingScreen loadingScreen;
     private GameScreen gameScreen;
     private BattleScreen battleScreen;
     private TransitionScreen transitionScreen;
@@ -43,7 +42,7 @@ public class Game implements Runnable {
 
     private boolean battleStarted = false;
 
-    public static GameState gameState = GameState.Game;
+    public static GameState gameState = GameState.Loading;
 
     public Game(String title, int width, int height) {
         this.title = title;
@@ -52,25 +51,35 @@ public class Game implements Runnable {
     }
 
     private void init() {
+        window = new Window(title, width, height);
         this.handler = new Handler(this);
-        this.pokemonDatabase = new PokemonDatabase();
+        this.loadingScreen = new LoadingScreen(this.handler);
 
-        long start = System.currentTimeMillis();
-        this.pokemonDatabase.initDatabase();
-        long end = System.currentTimeMillis();
+        new Thread(() -> {
+            this.pokemonDatabase = new PokemonDatabase();
 
-        System.out.println("Pokemon Database Initialization took " + (end - start)/1000 + "s");
+            long start = System.currentTimeMillis();
+            this.pokemonDatabase.initDatabase();
+            long end = System.currentTimeMillis();
 
+            System.out.println("Pokemon Database Initialization took " + (end - start) / 1000 + "s");
+
+            onDatabaseLoaded();
+        }).start();
+    }
+
+    private void onDatabaseLoaded() {
         this.handler.setPokemonParty(getPlayerParty());
 
-        this.spawnManager = SpawnManager.getInstance();
+        SpawnManager spawnManager = SpawnManager.getInstance();
 
-        this.spawnManager.init();
+        spawnManager.init();
 
         this.handler.setSpawnManager(spawnManager);
 
         this.battleManager = BattleManager.getInstance();
         this.gameKeyInput = new GameKeyInput(this.handler, this.battleManager);
+
 
         this.gameScreen = new GameScreen(handler);
         this.battleScreen = new BattleScreen(this.handler, this.battleManager);
@@ -80,8 +89,9 @@ public class Game implements Runnable {
 
         loadSounds();
 
-        window = new Window(title, width, height);
+
         window.getCanvas().addKeyListener(gameKeyInput);
+        handler.setNextTransition(1, GameState.Game);
     }
 
     public synchronized void start() {
@@ -95,7 +105,7 @@ public class Game implements Runnable {
     }
 
     public synchronized void stop() {
-        if(!running) {
+        if (!running) {
             return;
         }
 
@@ -103,7 +113,7 @@ public class Game implements Runnable {
 
         try {
             thread.join();
-        } catch (InterruptedException e ) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -143,6 +153,7 @@ public class Game implements Runnable {
 
     private void update() {
         switch (gameState) {
+            case Loading -> loadingScreen.update();
             case Game, Menu, Dialogue -> {
 //                playMusicIfNeeded("/sounds/azalea_city.wav");
                 gameScreen.update();
@@ -181,13 +192,14 @@ public class Game implements Runnable {
         Graphics g = bs.getDrawGraphics();
 
         switch (gameState) {
+            case Loading -> loadingScreen.render(g);
             case Game, Menu, Dialogue -> gameScreen.render(g);
 
             case Transition -> {
                 transitionScreen.render(g, handler.getTransitionType());
 
-                if(transitionScreen.isFinished(handler.getTransitionType())) {
-                    if(handler.getNextGameState() == GameState.Battle) {
+                if (transitionScreen.isFinished(handler.getTransitionType())) {
+                    if (handler.getNextGameState() == GameState.Battle) {
                         gameState = GameState.Battle;
                         battleStarted = false;
                     } else {
@@ -219,7 +231,7 @@ public class Game implements Runnable {
     }
 
     public void playMusicIfNeeded(String path) {
-        if(!SoundManager.isPlaying(path)) {
+        if (!SoundManager.isPlaying(path)) {
             SoundManager.playMusic(path);
         }
     }
@@ -242,7 +254,9 @@ public class Game implements Runnable {
         return playerParty;
     }
 
-    public void setBattleStarted(boolean battleStarted) { this.battleStarted = battleStarted; }
+    public void setBattleStarted(boolean battleStarted) {
+        this.battleStarted = battleStarted;
+    }
 
     public GameKeyInput getGameKeyInput() {
         return gameKeyInput;
