@@ -81,7 +81,8 @@ public class PokemonMenuKeyInput extends KeyInput {
             SoundManager.playSound("ButtonSound");
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_J) {
+        if (e.getKeyCode() == KeyEvent.VK_J) {
+            handler.getGameKeyInput().setPokemonId(pokemonOptionId);
             handler.setNextTransition(1, GameState.PokemonSummary);
             SoundManager.playSound("ButtonSound");
         }
@@ -91,7 +92,7 @@ public class PokemonMenuKeyInput extends KeyInput {
             SoundManager.playSound("ButtonSound");
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             handler.setNextTransition(1, GameState.Game);
             SoundManager.playSound("ButtonSound");
         }

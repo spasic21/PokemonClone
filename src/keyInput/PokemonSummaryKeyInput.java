@@ -18,7 +18,8 @@ public class PokemonSummaryKeyInput extends KeyInput {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {}
+    public void keyPressed(KeyEvent e) {
+    }
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -38,7 +39,9 @@ public class PokemonSummaryKeyInput extends KeyInput {
                 case KeyEvent.VK_S -> moveDown(false);
                 case KeyEvent.VK_A -> moveLeft();
                 case KeyEvent.VK_D -> moveRight();
-                case KeyEvent.VK_J -> { if (pageId == 3) toggleMoveSelect(true); }
+                case KeyEvent.VK_J -> {
+                    if (pageId == 3) toggleMoveSelect(true);
+                }
                 case KeyEvent.VK_K -> changeState(GameState.PokemonMenu);
                 case KeyEvent.VK_ENTER -> changeState(GameState.Game);
                 default -> soundPlayed = false;
@@ -86,8 +89,23 @@ public class PokemonSummaryKeyInput extends KeyInput {
         SoundManager.playSound("ButtonSound");
     }
 
-    public int getPageId() { return pageId; }
-    public int getPokemonId() { return pokemonId; }
-    public int getMoveId() { return moveId; }
-    public boolean isMoveSelect() { return moveSelect; }
+    public int getPageId() {
+        return pageId;
+    }
+
+    public int getPokemonId() {
+        return pokemonId;
+    }
+
+    public void setPokemonId(int pokemonId) {
+        this.pokemonId = pokemonId;
+    }
+
+    public int getMoveId() {
+        return moveId;
+    }
+
+    public boolean isMoveSelect() {
+        return moveSelect;
+    }
 }

@@ -247,9 +247,11 @@ public class Game implements Runnable {
     public List<Pokemon> getPlayerParty() {
         List<Pokemon> playerParty = new ArrayList<>();
         PokemonGenerator pokemonGenerator = new PokemonGenerator(pokemonDatabase);
-        Pokemon pokemon1 = pokemonGenerator.createMyPokemon();
+        Pokemon pokemon1 = pokemonGenerator.createMyPokemon("Charmander");
+        Pokemon pokemon2 = pokemonGenerator.createMyPokemon("Totodile");
 
         playerParty.add(pokemon1);
+        playerParty.add(pokemon2);
 
         return playerParty;
     }

@@ -8,19 +8,19 @@ import java.awt.event.KeyEvent;
 
 public class GameKeyInput extends KeyAdapter {
 
-    private Handler handler;
+    private final Handler handler;
 
-    private PlayerKeyInput playerKeyInput;
+    private final PlayerKeyInput playerKeyInput;
 
-    private BattleKeyInput battleKeyInput;
+    private final BattleKeyInput battleKeyInput;
 
-    private MenuKeyInput menuKeyInput;
+    private final MenuKeyInput menuKeyInput;
 
-    private PokemonMenuKeyInput pokemonMenuKeyInput;
+    private final PokemonMenuKeyInput pokemonMenuKeyInput;
 
-    private PokemonSummaryKeyInput pokemonSummaryKeyInput;
+    private final PokemonSummaryKeyInput pokemonSummaryKeyInput;
 
-    private DialogueKeyInput dialogueKeyInput;
+    private final DialogueKeyInput dialogueKeyInput;
 
     public GameKeyInput(Handler handler, BattleManager battleManager) {
         this.handler = handler;
@@ -40,7 +40,7 @@ public class GameKeyInput extends KeyAdapter {
     }
 
     public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             System.exit(0);
         }
 
@@ -91,6 +91,10 @@ public class GameKeyInput extends KeyAdapter {
 
     public int getPokemonId() {
         return pokemonSummaryKeyInput.getPokemonId();
+    }
+
+    public void setPokemonId(int pokemonId) {
+        pokemonSummaryKeyInput.setPokemonId(pokemonId);
     }
 
     public boolean isMoveSelect() {

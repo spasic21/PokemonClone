@@ -39,9 +39,9 @@ public class BattleManager {
 
     private BattleScreenState battleScreenState;
 
-    private int battleOptionId = 1;
+    private int battleOptionId;
 
-    private static int moveSelectId = 1;
+    private int moveSelectId;
 
     private int trainerPartyIndex = 0;
 
@@ -73,10 +73,13 @@ public class BattleManager {
     public void init(PokemonDatabase pokemonDatabase, List<Pokemon> playerParty) {
         PokemonGenerator pokemonGenerator = new PokemonGenerator(pokemonDatabase);
         this.playerParty = playerParty;
-        this.trainerParty = Collections.singletonList(pokemonGenerator.generatePokemon(false));
+        this.trainerParty = Collections.singletonList(pokemonGenerator.generatePokemon(null));
 
         this.playerPokemon = playerParty.get(0);
         this.trainerPokemon = this.trainerParty.get(0);
+
+        this.battleOptionId = 1;
+        this.moveSelectId = 1;
 
         this.playerSprite = new TrainerBackSprite(1, 1, 58, 58);
 
@@ -92,7 +95,7 @@ public class BattleManager {
         battleEventQueue = new LinkedList<>();
 
         battleEventQueue.add(new BattleIntroductionEvent(playerSprite, trainerPokemon));
-        battleEventQueue.add(new TrainerSummonPokemonEvent(playerSprite, playerPokemon.getBackSprite()));
+        battleEventQueue.add(new TrainerSummonPokemonEvent(playerSprite, playerPokemon));
 
         currentEvent = battleEventQueue.poll();
 
@@ -268,7 +271,7 @@ public class BattleManager {
     }
 
     public void setMoveSelectId(int moveSelectId) {
-        BattleManager.moveSelectId = moveSelectId;
+        this.moveSelectId = moveSelectId;
     }
 
     public Queue<BattleEvent> getBattleEventQueue() {

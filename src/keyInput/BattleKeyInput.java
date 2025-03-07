@@ -11,21 +11,22 @@ import java.awt.event.KeyEvent;
 
 public class BattleKeyInput extends KeyInput {
 
-    private int battleOptionId = 1;
-    private int moveOptionId = 1;
+    private int battleOptionId;
+    private int moveOptionId;
 
-    private Handler handler;
-    private BattleManager battleManager;
+    private final Handler handler;
+    private final BattleManager battleManager;
 
     public BattleKeyInput(Handler handler, BattleManager battleManager) {
         this.handler = handler;
         this.battleManager = battleManager;
     }
 
-    public void keyPressed(KeyEvent e) {}
+    public void keyPressed(KeyEvent e) {
+    }
 
     public void keyReleased(KeyEvent e) {
-        if(battleManager.getBattleScreenState() == BattleManager.BattleScreenState.Introduction) {
+        if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.Introduction) {
             introductionControls(e.getKeyCode());
         } else if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.BattleOptionSelect) {
             battleControls(e.getKeyCode());
@@ -41,8 +42,8 @@ public class BattleKeyInput extends KeyInput {
     }
 
     private void introductionControls(int keyCode) {
-        if(keyCode == KeyEvent.VK_J) {
-            if(battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() != null) {
+        if (keyCode == KeyEvent.VK_J) {
+            if (battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() != null) {
                 battleManager.setCurrentEvent(battleManager.getBattleEventQueue().poll());
                 SoundManager.playSound("ButtonSound");
             } else if (battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() == null) {
@@ -53,6 +54,8 @@ public class BattleKeyInput extends KeyInput {
     }
 
     private void battleControls(int keyCode) {
+        this.battleOptionId = battleManager.getBattleOptionId();
+
         if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_D) {
             if (battleOptionId == 1 || battleOptionId == 3) {
                 ++battleOptionId;
@@ -87,6 +90,7 @@ public class BattleKeyInput extends KeyInput {
     private void moveSelectControls(int keyCode) {
         Pokemon playerPokemon = battleManager.getPlayerPokemon();
         int numMove = playerPokemon.getPokemonMovesList().size();
+        this.moveOptionId = battleManager.getMoveSelectId();
 
         if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_D) {
             if (moveOptionId == 1 || moveOptionId == 3) {
@@ -128,7 +132,8 @@ public class BattleKeyInput extends KeyInput {
     private void progressControls(int keyCode) {
         if (keyCode == KeyEvent.VK_J) {
             if (battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() != null) {
-                if(battleManager.getBattleEventQueue().peek() instanceof PokemonFaintEvent) SoundManager.playSound("FaintedSound");
+                if (battleManager.getBattleEventQueue().peek() instanceof PokemonFaintEvent)
+                    SoundManager.playSound("FaintedSound");
 
 //                if(battleManager.getBattleEventQueue().peek() instanceof TextEvent textEvent && textEvent.getText().contains("wins")) handler.getGame().playMusicIfNeeded("/sounds/victory_wild_pokemon.wav");
 

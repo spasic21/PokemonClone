@@ -12,23 +12,24 @@ public class PokemonGenerator {
 
     private final PokemonDatabase pokemonDatabase;
 
-    private final String[] pokemonEncounters = {"Bulbasaur", "Ivysaur", "Pidgey", "Rattata", "Caterpie", "Weedle", "Zubat"};
+    private final String[] pokemonEncounters = {"Bulbasaur", "Pidgey", "Caterpie", "Weedle", "Zubat", "Chikorita", "Hoothoot", "Ledyba", "Mareep"};
 
     public PokemonGenerator(PokemonDatabase pokemonDatabase) {
         this.pokemonDatabase = pokemonDatabase;
     }
 
-    public Pokemon generatePokemon(boolean isPlayerPokemon) {
+    public Pokemon generatePokemon(String name) {
         Pokemon pokemon = new Pokemon();
+        boolean hasName = name != null;
 
-        if (isPlayerPokemon) {
-            pokemon.setName("Charmander");
+        if (hasName) {
+            pokemon.setName(name);
         } else {
             Random rand = new Random();
             pokemon.setName(pokemonEncounters[rand.nextInt(pokemonEncounters.length)]);
         }
 
-        generateIndividualValues(pokemon, isPlayerPokemon);
+        generateIndividualValues(pokemon, hasName);
 
         Pokemon databasePokemon = pokemonDatabase.getPokemon(pokemon.getName());
 
@@ -127,8 +128,8 @@ public class PokemonGenerator {
         return moves.subList(Math.max(0, size - 4), size);
     }
 
-    public Pokemon createMyPokemon() {
-        Pokemon pokemon = generatePokemon(true);
+    public Pokemon createMyPokemon(String name) {
+        Pokemon pokemon = generatePokemon(name);
         ExperienceCalculator experienceCalculator = new ExperienceCalculator();
 
         pokemon.setCurrentExp(0);

@@ -11,13 +11,20 @@ public class PokemonBackSprite extends Sprite {
 
     private BufferedImage sprite;
 
-    public PokemonBackSprite(int column, int row, int width, int height) {
+    public PokemonBackSprite(int id, int column, int row, int width, int height) {
         super(column, row, width, height);
         this.endX = 167;
         this.endY = 313;
 
         try {
-            SpriteSheet spriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/sprites/kanto_pokemon_back_sprites.png")));
+            SpriteSheet spriteSheet;
+
+            if(id < 151) {
+                spriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/sprites/kanto_pokemon_back_sprites.png")));
+            } else {
+                spriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/sprites/johto_pokemon_back_sprites.png")));
+            }
+
             sprite = spriteSheet.grabImage(column, row, width, height);
         } catch (IOException e) {
             e.printStackTrace();

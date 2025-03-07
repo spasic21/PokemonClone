@@ -3,6 +3,7 @@ package battle.event;
 import framework.Animation;
 import framework.SpriteSheet;
 import objects.Sprite;
+import objects.pokemon.Pokemon;
 import objects.pokemon.PokemonBackSprite;
 
 import javax.imageio.ImageIO;
@@ -12,19 +13,21 @@ import java.io.IOException;
 
 public class TrainerSummonPokemonEvent extends BattleEvent {
 
-    private Sprite trainerSprite, pokemonSprite;
+    private final Pokemon pokemon;
+
+    private final Sprite trainerSprite, pokemonSprite;
 
     private SpriteSheet pokeballSpriteSheet;
 
-    private BufferedImage[] pokeballSprite = new BufferedImage[3];
+    private final BufferedImage[] pokeballSprite = new BufferedImage[3];
 
     private Animation pokeballAnimation;
 
     private int count = 0;
 
-    private boolean partOne = false, partTwo = false, partThree = false;
+    private float x, y, angle;
 
-    private float x, y, centerX, centerY, radius, angle, speed;
+    private final float centerX, centerY, radius, speed;
 
     private enum SummonState {
         TrainerMoving, PokeballThrow, PokeballAnimation, PokemonSummon
@@ -32,9 +35,10 @@ public class TrainerSummonPokemonEvent extends BattleEvent {
 
     private SummonState summonState = SummonState.TrainerMoving;
 
-    public TrainerSummonPokemonEvent(Sprite trainerSprite, Sprite pokemonSprite) {
+    public TrainerSummonPokemonEvent(Sprite trainerSprite, Pokemon pokemon) {
         this.trainerSprite = trainerSprite;
-        this.pokemonSprite = pokemonSprite;
+        this.pokemon = pokemon;
+        this.pokemonSprite = pokemon.getBackSprite();
 
         loadAnimations();
 
@@ -82,7 +86,7 @@ public class TrainerSummonPokemonEvent extends BattleEvent {
     @Override
     public void render(Graphics g, int x, int y) {
         g.setColor(new Color(201, 211, 211));
-        g.drawString("Go! Charmander!", x, y);
+        g.drawString("Go! " + pokemon.getName() + "!", x, y);
 
         if(summonState == SummonState.PokeballThrow || summonState == SummonState.PokeballAnimation) {
             g.drawImage(

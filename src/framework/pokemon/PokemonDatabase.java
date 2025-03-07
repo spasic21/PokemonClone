@@ -24,15 +24,18 @@ public class PokemonDatabase {
     }
 
     public void initDatabase() {
-        try (FileReader baseStatReader = new FileReader("resources/1st_Gen_BaseStat.json")) {
+        try (FileReader baseStatReader = new FileReader("resources/pokemon_base_stats.json")) {
 
             JSONParser parser = new JSONParser();
             JSONObject pokemonStatObject = (JSONObject) parser.parse(baseStatReader);
             JSONArray statArray = (JSONArray) pokemonStatObject.get("pokemon");
 
-            for (int i = 0; i < 150; i++) {
+            for (int i = 0; i < statArray.size(); i++) {
                 Pokemon pokemon = new Pokemon();
                 JSONObject pokemonObject = (JSONObject) statArray.get(i);
+
+                if (pokemonObject.get("form") != null) continue;
+                if (Integer.parseInt(String.valueOf(pokemonObject.get("dexNumber"))) == 151) continue;
 
                 pokemon.setName(String.valueOf(pokemonObject.get("name")));
                 pokemon.setDexNumber(Integer.parseInt(String.valueOf(pokemonObject.get("dexNumber"))));
@@ -43,8 +46,8 @@ public class PokemonDatabase {
                 int col = Integer.parseInt(pokemonObject.get("col").toString());
                 int row = Integer.parseInt(pokemonObject.get("row").toString());
 
-                pokemon.setFrontSprite(new PokemonFrontSprite(col, row, 58, 58));
-                pokemon.setBackSprite(new PokemonBackSprite(col, row, 58, 58));
+                pokemon.setFrontSprite(new PokemonFrontSprite(pokemon.getDexNumber(), col, row, 58, 58));
+                pokemon.setBackSprite(new PokemonBackSprite(pokemon.getDexNumber(), col, row, 58, 58));
 
                 JSONArray typeList = (JSONArray) pokemonObject.get("type");
 
@@ -151,11 +154,11 @@ public class PokemonDatabase {
                 int power = 0;
                 int accuracy = 0;
 
-                if(move.get("power") != null) {
+                if (move.get("power") != null) {
                     power = Integer.parseInt(move.get("power").toString());
                 }
 
-                if(move.get("accuracy") != null) {
+                if (move.get("accuracy") != null) {
                     accuracy = Integer.parseInt(move.get("accuracy").toString());
                 }
 
