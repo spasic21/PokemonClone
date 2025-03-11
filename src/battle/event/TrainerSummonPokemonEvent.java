@@ -6,10 +6,8 @@ import objects.Sprite;
 import objects.pokemon.Pokemon;
 import objects.pokemon.PokemonBackSprite;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class TrainerSummonPokemonEvent extends BattleEvent {
 
@@ -103,11 +101,7 @@ public class TrainerSummonPokemonEvent extends BattleEvent {
     }
 
     private void loadAnimations() {
-        try {
-            pokeballSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/pokeballs.png")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        pokeballSpriteSheet = new SpriteSheet("/pokeballs.png");
 
         for(int i = 0; i < pokeballSprite.length; i++) {
             pokeballSprite[i] = pokeballSpriteSheet.grabImage(1, i + 1, 18, 18);

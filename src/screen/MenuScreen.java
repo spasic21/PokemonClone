@@ -29,14 +29,13 @@ public class MenuScreen extends Screen {
         menuX = handler.getWidth() - menuWidth - 50;
         menuY = 50;
 
-        optionPointerWidth = 5 * 4;
-        optionPointerHeight = 9 * 4;
-
         try {
             InputStream inputStream = getClass().getResourceAsStream("/font/PokemonFont.ttf");
             font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
 
             optionPointer = ImageIO.read(getClass().getResource("/hud/option_pointer.png"));
+            optionPointerWidth = optionPointer.getWidth() * 4;
+            optionPointerHeight = optionPointer.getHeight() * 4;
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
         }

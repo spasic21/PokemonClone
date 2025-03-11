@@ -8,9 +8,9 @@ import java.awt.event.KeyEvent;
 
 public class DialogueKeyInput extends KeyInput {
 
-    private Handler handler;
-
-    public DialogueKeyInput(Handler handler) { this.handler = handler; }
+    public DialogueKeyInput(Handler handler) {
+        super(handler);
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -19,7 +19,7 @@ public class DialogueKeyInput extends KeyInput {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_J) {
+        if (e.getKeyCode() == KeyEvent.VK_J) {
             SoundManager.playSound("ButtonSound");
             handler.getGame().setGameState(GameState.Game);
         }

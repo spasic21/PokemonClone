@@ -30,10 +30,9 @@ public class PokemonSummaryScreen extends Screen {
 
         try {
             InputStream inputStream = getClass().getResourceAsStream("/font/PokemonFont.ttf");
-            font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            font = Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(48f);
             expSymbol = ImageIO.read(getClass().getResource("/hud/exp_symbol.png"));
-            typeSymbolSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/hud/pokemon_type_icons.png")));
-            font = font.deriveFont(48f);
+            typeSymbolSpriteSheet = new SpriteSheet("/hud/pokemon_type_icons.png");
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
         }
@@ -72,7 +71,8 @@ public class PokemonSummaryScreen extends Screen {
     }
 
     private void renderPokemonInfoSection(Graphics g) {
-        g.setColor(new Color(253, 161, 114));
+//        g.setColor(new Color(253, 161, 114));
+        g.setColor(new Color(248, 144, 72));
         g.fillRoundRect(150, 75, 900, 600, 20, 20);
         g.setColor(Color.GRAY);
         g.drawRoundRect(150, 75, 900, 600, 20, 20);
@@ -111,7 +111,8 @@ public class PokemonSummaryScreen extends Screen {
     }
 
     private void renderPokemonStatsSection(Graphics g) {
-        g.setColor(new Color(253, 253, 150));
+//        g.setColor(new Color(253, 253, 150));
+        g.setColor(new Color(248, 248, 24));
         g.fillRoundRect(150, 75, 900, 600, 20, 20);
         g.setColor(Color.GRAY);
         g.drawRoundRect(150, 75, 900, 600, 20, 20);
@@ -156,7 +157,8 @@ public class PokemonSummaryScreen extends Screen {
     }
 
     private void renderPokemonMovesSection(Graphics g) {
-        g.setColor(new Color(207, 253, 188));
+//        g.setColor(new Color(207, 253, 188));
+        g.setColor(new Color(96, 248, 152));
         g.fillRoundRect(150, 75, 900, 600, 20, 20);
         g.setColor(Color.GRAY);
         g.drawRoundRect(150, 75, 900, 600, 20, 20);
@@ -211,7 +213,8 @@ public class PokemonSummaryScreen extends Screen {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setStroke(new BasicStroke(5));
 
-        g.setColor(new Color(224, 176, 255));
+//        g.setColor(new Color(224, 176, 255));
+        g.setColor(new Color(240, 104, 240));
         g.fillRoundRect(150, 75, 450, 300, 20, 20);
         g.setColor(Color.GRAY);
         g.drawRoundRect(150, 75, 450, 300, 20, 20);
@@ -266,43 +269,5 @@ public class PokemonSummaryScreen extends Screen {
             case Status -> spriteSheet.grabImage(3, 7, 32, 16);
             default -> spriteSheet.grabImage(1, 7, 32, 16);
         };
-    }
-
-    private void renderMoveDescription(Graphics g, String moveDescription) {
-        g.setColor(Color.WHITE);
-        g.fillRoundRect(160, 570, 880, 95, 20, 20);
-
-        g.setColor(Color.BLACK);
-        g.setFont(g.getFont().deriveFont(32f));
-        FontMetrics fontMetrics = g.getFontMetrics();
-
-        int x = 180;
-        int y = 610;
-        int maxWidth = 860;
-        int lineHeight = fontMetrics.getHeight();
-
-        String[] words = moveDescription.split(" ");
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for(String word : words) {
-            if(fontMetrics.stringWidth(stringBuilder + " " + word) < maxWidth) {
-                if(!stringBuilder.isEmpty()) stringBuilder.append(" ");
-
-                stringBuilder.append(word);
-            } else {
-                g.drawString(stringBuilder.toString(), x, y);
-
-                y += lineHeight;
-                stringBuilder = new StringBuilder(word);
-            }
-
-            if(y + lineHeight - 570 > 95) {
-                break;
-            }
-        }
-
-        if(stringBuilder.isEmpty()) {
-            g.drawString(moveDescription, x, y);
-        }
     }
 }

@@ -3,9 +3,7 @@ package objects.pokemon;
 import framework.SpriteSheet;
 import objects.Sprite;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class PokemonBackSprite extends Sprite {
 
@@ -16,19 +14,15 @@ public class PokemonBackSprite extends Sprite {
         this.endX = 167;
         this.endY = 313;
 
-        try {
-            SpriteSheet spriteSheet;
+        SpriteSheet spriteSheet;
 
-            if(id < 151) {
-                spriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/sprites/kanto_pokemon_back_sprites.png")));
-            } else {
-                spriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/sprites/johto_pokemon_back_sprites.png")));
-            }
-
-            sprite = spriteSheet.grabImage(column, row, width, height);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(id < 151) {
+            spriteSheet = new SpriteSheet("/sprites/kanto_pokemon_back_sprites.png");
+        } else {
+            spriteSheet = new SpriteSheet("/sprites/johto_pokemon_back_sprites.png");
         }
+
+        sprite = spriteSheet.grabImage(column, row, width, height);
     }
 
     public BufferedImage getSprite() {

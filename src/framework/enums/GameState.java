@@ -8,5 +8,6 @@ public enum GameState {
     Battle,
     PokemonMenu,
     PokemonSummary,
+    Bag,
     Dialogue
 }

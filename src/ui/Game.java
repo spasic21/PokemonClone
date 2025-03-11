@@ -2,12 +2,14 @@ package ui;
 
 import battle.BattleManager;
 import framework.Handler;
+import framework.ItemDatabase;
 import framework.SoundManager;
 import framework.enums.GameState;
 import framework.pokemon.PokemonDatabase;
 import framework.pokemon.PokemonGenerator;
 import framework.spawn.SpawnManager;
 import keyInput.GameKeyInput;
+import objects.Bag;
 import objects.pokemon.Pokemon;
 import screen.*;
 
@@ -28,6 +30,8 @@ public class Game implements Runnable {
 
     private PokemonDatabase pokemonDatabase;
 
+    private ItemDatabase itemDatabase;
+
     private GameKeyInput gameKeyInput;
 
     private LoadingScreen loadingScreen;
@@ -36,7 +40,9 @@ public class Game implements Runnable {
     private TransitionScreen transitionScreen;
     private PokemonMenuScreen pokemonMenuScreen;
     private PokemonSummaryScreen pokemonSummaryScreen;
+    private BagScreen bagScreen;
     private BattleManager battleManager;
+    private Bag bag;
     private boolean running = false;
     private Thread thread;
 
@@ -57,12 +63,14 @@ public class Game implements Runnable {
 
         new Thread(() -> {
             this.pokemonDatabase = new PokemonDatabase();
+            this.itemDatabase = new ItemDatabase();
 
             long start = System.currentTimeMillis();
             this.pokemonDatabase.initDatabase();
+            this.itemDatabase.initDatabase();
             long end = System.currentTimeMillis();
 
-            System.out.println("Pokemon Database Initialization took " + (end - start) / 1000 + "s");
+            System.out.println("Database Initialization took " + (end - start) / 1000 + "s");
 
             onDatabaseLoaded();
         }).start();
@@ -76,6 +84,7 @@ public class Game implements Runnable {
         spawnManager.init();
 
         this.handler.setSpawnManager(spawnManager);
+        this.handler.setBag(new Bag(itemDatabase));
 
         this.battleManager = BattleManager.getInstance();
         this.gameKeyInput = new GameKeyInput(this.handler, this.battleManager);
@@ -86,9 +95,9 @@ public class Game implements Runnable {
         this.transitionScreen = new TransitionScreen(this.handler);
         this.pokemonMenuScreen = new PokemonMenuScreen(handler);
         this.pokemonSummaryScreen = new PokemonSummaryScreen(handler);
+        this.bagScreen = new BagScreen(handler);
 
         loadSounds();
-
 
         window.getCanvas().addKeyListener(gameKeyInput);
         handler.setNextTransition(1, GameState.Game);
@@ -177,7 +186,7 @@ public class Game implements Runnable {
 
             case PokemonMenu -> pokemonMenuScreen.update();
             case PokemonSummary -> pokemonSummaryScreen.update();
-
+            case Bag -> bagScreen.update();
         }
     }
 
@@ -216,6 +225,7 @@ public class Game implements Runnable {
 
             case PokemonMenu -> pokemonMenuScreen.render(g);
             case PokemonSummary -> pokemonSummaryScreen.render(g);
+            case Bag -> bagScreen.render(g);
         }
 
         bs.show();

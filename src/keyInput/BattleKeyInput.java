@@ -14,11 +14,10 @@ public class BattleKeyInput extends KeyInput {
     private int battleOptionId;
     private int moveOptionId;
 
-    private final Handler handler;
     private final BattleManager battleManager;
 
     public BattleKeyInput(Handler handler, BattleManager battleManager) {
-        this.handler = handler;
+        super(handler);
         this.battleManager = battleManager;
     }
 

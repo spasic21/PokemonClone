@@ -7,15 +7,12 @@ import framework.enums.GameState;
 import java.awt.event.KeyEvent;
 
 public class PokemonMenuKeyInput extends KeyInput {
-    private Handler handler;
-
     private int pokemonOptionId = 0;
 
     private boolean[] restrictedTiles = {true, true, true, true, true, true};
 
     public PokemonMenuKeyInput(Handler handler) {
-        this.handler = handler;
-
+        super(handler);
         checkValidTiles();
     }
 

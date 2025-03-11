@@ -1,0 +1,108 @@
+{
+  "items": [
+    {
+      "name": "Potion",
+      "description": "Recovers 20 HP",
+      "col": 1,
+      "row": 1
+    },
+    {
+      "name": "Super Potion",
+      "description": "Recovers 50 HP",
+      "col": 2,
+      "row": 1
+    },
+    {
+      "name": "Hyper Potion",
+      "description": "Recovers 200 HP",
+      "col": 3,
+      "row": 1
+    },
+    {
+      "name": "Max Potion",
+      "description": "Recovers ALL HP",
+      "col": 4,
+      "row": 1
+    },
+    {
+      "name": "Full Restore",
+      "description": "Fully Recovers HP and Status Ailments",
+      "col": 5,
+      "row": 1
+    },
+    {
+      "name": "Antidote",
+      "description": "Recovers from Poison",
+      "col": 1,
+      "row": 5
+    },
+    {
+      "name": "Ice Heal",
+      "description": "Recovers from being Frozen",
+      "col": 2,
+      "row": 5
+    },
+    {
+      "name": "Burn Heal",
+      "description": "Recovers from Burn",
+      "col": 3,
+      "row": 5
+    },
+    {
+      "name": "Awakening",
+      "description": "Recovers from Sleep",
+      "col": 4,
+      "row": 5
+    },
+    {
+      "name": "Paralyz Heal",
+      "description": "Recovers from Paralysis",
+      "col": 5,
+      "row": 5
+    },
+    {
+      "name": "Full Heal",
+      "description": "Recovers from any Status Ailment",
+      "col": 6,
+      "row": 5
+    },
+    {
+      "name": "Revive",
+      "description": "Restores a Fainted Pokémon to 1/2 of it's Max HP",
+      "col": 7,
+      "row": 5
+    },
+    {
+      "name": "Max Revive",
+      "description": "Restores a Fainted Pokémon to it's Max HP",
+      "col": 8,
+      "row": 5
+    }
+  ],
+  "pokeballs": [
+    {
+      "name": "Poke Ball",
+      "description": "Normal Chance of Catching a Pokemon",
+      "col": 1,
+      "row": 18
+    },
+    {
+      "name": "Great Ball",
+      "description": "1.5x Chance of Catching a Pokemon than using a standard Pokeball",
+      "col": 2,
+      "row": 18
+    },
+    {
+      "name": "Ultra Ball",
+      "description": "2x Chance of Catching a Pokemon than using a standard Pokeball",
+      "col": 3,
+      "row": 18
+    },
+    {
+      "name": "Master Ball",
+      "description": "Always captures the Pokémon.",
+      "col": 4,
+      "row": 18
+    }
+  ]
+}

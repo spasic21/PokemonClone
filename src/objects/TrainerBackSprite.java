@@ -2,13 +2,11 @@ package objects;
 
 import framework.SpriteSheet;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class TrainerBackSprite extends Sprite {
 
-    private BufferedImage sprite;
+    private final BufferedImage sprite;
 
     public TrainerBackSprite(int column, int row, int width, int height) {
         super(column, row, width, height);
@@ -17,12 +15,7 @@ public class TrainerBackSprite extends Sprite {
         this.endX = 167;
         this.endY = 313;
 
-        try {
-            SpriteSheet spriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/sprites/player_back_sprite_sheet.png")));
-            sprite = spriteSheet.grabImage(column, row, width, height);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.sprite = new SpriteSheet("/sprites/player_back_sprite_sheet.png").grabImage(column, row, width, height);
     }
 
     public BufferedImage getSprite() {

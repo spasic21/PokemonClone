@@ -9,7 +9,6 @@ import framework.enums.GameState;
 import framework.enums.ObjectId;
 import framework.spawn.SpawnPoint;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -31,7 +30,7 @@ public class Player extends Entity {
         this.speed = 4;
 
         try {
-            spriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/player_sprite_sheet.png")));
+            spriteSheet = new SpriteSheet("/player_sprite_sheet.png");
         } catch (Exception e) {
             e.printStackTrace();
         }

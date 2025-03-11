@@ -8,12 +8,10 @@ import java.awt.event.KeyEvent;
 
 public class MenuKeyInput extends KeyInput {
 
-    private Handler handler;
-
     private int menuOptionId = 0;
 
     public MenuKeyInput(Handler handler) {
-        this.handler = handler;
+        super(handler);
     }
 
     @Override
@@ -45,27 +43,13 @@ public class MenuKeyInput extends KeyInput {
 
         if(e.getKeyCode() == KeyEvent.VK_J) {
             switch(menuOptionId) {
-                case 0:
-                    System.out.println("Pokedex");
-                    break;
-                case 1:
-                    handler.setNextTransition(1, GameState.PokemonMenu);
-                    break;
-                case 2:
-                    System.out.println("Bag");
-                    break;
-                case 3:
-                    System.out.println("ID Card");
-                    break;
-                case 4:
-                    System.out.println("Save");
-                    break;
-                case 5:
-                    System.out.println("Options");
-                    break;
-                default:
-                    handler.getGame().setGameState(GameState.Game);
-                    break;
+                case 0 -> System.out.println("Pokedex");
+                case 1 -> handler.setNextTransition(1, GameState.PokemonMenu);
+                case 2 -> handler.setNextTransition(1, GameState.Bag);
+                case 3 -> System.out.println("ID Card");
+                case 4 -> System.out.println("Save");
+                case 5 -> System.out.println("Options");
+                default -> handler.getGame().setGameState(GameState.Game);
             }
 
             menuOptionId = 0;

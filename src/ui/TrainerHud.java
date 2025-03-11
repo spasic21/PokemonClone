@@ -39,7 +39,7 @@ public class TrainerHud extends Hud {
 
         try {
             hpSymbol = ImageIO.read(getClass().getResource("/hud/hp_symbol.png"));
-            typeSymbolSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/hud/type_symbols.png")));
+            typeSymbolSpriteSheet = new SpriteSheet("/hud/type_symbols.png");
         } catch (IOException e) {
             e.printStackTrace();
         }

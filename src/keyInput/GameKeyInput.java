@@ -2,6 +2,7 @@ package keyInput;
 
 import battle.BattleManager;
 import framework.Handler;
+import framework.enums.GameState;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -20,6 +21,8 @@ public class GameKeyInput extends KeyAdapter {
 
     private final PokemonSummaryKeyInput pokemonSummaryKeyInput;
 
+    private final BagKeyInput bagKeyInput;
+
     private final DialogueKeyInput dialogueKeyInput;
 
     public GameKeyInput(Handler handler, BattleManager battleManager) {
@@ -29,13 +32,13 @@ public class GameKeyInput extends KeyAdapter {
         this.menuKeyInput = new MenuKeyInput(handler);
         this.pokemonMenuKeyInput = new PokemonMenuKeyInput(handler);
         this.pokemonSummaryKeyInput = new PokemonSummaryKeyInput(handler);
+        this.bagKeyInput = new BagKeyInput(handler);
         this.dialogueKeyInput = new DialogueKeyInput(handler);
     }
 
     public void keyPressed(KeyEvent e) {
-        switch (handler.getGame().getGameState()) {
-            case Game -> playerKeyInput.keyPressed(e);
-            case Battle -> battleKeyInput.keyPressed(e);
+        if (handler.getGame().getGameState() == GameState.Game) {
+            playerKeyInput.keyPressed(e);
         }
     }
 
@@ -50,6 +53,7 @@ public class GameKeyInput extends KeyAdapter {
             case Menu -> menuKeyInput.keyReleased(e);
             case PokemonMenu -> pokemonMenuKeyInput.keyReleased(e);
             case PokemonSummary -> pokemonSummaryKeyInput.keyReleased(e);
+            case Bag -> bagKeyInput.keyReleased(e);
             case Dialogue -> dialogueKeyInput.keyReleased(e);
         }
     }
@@ -103,5 +107,17 @@ public class GameKeyInput extends KeyAdapter {
 
     public int getMoveId() {
         return pokemonSummaryKeyInput.getMoveId();
+    }
+
+    public int getPocketId() {
+        return bagKeyInput.getPocketId();
+    }
+
+    public int getItemId() {
+        return bagKeyInput.getItemId();
+    }
+
+    public int getStartIndex() {
+        return bagKeyInput.getStartIndex();
     }
 }

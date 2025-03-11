@@ -3,6 +3,7 @@ package framework;
 import framework.enums.GameState;
 import framework.spawn.SpawnManager;
 import keyInput.GameKeyInput;
+import objects.Bag;
 import objects.NPC;
 import objects.World;
 import objects.pokemon.Pokemon;
@@ -28,6 +29,8 @@ public class Handler {
     private int transitionType;
 
     private GameState nextGameState;
+
+    private Bag bag;
 
     public Handler(Game game) {
         this.game = game;
@@ -101,5 +104,13 @@ public class Handler {
         this.transitionType = transitionType;
         this.nextGameState = nextGameState;
         this.game.setGameState(GameState.Transition);
+    }
+
+    public Bag getBag() {
+        return bag;
+    }
+
+    public void setBag(Bag bag) {
+        this.bag = bag;
     }
 }

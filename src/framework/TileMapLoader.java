@@ -7,8 +7,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -44,10 +42,8 @@ public class TileMapLoader {
         JSONArray layers, layerData;
         JSONObject index;
 
-        BufferedImage tilesetImage = ImageIO.read(getClass().getResource("/pokemon_crystal_tileset.png"));
-        BufferedImage collisionTileset = ImageIO.read(getClass().getResource("/CollisionLayer.png"));
-        spriteSheet = new SpriteSheet(tilesetImage);
-        collisionSheet = new SpriteSheet(collisionTileset);
+        spriteSheet = new SpriteSheet("/pokemon_crystal_tileset.png");
+        collisionSheet = new SpriteSheet("/CollisionLayer.png");
 
         Object obj = new JSONParser().parse(new FileReader(path));
         JSONObject jo = (JSONObject) obj;

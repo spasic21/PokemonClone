@@ -7,14 +7,13 @@ import framework.enums.GameState;
 import java.awt.event.KeyEvent;
 
 public class PokemonSummaryKeyInput extends KeyInput {
-    private final Handler handler;
     private int pageId = 1;
     private int pokemonId = 0;
     private int moveId = 0;
     private boolean moveSelect = false;
 
     public PokemonSummaryKeyInput(Handler handler) {
-        this.handler = handler;
+        super(handler);
     }
 
     @Override

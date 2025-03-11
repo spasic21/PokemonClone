@@ -9,10 +9,8 @@ import java.awt.event.KeyEvent;
 
 public class PlayerKeyInput extends KeyInput {
 
-    private Handler handler;
-
     public PlayerKeyInput(Handler handler) {
-        this.handler = handler;
+        super(handler);
     }
 
     @Override

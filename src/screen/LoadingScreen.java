@@ -4,10 +4,8 @@ import framework.Animation;
 import framework.Handler;
 import framework.SpriteSheet;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,19 +26,15 @@ public class LoadingScreen extends Screen {
     public LoadingScreen(Handler handler) {
         super(handler);
 
-        try {
-            SpriteSheet unknownSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/sprites/unknown_loading_screen_sprite_sheet.png")));
+        SpriteSheet unknownSpriteSheet = new SpriteSheet("/sprites/unknown_loading_screen_sprite_sheet.png");
 
-            loadSprites(unknownL, unknownSpriteSheet, 1);
-            loadSprites(unknownO, unknownSpriteSheet, 2);
-            loadSprites(unknownA, unknownSpriteSheet, 3);
-            loadSprites(unknownD, unknownSpriteSheet, 4);
-            loadSprites(unknownI, unknownSpriteSheet, 5);
-            loadSprites(unknownN, unknownSpriteSheet, 6);
-            loadSprites(unknownG, unknownSpriteSheet, 7);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadSprites(unknownL, unknownSpriteSheet, 1);
+        loadSprites(unknownO, unknownSpriteSheet, 2);
+        loadSprites(unknownA, unknownSpriteSheet, 3);
+        loadSprites(unknownD, unknownSpriteSheet, 4);
+        loadSprites(unknownI, unknownSpriteSheet, 5);
+        loadSprites(unknownN, unknownSpriteSheet, 6);
+        loadSprites(unknownG, unknownSpriteSheet, 7);
 
         loadAnimations();
     }

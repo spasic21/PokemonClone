@@ -8,7 +8,6 @@ import objects.pokemon.Pokemon;
 import objects.pokemon.PokemonFrontSprite;
 import ui.*;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -46,7 +45,7 @@ public class BattleScreen extends Screen {
 //        this.trainerPokemon = battleManager.getTrainerPokemon();
 
         try {
-            SpriteSheet battleBackgroundSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/battle_background_daytime_two.png")));
+            SpriteSheet battleBackgroundSpriteSheet = new SpriteSheet("/battle_background_daytime_two.png");
             battleBackground = battleBackgroundSpriteSheet.grabImage(1, 3, 428, 321);
 
             InputStream inputStream = getClass().getResourceAsStream("/font/PokemonFont.ttf");

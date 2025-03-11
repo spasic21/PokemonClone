@@ -7,10 +7,8 @@ import framework.enums.EntityDirection;
 import framework.enums.EntityState;
 import framework.enums.ObjectId;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,11 +33,7 @@ public class NPC extends Entity {
     }
 
     private void init() {
-        try {
-            spriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/npc_sprite_sheet.png")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        spriteSheet = new SpriteSheet("/npc_sprite_sheet.png");
 
         loadActions();
         loadAnimations();

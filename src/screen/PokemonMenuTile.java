@@ -34,8 +34,8 @@ public class PokemonMenuTile {
         this.pokemon = pokemon;
 
         try {
-            pokemonSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/sprites/menu_sprite_sheet.png")));
-            pokeballSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/pokemon_menu_pokeball_sprite_sheet.png")));
+            pokemonSpriteSheet = new SpriteSheet("/sprites/menu_sprite_sheet.png");
+            pokeballSpriteSheet = new SpriteSheet("/pokemon_menu_pokeball_sprite_sheet.png");
             hpSymbol = ImageIO.read(getClass().getResource("/hud/hp_symbol.png"));
 
             InputStream inputStream = getClass().getResourceAsStream("/font/PokemonFont.ttf");

@@ -42,7 +42,7 @@ public class MoveSelectBox {
 
         try {
             optionPointer = ImageIO.read(getClass().getResource("/hud/option_pointer.png"));
-            typeSymbolSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResource("/hud/pokemon_type_icons.png")));
+            typeSymbolSpriteSheet = new SpriteSheet("/hud/pokemon_type_icons.png");
         } catch (IOException e) {
             e.printStackTrace();
         }
