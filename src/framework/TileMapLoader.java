@@ -7,8 +7,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * This is the TileMapLoader class which is used to create the map.
@@ -45,7 +44,13 @@ public class TileMapLoader {
         spriteSheet = new SpriteSheet("/pokemon_crystal_tileset.png");
         collisionSheet = new SpriteSheet("/CollisionLayer.png");
 
-        Object obj = new JSONParser().parse(new FileReader(path));
+        InputStream is = getClass().getClassLoader().getResourceAsStream(path);
+
+        if (is == null) {
+            throw new FileNotFoundException("Could not find resource: " + path);
+        }
+
+        Object obj = new JSONParser().parse(new InputStreamReader(is));
         JSONObject jo = (JSONObject) obj;
 
         tileMapWidth = Integer.parseInt(String.valueOf(jo.get("width")));

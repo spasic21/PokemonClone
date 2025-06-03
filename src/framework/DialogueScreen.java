@@ -12,8 +12,6 @@ public class DialogueScreen extends Screen {
 
     private int dialogueX, dialogueY, dialogueWidth, dialogueHeight;
 
-    private int textX, textY;
-
     private Font font;
 
     private String dialogueText = "Rival: Don't mind me standing here. What? You wanna fight?";
@@ -46,8 +44,8 @@ public class DialogueScreen extends Screen {
         int padding = 60;
         int lineSpacing = 50;
 
-        textX = dialogueX + padding;
-        textY = dialogueY + padding;
+        int textX = dialogueX + padding;
+        int textY = dialogueY + padding;
 
         g.setColor(Color.WHITE);
         g.fillRoundRect(dialogueX, dialogueY, dialogueWidth, dialogueHeight, 20, 20);

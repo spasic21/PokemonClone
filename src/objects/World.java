@@ -79,8 +79,8 @@ public class World {
 
     private String getFilePath(Location location) {
         return switch (location) {
-            case World -> "resources/map2.json";
-            case House_One -> "resources/map3.json";
+            case World -> "map2.json";
+            case House_One -> "map3.json";
         };
     }
 

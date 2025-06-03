@@ -9,8 +9,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +23,12 @@ public class PokemonDatabase {
     }
 
     public void initDatabase() {
-        try (FileReader baseStatReader = new FileReader("resources/pokemon_base_stats.json")) {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("pokemon_base_stats.json")) {
+            if(inputStream == null) {
+                throw new FileNotFoundException("Resource not found: pokemon_base_stats.json");
+            }
+
+            BufferedReader baseStatReader = new BufferedReader(new InputStreamReader(inputStream));
 
             JSONParser parser = new JSONParser();
             JSONObject pokemonStatObject = (JSONObject) parser.parse(baseStatReader);

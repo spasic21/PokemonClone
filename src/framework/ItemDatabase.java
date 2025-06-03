@@ -8,8 +8,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.awt.image.BufferedImage;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,7 +24,13 @@ public class ItemDatabase {
     }
 
     public void initDatabase() {
-        try(FileReader itemReader = new FileReader("resources/item_database.json")) {
+        try(InputStream inputStream = getClass().getClassLoader().getResourceAsStream("item_database.json")) {
+            if(inputStream == null) {
+                throw new FileNotFoundException("Resource not found: item_database.json");
+            }
+
+            BufferedReader itemReader = new BufferedReader(new InputStreamReader(inputStream));
+
             JSONParser parser = new JSONParser();
             JSONObject itemObject = (JSONObject) parser.parse(itemReader);
             JSONArray itemArray = (JSONArray) itemObject.get("items");
