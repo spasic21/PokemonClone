@@ -2,12 +2,16 @@ package objects;
 
 import framework.Camera;
 import framework.Handler;
+import framework.MapSpawnPoint;
+import framework.MapTransitionPoint;
 import framework.TileMapLoader;
 import framework.enums.EntityDirection;
 import framework.enums.Location;
 import framework.enums.ObjectId;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class World {
 
@@ -25,25 +29,85 @@ public class World {
     private Tile[][] tileLayer3;
     private Tile[][] collisionLayer;
 
+    private int scaledTileWidth, scaledTileHeight, mapCols, mapRows;
+    private List<MapTransitionPoint> transitionPoints = new ArrayList<>();
+    private List<MapSpawnPoint> spawnPoints = new ArrayList<>();
+
+    // Used for initial world load with known pixel coords (e.g. game start)
     public World(Handler handler, Location location, int spawnX, int spawnY, EntityDirection entityDirection) {
         this.handler = handler;
         this.location = location;
-        this.entityManager = new EntityManager(handler, new Player(handler, spawnX, spawnY, 72, 72, entityDirection, ObjectId.Player));
         this.camera = new Camera(handler.getWidth(), handler.getHeight());
 
-//        this.entityManager.addEntity(new NPC(handler, 1535, 1103, 72, 72, EntityDirection.RIGHT, EntityState.Standing, ObjectId.NPC));
-
         try {
-            String path = getFilePath(this.location);
-            tileMapLoader = new TileMapLoader(path);
-            tileLayer1 = tileMapLoader.getTileLayer1();
-            tileLayer2 = tileMapLoader.getTileLayer2();
-            tileLayer3 = tileMapLoader.getTileLayer3();
-            collisionLayer = tileMapLoader.getCollisionLayer();
-
+            loadTileMap();
+            this.entityManager = new EntityManager(handler, new Player(handler, spawnX, spawnY, 72, 72, entityDirection, ObjectId.Player));
+            camera.update(entityManager.getPlayer());
         } catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // Used for map transitions — resolves spawn position from a named point in the destination map
+    public World(Handler handler, Location location, String spawnPointName, EntityDirection entityDirection) {
+        this.handler = handler;
+        this.location = location;
+        this.camera = new Camera(handler.getWidth(), handler.getHeight());
+
+        try {
+            loadTileMap();
+
+            int spawnX = 0, spawnY = 0;
+            boolean found = false;
+
+            // Check dedicated SpawnPoints first
+            for (MapSpawnPoint sp : spawnPoints) {
+                if (sp.name().equals(spawnPointName)) {
+                    spawnX = sp.tileX() * scaledTileWidth;
+                    spawnY = sp.tileY() * scaledTileHeight;
+                    found = true;
+                    break;
+                }
+            }
+
+            // Fall back to Transition rectangle position (used when no separate spawn point exists yet)
+            if (!found) {
+                for (MapTransitionPoint tp : transitionPoints) {
+                    if (tp.name().equals(spawnPointName)) {
+                        spawnX = tp.triggerBounds().x;
+                        spawnY = tp.triggerBounds().y;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!found) {
+                System.err.println("Spawn point '" + spawnPointName + "' not found in " + location + " — spawning at origin");
+            }
+
+            this.entityManager = new EntityManager(handler, new Player(handler, spawnX, spawnY, 72, 72, entityDirection, ObjectId.Player));
+            camera.update(entityManager.getPlayer());
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadTileMap() throws Exception {
+        String path = getFilePath(this.location);
+        tileMapLoader = new TileMapLoader(path);
+        tileLayer1 = tileMapLoader.getTileLayer1();
+        tileLayer2 = tileMapLoader.getTileLayer2();
+        tileLayer3 = tileMapLoader.getTileLayer3();
+        collisionLayer = tileMapLoader.getCollisionLayer();
+        transitionPoints = tileMapLoader.getTransitionPoints();
+        spawnPoints = tileMapLoader.getSpawnPoints();
+
+        scaledTileWidth = tileMapLoader.getTileWidth() * 5;
+        scaledTileHeight = tileMapLoader.getTileHeight() * 5;
+        mapCols = tileMapLoader.getTileMapWidth();
+        mapRows = tileMapLoader.getTileMapHeight();
+        camera.setMapBounds(mapCols * scaledTileWidth, mapRows * scaledTileHeight);
     }
 
     public EntityManager getEntityManager() {
@@ -79,45 +143,42 @@ public class World {
 
     private String getFilePath(Location location) {
         return switch (location) {
-            case World -> "map2.json";
-            case House_One -> "map3.json";
+            case World -> "first_town.json";
+            case PlayerHouse -> "player_house.json";
+            case PokeCenter -> "poke_center.json";
         };
     }
 
-    private void getSpawnPoints() {
-    }
-
     private void renderTileLayer(Tile[][] tileLayer, Graphics g) {
-        int tileWidth = tileMapLoader.getTileWidth() * 5;
-        int tileHeight = tileMapLoader.getTileHeight() * 5;
-        int tileMapWidth = tileMapLoader.getTileMapWidth();
-        int tileMapHeight = tileMapLoader.getTileMapHeight();
-
         float cameraX = camera.getX();
         float cameraY = camera.getY();
 
         int screenWidth = handler.getWidth();
         int screenHeight = handler.getHeight();
 
-        int startX = Math.max(0, (int) (cameraX / tileWidth));
-        int startY = Math.max(0, (int) (cameraY / tileHeight));
-        int endX = Math.min(tileMapWidth, (int) ((cameraX + screenWidth) / tileWidth) + 1);
-        int endY = Math.min(tileMapHeight, (int) ((cameraY + screenHeight) / tileHeight) + 1);
+        int startX = Math.max(0, (int) (cameraX / scaledTileWidth));
+        int startY = Math.max(0, (int) (cameraY / scaledTileHeight));
+        int endX = Math.min(mapCols, (int) ((cameraX + screenWidth) / scaledTileWidth) + 1);
+        int endY = Math.min(mapRows, (int) ((cameraY + screenHeight) / scaledTileHeight) + 1);
 
         for (int i = startX; i < endX; i++) {
             for (int j = startY; j < endY; j++) {
                 if (tileLayer[i][j] != null) {
-                    int worldX = i * tileWidth;
-                    int worldY = j * tileHeight;
-
-                    int renderX = (int) (worldX - cameraX);
-                    int renderY = (int) (worldY - cameraY);
-
+                    int renderX = (int) (i * scaledTileWidth - cameraX);
+                    int renderY = (int) (j * scaledTileHeight - cameraY);
                     tileLayer[i][j].render(g, renderX, renderY);
                 }
             }
         }
     }
+
+    public int getScaledTileWidth() { return scaledTileWidth; }
+
+    public int getScaledTileHeight() { return scaledTileHeight; }
+
+    public int getMapCols() { return mapCols; }
+
+    public int getMapRows() { return mapRows; }
 
     public Location getLocation() {
         return location;
@@ -133,5 +194,9 @@ public class World {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public List<MapTransitionPoint> getTransitionPoints() {
+        return transitionPoints;
     }
 }

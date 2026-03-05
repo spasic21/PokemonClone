@@ -15,13 +15,13 @@ These make the game feel like an actual game. Build in roughly this order.
 - **Choice prompts**: `DialoguePage` class with `text`, `isChoice`, `choiceOptions[]`, `choiceOutcomes[]` (outcome = event flag); routes J-key to selection logic
 - **Event-aware dialogue**: NPC dialogue text varies by checking event flags before building `pages` list
 
-### Battle Loss Flow
-- Player faints → `BattleLoss` state → lose half money → fade transition → spawn at last Pokemon Center with full party healed
-- Also: restore party to full HP/PP when entering Pokemon Center
-
 ### Pokemon Center
 - Nurse Joy NPC triggers dialogue → "Your Pokemon are healed!" → full HP/PP restoration for all party members
 - Logical save point
+
+### Battle Loss Flow
+- Player faints → `BattleLoss` state → lose half money → fade transition → spawn at last Pokemon Center with full party healed
+- Also: restore party to full HP/PP when entering Pokemon Center
 
 ### Starter Selection Screen
 - New game flow: choose from three starter Pokemon before entering the world

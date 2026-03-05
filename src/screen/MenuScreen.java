@@ -16,7 +16,8 @@ public class MenuScreen extends Screen {
 
     private int optionPointerWidth, optionPointerHeight;
 
-    private Font font;
+    private Font menuFont;
+    private BasicStroke borderStroke;
 
     private BufferedImage optionPointer;
 
@@ -31,7 +32,9 @@ public class MenuScreen extends Screen {
 
         try {
             InputStream inputStream = getClass().getResourceAsStream("/font/PokemonFont.ttf");
-            font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            menuFont = font.deriveFont(48f);
+            borderStroke = new BasicStroke(5);
 
             optionPointer = ImageIO.read(getClass().getResource("/hud/option_pointer.png"));
             optionPointerWidth = optionPointer.getWidth() * 4;
@@ -47,7 +50,6 @@ public class MenuScreen extends Screen {
     @Override
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        Font menuFont = font.deriveFont(48f);
         int spacing = 55;
         int padding = 75;
 
@@ -57,7 +59,7 @@ public class MenuScreen extends Screen {
         g.fillRoundRect(menuX, menuY, menuWidth, menuHeight, 20, 20);
 
         g.setColor(Color.BLACK);
-        g2d.setStroke(new BasicStroke(5));
+        g2d.setStroke(borderStroke);
         g.drawRoundRect(menuX, menuY, menuWidth, menuHeight, 20, 20);
 
         g.setFont(menuFont);

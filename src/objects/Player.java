@@ -3,16 +3,15 @@ package objects;
 import framework.Animation;
 import framework.Handler;
 import framework.SpriteSheet;
+import framework.MapTransitionPoint;
 import framework.enums.EntityDirection;
 import framework.enums.EntityState;
 import framework.enums.GameState;
 import framework.enums.ObjectId;
-import framework.spawn.SpawnPoint;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -20,7 +19,11 @@ public class Player extends Entity {
 
     private static final Random RANDOM = new Random();
 
+    private final Rectangle bounds = new Rectangle();
+    private final Rectangle collidingBounds = new Rectangle();
+
     private int speed;
+    private float stepDistance = 0f;
 
     private Map<String, Animation> playerAnimations = new HashMap<>();
     private BufferedImage[][] playerActions = new BufferedImage[4][3];
@@ -63,8 +66,8 @@ public class Player extends Entity {
         playerAnimations.get("playerWalkLeft").update();
         playerAnimations.get("playerWalkRight").update();
 
-        checkBattleEncounter();
         getKeyInput();
+        checkBattleEncounter();
         move();
     }
 
@@ -111,21 +114,13 @@ public class Player extends Entity {
 
     @Override
     public Rectangle getBounds(boolean isCollidingEntity) {
-        int borderX, borderY, borderWidth, borderHeight;
-
-        if(!isCollidingEntity) {
-            borderX = (int) x + 15;
-            borderY = (int) y + (height / 2) + 5;
-            borderWidth = (width / 2) + 5;
-            borderHeight = (height / 2) - 5;
+        if (!isCollidingEntity) {
+            bounds.setBounds((int) x + 15, (int) y + (height / 2) + 5, (width / 2) + 5, (height / 2) - 5);
+            return bounds;
         } else {
-            borderX = (int) x + 10;
-            borderY = (int) y + (height / 2) - 15;
-            borderWidth = (width / 2) + 15;
-            borderHeight = (height / 2) + 15;
+            collidingBounds.setBounds((int) x + 10, (int) y + (height / 2) - 15, (width / 2) + 15, (height / 2) + 15);
+            return collidingBounds;
         }
-
-        return new Rectangle(borderX, borderY, borderWidth, borderHeight);
     }
 
     private void getKeyInput() {
@@ -162,31 +157,52 @@ public class Player extends Entity {
     }
 
     private void checkBattleEncounter() {
-        for (Tile[] collisionTiles : handler.getWorld().getCollisionLayer()) {
-            for (Tile tile : collisionTiles) {
-                if (tile != null) {
-                    if (tile.getId() == ObjectId.GrassTile && getBounds(false).intersects(tile.getBounds()) && entityState == EntityState.Walking) {
-                        int randomNumber = RANDOM.nextInt(199) + 1;
+        World world = handler.getWorld();
+        int scaledTileWidth = world.getScaledTileWidth();
+        int scaledTileHeight = world.getScaledTileHeight();
 
-                        if (randomNumber == 5) {
-                            int transitionType = RANDOM.nextInt(3) + 1;
-                            entityState = EntityState.Standing;
+        // Accumulate distance only while moving; reset on stop so partial steps don't carry over
+        if (entityState == EntityState.Walking) {
+            stepDistance += Math.abs(velX) + Math.abs(velY);
+        } else {
+            stepDistance = 0f;
+        }
 
-                            handler.getGameKeyInput().resetKeys();
-                            handler.setNextTransition(transitionType, GameState.Battle);
-                        }
-                    } else if (tile.getId() == ObjectId.DoorTile && getBounds(false).intersects(tile.getBounds()) && velY != 0) {
-                        List<SpawnPoint> spawnPoints = handler.getSpawnManager().getSpawnPoints(handler.getWorld().getLocation());
+        boolean stepCompleted = stepDistance >= scaledTileWidth;
+        if (stepCompleted) {
+            stepDistance -= scaledTileWidth;
+        }
 
-                        for(SpawnPoint spawnPoint : spawnPoints) {
-                            if(spawnPoint.rectangle().intersects(getBounds(false))) {
-                                handler.getGameKeyInput().resetKeys();
-                                handler.setNextTransition(1, GameState.Game);
-                                handler.setWorld(new World(handler, spawnPoint.targetLocation(), (int)spawnPoint.spawnX(), (int)spawnPoint.spawnY(), this.entityDirection));
-                            }
-                        }
-                    }
+        Rectangle playerBounds = getBounds(false);
+        int startTileX = Math.max(0, playerBounds.x / scaledTileWidth);
+        int startTileY = Math.max(0, playerBounds.y / scaledTileHeight);
+        int endTileX = Math.min(world.getMapCols() - 1, (playerBounds.x + playerBounds.width) / scaledTileWidth);
+        int endTileY = Math.min(world.getMapRows() - 1, (playerBounds.y + playerBounds.height) / scaledTileHeight);
+
+        // Check grass encounters
+        for (int tileX = startTileX; tileX <= endTileX; tileX++) {
+            for (int tileY = startTileY; tileY <= endTileY; tileY++) {
+                Tile tile = world.getCollisionTile(tileX, tileY);
+                if (tile == null || tile.getId() != ObjectId.GrassTile || !stepCompleted) continue;
+
+                int randomNumber = RANDOM.nextInt(199) + 1;
+                if (randomNumber == 5) {
+                    entityState = EntityState.Standing;
+                    stepDistance = 0f;
+                    handler.getGameKeyInput().resetKeys();
+                    handler.setNextTransition(RANDOM.nextInt(3) + 1, GameState.Battle);
+                    return;
                 }
+            }
+        }
+
+        // Check map transitions
+        for (MapTransitionPoint point : world.getTransitionPoints()) {
+            if (point.triggerBounds().intersects(playerBounds)) {
+                handler.getGameKeyInput().resetKeys();
+                handler.setPendingWorld(new World(handler, point.targetLocation(), point.targetPoint(), this.entityDirection));
+                handler.setNextTransition(1, GameState.Game);
+                return;
             }
         }
     }

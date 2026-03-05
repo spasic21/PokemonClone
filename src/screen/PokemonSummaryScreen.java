@@ -54,6 +54,8 @@ public class PokemonSummaryScreen extends Screen {
 
     @Override
     public void render(Graphics g) {
+        if (pokemonInfo == null) return;
+
         g.setFont(font);
         g.setColor(new Color(254, 255, 221));
         g.fillRect(0, 0, handler.getWidth(), handler.getHeight());

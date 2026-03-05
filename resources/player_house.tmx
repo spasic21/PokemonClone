@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="24" height="16" tilewidth="8" tileheight="8" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="24" height="16" tilewidth="8" tileheight="8" infinite="0" nextlayerid="6" nextobjectid="12">
  <editorsettings>
-  <export target="map3.json" format="json"/>
+  <export target="player_house.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="pokemon_crystal_tileset.tsx"/>
  <tileset firstgid="3265" source="CollisionLayer.tsx"/>
@@ -81,8 +81,23 @@
 3265,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3265,
 3265,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3265,
 3265,3265,3265,0,0,0,0,3265,3265,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3265,
-3265,3265,3265,3267,3267,3267,3267,3265,3265,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3265,
+3265,3265,3265,0,0,0,0,3265,3265,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3265,
 3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265,3265
 </data>
  </layer>
+ <objectgroup id="5" name="Object Layer 1">
+  <object id="9" name="PlayerHouseSpawn" x="31.9335" y="95.8916">
+   <properties>
+    <property name="type" value="SpawnPoint"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="10" name="PlayerHouseExit" x="24" y="111.938" width="31.9375" height="7.9375">
+   <properties>
+    <property name="targetLocation" value="World"/>
+    <property name="targetPoint" value="PlayerHouseExitSpawn"/>
+    <property name="type" value="Transition"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

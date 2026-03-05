@@ -98,7 +98,7 @@
             3265, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3265,
             3265, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3265,
             3265, 3265, 3265, 0, 0, 0, 0, 3265, 3265, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3265,
-            3265, 3265, 3265, 3267, 3267, 3267, 3267, 3265, 3265, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3265,
+            3265, 3265, 3265, 0, 0, 0, 0, 3265, 3265, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3265,
             3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265, 3265],
          "height":16,
          "id":4,
@@ -109,9 +109,65 @@
          "width":24,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":5,
+         "name":"Object Layer 1",
+         "objects":[
+                {
+                 "height":0,
+                 "id":9,
+                 "name":"PlayerHouseSpawn",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"SpawnPoint"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":31.93354743083,
+                 "y":95.8915513833992
+                }, 
+                {
+                 "height":7.9375,
+                 "id":10,
+                 "name":"PlayerHouseExit",
+                 "properties":[
+                        {
+                         "name":"targetLocation",
+                         "type":"string",
+                         "value":"World"
+                        }, 
+                        {
+                         "name":"targetPoint",
+                         "type":"string",
+                         "value":"PlayerHouseExitSpawn"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"Transition"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":31.9375,
+                 "x":24,
+                 "y":111.9375
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":5,
- "nextobjectid":1,
+ "nextlayerid":6,
+ "nextobjectid":12,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.0",

@@ -73,6 +73,14 @@ public class TransitionScreen extends Screen {
         }
     }
 
+    public boolean isAtMidpoint(int transitionType) {
+        return transitionType == 1 && !fadingOut && alpha == 255;
+    }
+
+    public boolean isFadingOut() {
+        return fadingOut;
+    }
+
     private void fadeOutUpdate() {
         if(fadingOut) {
             alpha += fadeSpeed;

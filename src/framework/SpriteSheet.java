@@ -18,10 +18,9 @@ public class SpriteSheet {
     public SpriteSheet(String path) {
         try {
             this.image = ImageIO.read(Objects.requireNonNull(getClass().getResource(path)));
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load sprite sheet: " + path, e);
         }
-
     }
 
     public BufferedImage grabImage(int col, int row, int width, int height) {

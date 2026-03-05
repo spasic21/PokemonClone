@@ -22,6 +22,8 @@ public class Handler {
 
     private World world;
 
+    private World pendingWorld;
+
     private boolean entityCollision = false;
 
     private NPC currentNpc;
@@ -29,6 +31,8 @@ public class Handler {
     private int transitionType;
 
     private GameState nextGameState;
+
+    private GameState transitionSourceState;
 
     private Bag bag;
 
@@ -76,6 +80,21 @@ public class Handler {
         this.world = world;
     }
 
+    public void setPendingWorld(World world) {
+        this.pendingWorld = world;
+    }
+
+    public boolean hasPendingWorld() {
+        return pendingWorld != null;
+    }
+
+    public void applyPendingWorld() {
+        if (pendingWorld != null) {
+            this.world = pendingWorld;
+            this.pendingWorld = null;
+        }
+    }
+
     public boolean isEntityCollision() {
         return entityCollision;
     }
@@ -101,9 +120,14 @@ public class Handler {
     }
 
     public void setNextTransition(int transitionType, GameState nextGameState) {
+        this.transitionSourceState = game.getGameState();
         this.transitionType = transitionType;
         this.nextGameState = nextGameState;
         this.game.setGameState(GameState.Transition);
+    }
+
+    public GameState getTransitionSourceState() {
+        return transitionSourceState;
     }
 
     public Bag getBag() {

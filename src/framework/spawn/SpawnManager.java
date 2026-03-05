@@ -25,8 +25,9 @@ public class SpawnManager {
     }
 
     public void init() {
-        spawnMap.put(Location.World, Collections.singletonList(new SpawnPoint(new Rectangle(680, 1440, 760, 40), 161, 450, Location.House_One)));
-        spawnMap.put(Location.House_One, Collections.singletonList(new SpawnPoint(new Rectangle(120, 520, 120, 40), 680, 1440, Location.World)));
+        spawnMap.put(Location.World, Collections.singletonList(new SpawnPoint(new Rectangle(680, 1440, 760, 40), 161, 450, Location.PlayerHouse)));
+        spawnMap.put(Location.PlayerHouse, Collections.singletonList(new SpawnPoint(new Rectangle(120, 520, 120, 40), 680, 1440, Location.World)));
+        // spawnMap.put(Location.Poke_Center, Collections.singletonList(new SpawnPoint(new Rectangle(120, 520, 120, 40), 680, 1440, Location.World)));
     }
 
     public List<SpawnPoint> getSpawnPoints(Location location) {

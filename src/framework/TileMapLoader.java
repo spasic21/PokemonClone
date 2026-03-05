@@ -1,5 +1,6 @@
 package framework;
 
+import framework.enums.Location;
 import framework.enums.ObjectId;
 import objects.Tile;
 import org.json.simple.JSONArray;
@@ -7,7 +8,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.awt.Rectangle;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the TileMapLoader class which is used to create the map.
@@ -30,6 +34,8 @@ public class TileMapLoader {
     private Tile[][] tileLayer3;
     private Tile[][] collisionLayer;
     private SpriteSheet spriteSheet, collisionSheet;
+    private List<MapTransitionPoint> transitionPoints = new ArrayList<>();
+    private List<MapSpawnPoint> spawnPoints = new ArrayList<>();
 
     public TileMapLoader(String path) throws IOException, ParseException {
         this.path = path;
@@ -39,7 +45,7 @@ public class TileMapLoader {
 
     private void loadLevel() throws IOException, ParseException {
         JSONArray layers, layerData;
-        JSONObject index;
+        JSONObject index = null;
 
         spriteSheet = new SpriteSheet("/pokemon_crystal_tileset.png");
         collisionSheet = new SpriteSheet("/CollisionLayer.png");
@@ -65,21 +71,82 @@ public class TileMapLoader {
 
 
         layers = (JSONArray) jo.get("layers");
-        index = (JSONObject) layers.get(0);
-        layerData = (JSONArray) index.get("data");
-        loadTiles(tileMapWidth, tileMapHeight, layerData, tileLayer1);
 
-        index = (JSONObject) layers.get(1);
-        layerData = (JSONArray) index.get("data");
-        loadTiles(tileMapWidth, tileMapHeight, layerData, tileLayer2);
+        // Load tile layers in encounter order, skipping non-tile layers (objectgroups etc.)
+        int tileLayerIndex = 0;
+        for (Object layerObj : layers) {
+            index = (JSONObject) layerObj;
+            if (!"tilelayer".equals(index.get("type"))) continue;
 
-        index = (JSONObject) layers.get(2);
-        layerData = (JSONArray) index.get("data");
-        loadTiles(tileMapWidth, tileMapHeight, layerData, tileLayer3);
+            layerData = (JSONArray) index.get("data");
+            switch (tileLayerIndex) {
+                case 0 -> loadTiles(tileMapWidth, tileMapHeight, layerData, tileLayer1);
+                case 1 -> loadTiles(tileMapWidth, tileMapHeight, layerData, tileLayer2);
+                case 2 -> loadTiles(tileMapWidth, tileMapHeight, layerData, tileLayer3);
+                case 3 -> loadCollisionTiles(tileMapWidth, tileMapHeight, layerData, collisionLayer);
+            }
+            tileLayerIndex++;
+        }
 
-        index = (JSONObject) layers.get(3);
-        layerData = (JSONArray) index.get("data");
-        loadCollisionTiles(tileMapWidth, tileMapHeight, layerData, collisionLayer);
+        loadTransitionPoints(layers);
+    }
+
+    private void loadTransitionPoints(JSONArray layers) {
+        final int SCALE = 5;
+
+        for (Object layerObj : layers) {
+            JSONObject layer = (JSONObject) layerObj;
+            if (!"objectgroup".equals(layer.get("type"))) continue;
+
+            JSONArray objects = (JSONArray) layer.get("objects");
+            if (objects == null) continue;
+
+            for (Object objItem : objects) {
+                JSONObject obj = (JSONObject) objItem;
+                String name = (String) obj.get("name");
+                double objX = ((Number) obj.get("x")).doubleValue();
+                double objY = ((Number) obj.get("y")).doubleValue();
+                boolean isPoint = Boolean.TRUE.equals(obj.get("point"));
+
+                JSONArray props = (JSONArray) obj.get("properties");
+                if (props == null) continue;
+
+                String type = null, targetLocation = null, targetPoint = null;
+                for (Object propItem : props) {
+                    JSONObject prop = (JSONObject) propItem;
+                    String propName = (String) prop.get("name");
+                    String propValue = (String) prop.get("value");
+                    switch (propName) {
+                        case "type"           -> type = propValue;
+                        case "targetLocation" -> targetLocation = propValue;
+                        case "targetPoint"    -> targetPoint = propValue;
+                    }
+                }
+
+                if ("Transition".equals(type) && targetLocation != null && targetPoint != null && !isPoint) {
+                    // Rectangle trigger — scale Tiled pixel coords up to game pixel space
+                    double objW = ((Number) obj.get("width")).doubleValue();
+                    double objH = ((Number) obj.get("height")).doubleValue();
+                    Rectangle triggerBounds = new Rectangle(
+                            (int) Math.round(objX * SCALE),
+                            (int) Math.round(objY * SCALE),
+                            (int) Math.round(objW * SCALE),
+                            (int) Math.round(objH * SCALE)
+                    );
+                    try {
+                        Location loc = Location.valueOf(targetLocation);
+                        transitionPoints.add(new MapTransitionPoint(name, triggerBounds, loc, targetPoint));
+                    } catch (IllegalArgumentException e) {
+                        System.err.println("Unknown targetLocation in map object '" + name + "': " + targetLocation);
+                    }
+                } else if ("SpawnPoint".equals(type) && isPoint) {
+                    // Point spawn — convert to tile coords for spawn position
+                    int tileX = (int) Math.round(objX / tileWidth);
+                    int tileY = (int) Math.round(objY / tileHeight);
+                    spawnPoints.add(new MapSpawnPoint(name, tileX, tileY));
+                }
+            }
+        }
     }
 
     private void loadTiles(int mapWidth, int mapHeight, JSONArray layerData, Tile[][] tileLayer) {
@@ -90,10 +157,10 @@ public class TileMapLoader {
         int tileLocationX;
         int tileLocationY;
 
+        int ratioX = Math.round((float) spriteSheet.getWidth() / tileWidth);
         for (int i = 0; i < mapHeight; i++) {
             for (int j = 0; j < mapWidth; j++) {
                 int tileId = Integer.parseInt(String.valueOf(layerData.get(count)));
-                int ratioX = Math.round((float) spriteSheet.getWidth() / tileWidth);
 
                 if (tileId != 0) {
                     tileLocationX = tileId % ratioX;
@@ -170,5 +237,13 @@ public class TileMapLoader {
 
     public int getTileMapHeight() {
         return tileMapHeight;
+    }
+
+    public List<MapTransitionPoint> getTransitionPoints() {
+        return transitionPoints;
+    }
+
+    public List<MapSpawnPoint> getSpawnPoints() {
+        return spawnPoints;
     }
 }

@@ -1,40 +1,58 @@
 # High Priority Fixes
 
 **Part of claude.md instructions for Sonnet/Opus**
-**Status:** 0/17 fixed
 
-## The List
+**Focus on Proc Gen First**
 
-1. World keeps updating during Menu/Dialogue states — `Game.java:166-169` routes `Game`, `Menu`, and `Dialogue` states all to `gameScreen.update()` which calls `world.update()`; **fix**: only call `world.update()` when `gameState == GameState.Game`; in `Menu` and `Dialogue` states, skip the world update (or add a `paused` flag to `World`)
+## Proc Gen Prerequisites
 
-2. Battle encounter rolls every frame at 60fps — `Player.checkBattleEncounter()` (`Player.java:162-191`) runs in `update()` every frame; while walking through grass it rolls `rand.nextInt(199) + 1` and triggers battle if result is 5 — that's ~60 rolls/second while a key is held; **fix**: add a step counter that increments by 1 each time the player moves one full tile width (80px = `tileWidth * 5`); only roll for encounters when the counter increments; also use the shared `Random` instance instead of `new Random()` per call (ties into bug #9 in Critical)
+Work through these in order before starting the map generator. Each step unblocks the next.
 
-3. `Game.getPlayerParty()` hardcodes Charmander and Totodile (`Game.java:257-267`) — `PokemonGenerator.createMyPokemon("Charmander")` and `createMyPokemon("Totodile")` are called directly; **fix**: replace with a starter selection screen (see `docs/FEATURES.md` Starter Selection), or as a short-term fix, load party from save file via `SaveManager`; either way, remove the hardcoded species names
+### Hard Blockers
+*Proc gen cannot function without these.*
 
-4. `Game.battleStarted` remains `true` if the game state leaves `Battle` without a proper end sequence — `battleStarted` is only set to `false` in two places: `BattleKeyInput.battleControls():79` (Run option) and `BattleKeyInput.keyReleased():38` (BattleWin state); if the battle exits any other way (e.g. future BattleLoss), `battleStarted` stays `true` and the next battle skips `BattleManager.init()`; **fix**: set `battleStarted = false` in `Game.update()` whenever `gameState` transitions away from `Battle` — e.g. add a `previousState` field and check `if (previousState == Battle && gameState != Battle) battleStarted = false`
+1. **EventFlags class** — `Set<String>` boolean flags + `Map<String, Integer>` integer variables; centralize all flag ID strings as constants; needed by trainer defeat tracking and every story trigger; build this first — it's cheap and painful to retrofit
+   - `src/framework/EventFlags.java` (new file)
+   - Example constants: `ROUTE_30_BUG_CATCHER_1`, `SUDOWOODO_BLOCKED`, `GYM_1_BADGE`
 
-5. `Camera` has no world bounds clamping (`Camera.java:17-19`) — `update()` computes `x` and `y` offsets with no `Math.max`/`Math.min`; at map edges the camera shows the black `fillRect` background; **fix**: after computing `x` and `y`, add `x = Math.max(0, Math.min(x, mapPixelWidth - screenWidth))` and same for `y`; requires passing `mapPixelWidth` = `tileMapWidth * tileWidth * 5` and `mapPixelHeight` = `tileMapHeight * tileHeight * 5` into `Camera` (add fields + setter, or pass via `update()` params); do this after bug #6
+2. **NPC data model + TrainerDatabase** — `NPC` currently has no identity (no name, no trainerId, no dialogue, no defeated flag); add a `trainerId` field and a `TrainerDatabase` that loads `trainer_database.json`; proc gen picks trainer IDs from zone pools — those IDs need somewhere to resolve to
+   - `resources/trainer_database.json` (new file) — trainer id, name, class, dialogue before/after, party (species + level)
+   - `src/framework/TrainerDatabase.java` (new file)
+   - Update `src/objects/NPC.java` with `trainerId`, `name`, `defeatFlag` fields
 
-6. `Camera.worldWidth` and `Camera.worldHeight` are actually screen dimensions, not map dimensions (`Camera.java:10-11`) — `new Camera(handler.getWidth(), handler.getHeight())` is called in `World.java:32`; **fix**: rename `worldWidth`→`screenWidth` and `worldHeight`→`screenHeight`; add separate `mapPixelWidth` and `mapPixelHeight` fields set from `World` after `TileMapLoader` finishes loading (e.g. `camera.setMapBounds(tileMapLoader.getTileMapWidth() * tileWidth * 5, tileMapLoader.getTileMapHeight() * tileHeight * 5)`)
+3. **MapEntitySpawn pipeline** — replace hardcoded NPC pixel coords with a data-driven spawn system; Tiled's Object Layer exports NPC markers with custom properties (`trainerId`, `facing`) in the map JSON; `TileMapLoader` reads the object layer and returns `List<MapEntitySpawn>`; `World` creates NPCs from that list using tile coords converted to pixels; proc gen outputs the same `MapEntitySpawn` format so the downstream pipeline is identical for both static and generated maps
+   - `src/framework/MapEntitySpawn.java` (new record: `tileX`, `tileY`, `facing`, `trainerId`, `roaming`)
+   - Update `TileMapLoader` to read the object layer
+   - Update `World` to create NPCs from the spawn list
 
-7. `EntityManager.renderSorter` Comparator never returns `0` (`EntityManager.java:15-25`) — the compare method returns `-1` or `1` but never `0`; violates the `Comparator` contract (reflexivity: `compare(a, a)` must be `0`); causes `TimSort` contract violations and Z-order flickering; **fix**: replace with `return Integer.compare((int)(a.getY() + a.getHeight()), (int)(b.getY() + b.getHeight()))` which handles all three cases correctly
+4. **Static town with Pokemon Center** — routes need to connect to something; Nurse Joy NPC restores all HP and PP across the party; without healing, multi-route exploration and proc gen routes with trainers are untestable
+   - Add a town map (Tiled) with a Pokemon Center building
+   - Nurse Joy: special NPC type, no trainerId, triggers heal dialogue + full party restore on J-press
+   - Healing: iterate `handler.getPokemonParty()`, restore `currentHealth = maxHealth` and all move `currentPP = maxPP`
 
-8. `Player.checkBattleEncounter()` iterates the entire collision layer (`Player.java:163-164`) — nested `for` loop over `collisionLayer[mapWidth][mapHeight]` every frame; **fix**: compute the player's tile coordinates: `int tileX = (int)(x / (tileWidth * 5))`, `int tileY = (int)(y / (tileHeight * 5))`; then check only `collisionLayer[tileX][tileY]` (and optionally the 1-2 adjacent tiles the player's hitbox might overlap); `World.getCollisionTile(x, y)` already exists at `World.java:130-132` — use it; add bounds checks before indexing
+### Loop-Breakers
+*Proc gen works but you can't meaningfully test or play through it.*
 
-9. `Entity.getBounds()` and `Player.getBounds()` construct `new Rectangle(...)` on every call — `Player.getBounds()` (`Player.java:111-127`) is called in `checkBattleEncounter()` (multiple times per tile checked), in `Entity.moveAxis()` inside while loops, and in `EntityManager.render()`; **fix**: add `private final Rectangle bounds = new Rectangle()` and `private final Rectangle collidingBounds = new Rectangle()` fields; in `getBounds(boolean)`, call `bounds.setBounds(x, y, w, h)` and return the same instance instead of `new Rectangle(...)`; be careful: if both `getBounds(true)` and `getBounds(false)` are used in the same expression (like `Entity.java:84`), they need separate cached instances
+5. **Save system** — without saves, proc gen maps either need a fixed seed or regenerate every launch; trainer defeat flags become meaningless across sessions; spec already in `CLAUDE.md`
+   - `src/framework/SaveManager.java` (singleton)
+   - Save file: `%APPDATA%/PokemonClone/save.json`
+   - Load order: player position → party → bag → event flags
 
-10. Battle menu options 2 (Pokemon) and 3 (Bag) have no J-key confirm handler yet — `BattleKeyInput.battleControls()` (`BattleKeyInput.java:74-81`) only handles `battleOptionId == 1` (Fight) and `battleOptionId == 4` (Run); **not a bug** — these are unimplemented features; **when ready**: add `else if (battleOptionId == 2) { /* switch to PokemonMenu with return-to-battle context */ }` and `else if (battleOptionId == 3) { /* switch to Bag with return-to-battle context */ }`; PokemonMenu and Bag screens will need a way to return to `Battle` state instead of `Game` state
+6. **Pokemon catching (Pokeball mechanic)** — proc gen routes with grass tiles but no way to catch feels broken; needed before encounter rate and wild Pokemon pool tuning makes sense
+   - Pokeball item action in `BagScreen` / `BagKeyInput` during battle
+   - Catch rate formula (Gen 3+): `catchValue = (3 * maxHP - 2 * currentHP) * catchRate / (3 * maxHP)`
+   - On catch: add to party or PC box, save to file
 
-11. `SpriteSheet` constructor (`SpriteSheet.java:18-24`) wraps `ImageIO.read(Objects.requireNonNull(...))` in `catch (IOException e)` — `Objects.requireNonNull()` throws `NullPointerException` (unchecked, not caught), leaving `image = null`; any subsequent `grabImage()` call throws `NullPointerException` on `image.getSubimage()` with no useful message; **fix**: change `catch (IOException e)` to `catch (Exception e)` and add `throw new RuntimeException("Failed to load sprite sheet: " + path, e)` to fail fast with a clear error
+### Nice-to-Haves (after proc gen)
+- Gym + badge progression
+- Shops / item usage in battle
+- Pokedex
+- Starter selection screen
 
-12. `Window.createWindow()` calls `frame.setVisible(true)` at line 33 before `canvas` is created (line 35) and `frame.add(canvas)` (line 57) — causes a brief empty-frame flash on startup; **fix**: move `frame.setVisible(true)` to after `frame.pack()` at line 58 (i.e. make it the last call)
+---
 
-13. `PlayerKeyInput.keyReleased()` (`PlayerKeyInput.java:56-70`) calls `handler.getCurrentNpc()` at line 60 when `handler.isEntityCollision()` is true — but `entityCollision` is set in `Entity.moveAxis()` at line 99, while `currentNpc` is only set at line 102 when `e instanceof NPC`; if the player collides with a non-NPC entity, `isEntityCollision()` returns true but `getCurrentNpc()` is null; **fix**: add `handler.getCurrentNpc() != null` to the `if` condition at line 56: `if (key == KeyEvent.VK_J && handler.isEntityCollision() && handler.getCurrentNpc() != null)`
+## Group 1 High Priority Fixes— Deferred (blocked on other systems)
 
-14. `BagKeyInput` ENTER (`BagKeyInput.java:46-48`) sends player to `GameState.Game` while K (`BagKeyInput.java:39-45`) returns to `GameState.Menu` — **by design**: quick-exit to overworld replicates Gen 5/6 behavior; no fix needed
+1. `Game.getPlayerParty()` hardcodes Charmander and Totodile (`Game.java:257-267`) — `PokemonGenerator.createMyPokemon("Charmander")` and `createMyPokemon("Totodile")` are called directly; **fix**: replace with a starter selection screen (see `docs/FEATURES.md` Starter Selection), or as a short-term fix, load party from save file via `SaveManager`; either way, remove the hardcoded species names; **blocked on**: save system or starter selection screen
 
-15. `MenuScreen.render()` (`MenuScreen.java:48-74`) calls `font.deriveFont(48f)` at line 50 and creates `new BasicStroke(5)` at line 60 every frame; **fix**: add `private final Font menuFont` and `private final BasicStroke borderStroke` fields; initialize in the constructor: `this.menuFont = font.deriveFont(48f)` and `this.borderStroke = new BasicStroke(5)`; use the cached instances in `render()`
-
-16. `ratioX` recalculated inside the inner loop for every tile in `TileMapLoader.loadTiles()` (`TileMapLoader.java:96`) — `int ratioX = Math.round((float) spriteSheet.getWidth() / tileWidth)` is constant for the entire map but computed once per tile (mapWidth × mapHeight times); **fix**: hoist `int ratioX = Math.round((float) spriteSheet.getWidth() / tileWidth)` above both `for` loops, before line 93
-
-17. Tile map dimensions re-fetched via method calls every frame in `World.renderTileLayer()` (`World.java:91-94`) — `tileMapLoader.getTileWidth()`, `getTileHeight()`, `getTileMapWidth()`, `getTileMapHeight()` are called every render frame for each of the 3-4 tile layers; **fix**: cache as fields on `World` after loading: `this.scaledTileWidth = tileMapLoader.getTileWidth() * 5`, `this.scaledTileHeight = tileMapLoader.getTileHeight() * 5`, `this.mapCols = tileMapLoader.getTileMapWidth()`, `this.mapRows = tileMapLoader.getTileMapHeight()`; use these cached fields in `renderTileLayer()`
+2. Battle menu options 2 (Pokemon) and 3 (Bag) have no J-key confirm handler yet — `BattleKeyInput.battleControls()` (`BattleKeyInput.java:74-81`) only handles `battleOptionId == 1` (Fight) and `battleOptionId == 4` (Run); **not a bug** — these are unimplemented features; **when ready**: add `else if (battleOptionId == 2) { /* switch to PokemonMenu with return-to-battle context */ }` and `else if (battleOptionId == 3) { /* switch to Bag with return-to-battle context */ }`; PokemonMenu and Bag screens will need a way to return to `Battle` state instead of `Game` state; **blocked on**: Pokemon switching and bag-in-battle features

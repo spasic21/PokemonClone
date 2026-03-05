@@ -53,7 +53,7 @@ public class PlayerKeyInput extends KeyInput {
             left = false;
         }
 
-        if(key == KeyEvent.VK_J && handler.isEntityCollision()) {
+        if(key == KeyEvent.VK_J && handler.isEntityCollision() && handler.getCurrentNpc() != null) {
             SoundManager.playSound("ButtonSound");
             float x = handler.getWorld().getEntityManager().getPlayer().getX();
             float y = handler.getWorld().getEntityManager().getPlayer().getY();

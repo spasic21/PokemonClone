@@ -50,6 +50,8 @@ public class Game implements Runnable {
 
     private volatile boolean databaseLoaded = false;
 
+    private GameState previousState = GameState.Loading;
+
     public static GameState gameState = GameState.Loading;
 
     public Game(String title, int width, int height) {
@@ -166,17 +168,29 @@ public class Game implements Runnable {
     private void update() {
         if (!databaseLoaded && gameState != GameState.Loading) return;
 
+        if (previousState == GameState.Battle && gameState != GameState.Battle) {
+            battleStarted = false;
+        }
+        previousState = gameState;
+
         switch (gameState) {
             case Loading -> loadingScreen.update();
-            case Game, Menu, Dialogue -> {
+            case Game -> {
 //                playMusicIfNeeded("/sounds/azalea_city.wav");
                 gameScreen.update();
+            }
+            case Menu, Dialogue -> {
+                // World is paused — only key input handlers update state for these screens
             }
 
             case Transition -> {
 //                if(handler.getNextGameState() == GameState.Battle) playMusicIfNeeded("/sounds/johto_wild_pokemon_battle.wav");
 
                 transitionScreen.update(handler.getTransitionType());
+
+                if (transitionScreen.isAtMidpoint(handler.getTransitionType()) && handler.hasPendingWorld()) {
+                    handler.applyPendingWorld();
+                }
             }
 
             case Battle -> {
@@ -192,6 +206,18 @@ public class Game implements Runnable {
             case PokemonMenu -> pokemonMenuScreen.update();
             case PokemonSummary -> pokemonSummaryScreen.update();
             case Bag -> bagScreen.update();
+        }
+    }
+
+    private void renderForState(Graphics g, GameState state) {
+        switch (state) {
+            case Loading               -> loadingScreen.render(g);
+            case Game, Menu, Dialogue  -> gameScreen.render(g);
+            case PokemonMenu           -> pokemonMenuScreen.render(g);
+            case PokemonSummary        -> pokemonSummaryScreen.render(g);
+            case Bag                   -> bagScreen.render(g);
+            case Battle                -> { if (battleStarted) battleScreen.render(g); }
+            default                    -> {}
         }
     }
 
@@ -212,6 +238,11 @@ public class Game implements Runnable {
             case Game, Menu, Dialogue -> gameScreen.render(g);
 
             case Transition -> {
+                GameState renderState = transitionScreen.isFadingOut()
+                        ? handler.getTransitionSourceState()
+                        : handler.getNextGameState();
+                renderForState(g, renderState);
+
                 transitionScreen.render(g, handler.getTransitionType());
 
                 if (transitionScreen.isFinished(handler.getTransitionType())) {
