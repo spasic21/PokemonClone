@@ -61,12 +61,14 @@ These make the game feel like an actual game. Build in roughly this order.
 - **`version.json`** on GitHub: version string, download URL, SHA-256 checksum, event block
 - **Launcher** (`PokemonLauncher.exe`): checks `version.json`, compares to local `version.txt`, downloads update if needed, verifies SHA-256, then launches game; invisible on happy path
 - **Release workflow**: build new `PokemonGame.exe` → upload to GitHub releases → update `version.json` → push; players get it automatically on next launch
+- **Crash reporting**: game writes uncaught exceptions and warnings to `%APPDATA%/PokemonClone/error.log` (append mode); on next launcher startup, if `error.log` is non-empty the launcher POSTs its contents as a GitHub issue via the GitHub REST API (using an embedded token with issue-create-only scope); report includes stack trace, game version from `version.txt`, and OS info; launcher clears the log after a successful POST to prevent duplicate reports; player needs no GitHub account and takes no action — reporting is fully automatic
 
 ---
 
 ## Planned Features
 
 ### Battle Enhancements
+- **Battle intro animation**: GBC-style slide-in — trainer and player sprites scroll off screen, Pokeball throw animation, wild Pokemon silhouette reveals; needs trainer back sprite sheet and wild Pokemon silhouette sprites; `BattleIntroductionEvent` is already the right place to drive this once sprites exist
 - Pokemon switching during battle
 - Bag/item use during battle
 - Proper wild flee formula — Gen 2 speed-based calculation

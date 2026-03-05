@@ -114,7 +114,13 @@ public class PokemonDatabase {
     }
 
     public Pokemon getPokemon(String pokemonName) {
-        return pokemonDatabase.get(pokemonName);
+        Pokemon result = pokemonDatabase.get(pokemonName);
+
+        if (result == null) {
+            throw new IllegalArgumentException("Unknown Pokemon species: " + pokemonName);
+        }
+
+        return result;
     }
 
     private Type getType(String type) {

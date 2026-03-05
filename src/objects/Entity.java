@@ -62,6 +62,7 @@ public abstract class Entity {
             for (Tile tile : tiles) {
                 if (tile == null || tile.getId() != ObjectId.RestrictionTile) continue;
 
+                int iterations = 0;
                 while (getBounds(false).intersects(tile.getBounds())) {
                     if (isX) {
                         x -= Math.signum(velocity);
@@ -74,6 +75,11 @@ public abstract class Entity {
                     } else {
                         velY = 0;
                     }
+
+                    if (++iterations >= 100) {
+                        System.err.println("Collision resolution exceeded max iterations for tile at " + tile.getBounds());
+                        break;
+                    }
                 }
             }
         }
@@ -82,11 +88,17 @@ public abstract class Entity {
             if (e.equals(this)) continue;
 
             if (e.getBounds(true).intersects(getBounds(true))) {
+                int entityIterations = 0;
                 while (e.getBounds(true).intersects(getBounds(true))) {
                     if (isX) {
                         x -= Math.signum(velocity);
                     } else {
                         y -= Math.signum(velocity);
+                    }
+
+                    if (++entityIterations >= 100) {
+                        System.err.println("Entity collision resolution exceeded max iterations");
+                        break;
                     }
                 }
 

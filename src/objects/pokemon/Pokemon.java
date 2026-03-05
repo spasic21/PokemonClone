@@ -359,6 +359,48 @@ public class Pokemon {
         return pokemonMovesList.get(index);
     }
 
+    /**
+     * Recalculates all stats using the Gen 3+ formula after a level-up.
+     * EVs are treated as 0 until the EV system is implemented.
+     * Nature modifier (0.9x / 1.1x) is not yet applied — wire in when Nature is implemented.
+     * HP delta is added to currentHealth so the bar doesn't drop on level-up.
+     */
+    public void recalculateStats() {
+        if (baseStats == null) return;
+
+        for (PokemonBaseStat stat : baseStats) {
+            switch (stat.name()) {
+                case "hp" -> {
+                    double numerator = (2.0 * stat.baseStat() + healthIV) * level;
+                    int newMax = (int) (numerator / 100) + level + 10;
+                    int delta = newMax - maxHealth;
+                    maxHealth = newMax;
+                    currentHealth = Math.max(0, currentHealth + delta);
+                }
+                case "attack" -> {
+                    double numerator = (2.0 * stat.baseStat() + attackIV) * level;
+                    attack = (int) (numerator / 100) + 5;
+                }
+                case "defense" -> {
+                    double numerator = (2.0 * stat.baseStat() + defenseIV) * level;
+                    defense = (int) (numerator / 100) + 5;
+                }
+                case "specialAttack" -> {
+                    double numerator = (2.0 * stat.baseStat() + specialAttackIV) * level;
+                    specialAttack = (int) (numerator / 100) + 5;
+                }
+                case "specialDefense" -> {
+                    double numerator = (2.0 * stat.baseStat() + specialDefenseIV) * level;
+                    specialDefense = (int) (numerator / 100) + 5;
+                }
+                case "speed" -> {
+                    double numerator = (2.0 * stat.baseStat() + speedIV) * level;
+                    speed = (int) (numerator / 100) + 5;
+                }
+            }
+        }
+    }
+
     public PokemonFrontSprite getFrontSprite() {
         return frontSprite;
     }

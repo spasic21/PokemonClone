@@ -171,8 +171,6 @@ public class PlayerHud extends Hud {
 
             typeSymbol2 = typeSymbolSpriteSheet.grabImage(1, typeValue2, 19, 19);
 
-            g.drawImage(typeSymbol1, typeSymbolDelta, y, typeSymbolWidth, typeSymbolHeight, null);
-
             g.drawRect(typeSymbolDelta, y + typeSymbolHeight, typeSymbolWidth, typeSymbolHeight);
             g.drawImage(typeSymbol2, typeSymbolDelta, y + typeSymbolHeight, typeSymbolWidth, typeSymbolHeight, null);
         }

@@ -48,6 +48,8 @@ public class Game implements Runnable {
 
     private boolean battleStarted = false;
 
+    private volatile boolean databaseLoaded = false;
+
     public static GameState gameState = GameState.Loading;
 
     public Game(String title, int width, int height) {
@@ -100,6 +102,7 @@ public class Game implements Runnable {
         loadSounds();
 
         window.getCanvas().addKeyListener(gameKeyInput);
+        databaseLoaded = true;
         handler.setNextTransition(1, GameState.Game);
     }
 
@@ -161,6 +164,8 @@ public class Game implements Runnable {
     }
 
     private void update() {
+        if (!databaseLoaded && gameState != GameState.Loading) return;
+
         switch (gameState) {
             case Loading -> loadingScreen.update();
             case Game, Menu, Dialogue -> {
@@ -191,6 +196,8 @@ public class Game implements Runnable {
     }
 
     private void render() {
+        if (!databaseLoaded && gameState != GameState.Loading) return;
+
         BufferStrategy bs = window.getCanvas().getBufferStrategy();
 
         if (bs == null) {

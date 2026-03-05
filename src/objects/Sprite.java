@@ -52,6 +52,14 @@ public abstract class Sprite {
         this.endY = endY;
     }
 
+    public int getColumn() {
+        return column;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
     public int getWidth() {
         return width;
     }

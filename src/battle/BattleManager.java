@@ -16,8 +16,11 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 
 public class BattleManager {
+
+    private static final Random RANDOM = new Random();
 
     private static BattleManager battleManager;
 
@@ -44,6 +47,8 @@ public class BattleManager {
     private int moveSelectId;
 
     private int trainerPartyIndex = 0;
+
+    private boolean isWildBattle;
 
     private final TypeTable typeTable = new TypeTable();
 
@@ -102,6 +107,8 @@ public class BattleManager {
         battleScreenState = BattleScreenState.Introduction;
 
         battleOver = false;
+        isWildBattle = true;
+        trainerPartyIndex = 0;
     }
 
     private int calculateDamage(PokemonMove pokemonMove, Pokemon attacker, Pokemon defender) {
@@ -111,7 +118,7 @@ public class BattleManager {
         double parentalBond = 1.0;
         double weather = 1.0;
         double critical = 1.0;
-        double random = 0.85 + (Math.random() * 0.15);
+        double random = 0.85 + (RANDOM.nextDouble() * 0.15);
         double stab = 1.0;
 
         int movePower = pokemonMove.getDamage();
@@ -144,7 +151,8 @@ public class BattleManager {
     }
 
     public void setupBattleTurns() {
-        PokemonMove playerMove = playerPokemon.getMove(moveSelectId - 1);
+        int clampedMoveId = Math.min(moveSelectId - 1, playerPokemon.getPokemonMovesList().size() - 1);
+        PokemonMove playerMove = playerPokemon.getMove(clampedMoveId);
         PokemonMove trainerMove = getTrainerMove();
 
         if (isFirstTurn()) {
@@ -167,15 +175,15 @@ public class BattleManager {
 
             battleEventQueue.add(new HPAnimationEvent(defender, damage));
 
-            if (defender.getCurrentHealth() - damage < 0) defender.setFainted(true);
+            if (defender.getCurrentHealth() - damage <= 0) handleFaint(defender);
         } else {
             battleEventQueue.add(new TextEvent(attacker.getName() + " did nothing!"));
         }
-
-        if(defender.isFainted()) handleFaint(defender);
     }
 
     private void handleFaint(Pokemon faintedPokemon) {
+        faintedPokemon.setFainted(true);
+
         if(faintedPokemon == playerPokemon) {
             int playerFaintLine = 580;
 
@@ -184,7 +192,8 @@ public class BattleManager {
 
             if(allPokemonFainted(playerParty)) {
                 battleOver = true;
-                battleEventQueue.add(new TextEvent(trainerPokemon.getName() + " wins!"));
+                battleScreenState = BattleScreenState.BattleLoss;
+                battleEventQueue.add(new TextEvent("You have no more Pokemon that can fight!"));
             }
         } else {
             int trainerFaintLine = 400;
@@ -199,14 +208,15 @@ public class BattleManager {
                 battleEventQueue.add(new TextEvent(playerPokemon.getName() + " wins!"));
             } else {
                 trainerPartyIndex++;
-                battleEventQueue.add(new TextEvent("Trainer sent out " + trainerParty.get(trainerPartyIndex).getName() + " !"));
-//                battleEventQueue.add(new ChangeSpriteEvent(battleManager, trainerParty.get(trainerPartyIndex)));
+                battleEventQueue.add(new TextEvent("Trainer sent out " + trainerParty.get(trainerPartyIndex).getName() + "!"));
+                battleEventQueue.add(new ChangeSpriteEvent(battleManager, trainerParty.get(trainerPartyIndex)));
             }
         }
     }
 
     private void gainExperience() {
         ExperienceCalculator calculator = new ExperienceCalculator();
+        calculator.setIsWild(isWildBattle);
         int exp = calculator.calculateExp(trainerPokemon);
 
         battleEventQueue.add(new TextEvent(playerPokemon.getName() + " gained " + exp + " EXP. Points!"));
@@ -223,8 +233,6 @@ public class BattleManager {
                 effectiveRatio = getEffectiveRatio(move, playerPokemon);
 
                 if(effectiveRatio > 1) {
-                    move.setCurrentPowerPoints(move.getCurrentPowerPoints() - 1);
-
                     return move;
                 } else if(effectiveRatio > 0 && move.getDamage() > highestMovePower) {
                     highestMovePower = move.getDamage();

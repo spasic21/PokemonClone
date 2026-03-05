@@ -16,7 +16,6 @@ public class HPAnimationEvent extends BattleEvent {
 
         if(this.newHealth < 0) {
             this.newHealth = 0;
-            this.pokemon.setFainted(true);
         }
     }
 
@@ -24,6 +23,7 @@ public class HPAnimationEvent extends BattleEvent {
     public void update() {
         if (pokemon.getCurrentHealth() <= 0) {
             pokemon.setCurrentHealth(0);
+            pokemon.setFainted(true);
             isFinished = true;
         } else if (pokemon.getCurrentHealth() > newHealth) {
             pokemon.setCurrentHealth(pokemon.getCurrentHealth() - 3);

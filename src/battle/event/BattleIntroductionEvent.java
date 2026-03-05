@@ -25,7 +25,7 @@ public class BattleIntroductionEvent extends BattleEvent {
     public void update() {
         if(playerSprite.getStartX() > playerSprite.getEndX()) {
             playerSprite.setStartX(playerSprite.getStartX() - 20);
-        }else {
+        } else {
             playerSprite.setStartX(playerSprite.getEndX());
             positionOne = true;
         }
@@ -36,6 +36,10 @@ public class BattleIntroductionEvent extends BattleEvent {
             opponentSprite.setStartX(opponentSprite.getEndX());
             positionTwo = true;
         }
+
+        if(positionOne && positionTwo) {
+            isFinished = true;
+        }
     }
 
     @Override
@@ -43,7 +47,6 @@ public class BattleIntroductionEvent extends BattleEvent {
         if(positionOne && positionTwo) {
             g.setColor(new Color(201, 211, 211));
             g.drawString("A wild " + opponentPokemon.getName() + " appeared!", x, y);
-            isFinished = true;
         }
     }
 }

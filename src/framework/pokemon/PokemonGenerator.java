@@ -1,7 +1,9 @@
 package framework.pokemon;
 
 import objects.pokemon.Pokemon;
+import objects.pokemon.PokemonBackSprite;
 import objects.pokemon.PokemonBaseStat;
+import objects.pokemon.PokemonFrontSprite;
 import objects.pokemon.PokemonMove;
 
 import java.util.Comparator;
@@ -9,6 +11,8 @@ import java.util.List;
 import java.util.Random;
 
 public class PokemonGenerator {
+
+    private static final Random RANDOM = new Random();
 
     private final PokemonDatabase pokemonDatabase;
 
@@ -25,8 +29,7 @@ public class PokemonGenerator {
         if (hasName) {
             pokemon.setName(name);
         } else {
-            Random rand = new Random();
-            pokemon.setName(pokemonEncounters[rand.nextInt(pokemonEncounters.length)]);
+            pokemon.setName(pokemonEncounters[RANDOM.nextInt(pokemonEncounters.length)]);
         }
 
         generateIndividualValues(pokemon, hasName);
@@ -73,8 +76,18 @@ public class PokemonGenerator {
 
         if (databasePokemon.getType2() != null) pokemon.setType2(databasePokemon.getType2());
 
-        pokemon.setFrontSprite(databasePokemon.getFrontSprite());
-        pokemon.setBackSprite(databasePokemon.getBackSprite());
+        pokemon.setFrontSprite(new PokemonFrontSprite(
+                databasePokemon.getDexNumber(),
+                databasePokemon.getFrontSprite().getColumn(),
+                databasePokemon.getFrontSprite().getRow(),
+                databasePokemon.getFrontSprite().getWidth(),
+                databasePokemon.getFrontSprite().getHeight()));
+        pokemon.setBackSprite(new PokemonBackSprite(
+                databasePokemon.getDexNumber(),
+                databasePokemon.getBackSprite().getColumn(),
+                databasePokemon.getBackSprite().getRow(),
+                databasePokemon.getBackSprite().getWidth(),
+                databasePokemon.getBackSprite().getHeight()));
 
         pokemon.setExpType(databasePokemon.getExpType());
         pokemon.setExpYield(databasePokemon.getExpYield());
@@ -93,15 +106,13 @@ public class PokemonGenerator {
             pokemon.setSpecialDefenseIV(31);
             pokemon.setSpeedIV(31);
         } else {
-            Random random = new Random();
-
-            pokemon.setLevel(random.nextInt(12) + 5);
-            pokemon.setHealthIV(random.nextInt(32));
-            pokemon.setAttackIV(random.nextInt(32));
-            pokemon.setDefenseIV(random.nextInt(32));
-            pokemon.setSpecialAttackIV(random.nextInt(32));
-            pokemon.setSpecialDefenseIV(random.nextInt(32));
-            pokemon.setSpeedIV(random.nextInt(32));
+            pokemon.setLevel(RANDOM.nextInt(12) + 5);
+            pokemon.setHealthIV(RANDOM.nextInt(32));
+            pokemon.setAttackIV(RANDOM.nextInt(32));
+            pokemon.setDefenseIV(RANDOM.nextInt(32));
+            pokemon.setSpecialAttackIV(RANDOM.nextInt(32));
+            pokemon.setSpecialDefenseIV(RANDOM.nextInt(32));
+            pokemon.setSpeedIV(RANDOM.nextInt(32));
         }
     }
 
@@ -121,6 +132,10 @@ public class PokemonGenerator {
         List<PokemonMove> moves = pokemonDatabase.getPokemon(pokemon.getName()).getPokemonMovesList().stream()
                 .filter(move -> pokemon.getLevel() >= move.getLevelLearnedAt())
                 .sorted(Comparator.comparingInt(PokemonMove::getLevelLearnedAt))
+                .map(move -> new PokemonMove(
+                        move.getName(), move.getType(), move.getDamage(), move.getAccuracy(),
+                        move.getCurrentPowerPoints(), move.getMaxPowerPoints(), move.getMoveCategory(),
+                        move.getPriority(), move.getLevelLearnedAt(), move.getDescription()))
                 .toList();
 
         int size = moves.size();

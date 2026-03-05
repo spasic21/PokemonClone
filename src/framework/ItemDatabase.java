@@ -15,6 +15,8 @@ import java.util.Random;
 
 public class ItemDatabase {
 
+    private static final Random RANDOM = new Random();
+
     private final List<Item> itemDatabase = new ArrayList<>();
 
     private final SpriteSheet spriteSheet;
@@ -48,7 +50,7 @@ public class ItemDatabase {
             JSONObject item = (JSONObject) o;
             String name = String.valueOf(item.get("name"));
             String description = String.valueOf(item.get("description"));
-            int count = new Random().nextInt(10) + 1;
+            int count = RANDOM.nextInt(10) + 1;
             int col = Integer.parseInt(String.valueOf(item.get("col")));
             int row = Integer.parseInt(String.valueOf(item.get("row")));
             BufferedImage image = spriteSheet.grabImage(col, row, 24, 24);

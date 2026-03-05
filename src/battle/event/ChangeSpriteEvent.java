@@ -18,6 +18,9 @@ public class ChangeSpriteEvent extends BattleEvent {
 
     @Override
     public void update() {
+        pokemon.getFrontSprite().setAlpha(1.0f);
+        pokemon.getFrontSprite().setStartX(-pokemon.getFrontSprite().getWidth());
+        pokemon.getFrontSprite().setEndY(100);
         battleManager.setTrainerPokemon(pokemon);
         isFinished = true;
     }

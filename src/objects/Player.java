@@ -18,6 +18,8 @@ import java.util.Random;
 
 public class Player extends Entity {
 
+    private static final Random RANDOM = new Random();
+
     private int speed;
 
     private Map<String, Animation> playerAnimations = new HashMap<>();
@@ -164,11 +166,10 @@ public class Player extends Entity {
             for (Tile tile : collisionTiles) {
                 if (tile != null) {
                     if (tile.getId() == ObjectId.GrassTile && getBounds(false).intersects(tile.getBounds()) && entityState == EntityState.Walking) {
-                        Random rand = new Random();
-                        int randomNumber = rand.nextInt(199) + 1;
+                        int randomNumber = RANDOM.nextInt(199) + 1;
 
                         if (randomNumber == 5) {
-                            int transitionType = rand.nextInt(3) + 1;
+                            int transitionType = RANDOM.nextInt(3) + 1;
                             entityState = EntityState.Standing;
 
                             handler.getGameKeyInput().resetKeys();

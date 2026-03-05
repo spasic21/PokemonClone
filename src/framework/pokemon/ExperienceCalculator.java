@@ -15,6 +15,10 @@ public class ExperienceCalculator {
     public ExperienceCalculator() {
     }
 
+    public void setIsWild(boolean isWild) {
+        this.isWild = isWild;
+    }
+
     /**
      * This function uses Gen 6 experience equation to calculate experience gained.
      *
