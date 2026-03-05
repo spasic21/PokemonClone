@@ -17,4 +17,7 @@ public abstract class BattleEvent {
     public void setIsFinished(boolean isFinished) {
         this.isFinished = isFinished;
     }
+
+    public void advance() {
+    }
 }

@@ -42,6 +42,7 @@ public class BattleKeyInput extends KeyInput {
 
     private void introductionControls(int keyCode) {
         if (keyCode == KeyEvent.VK_J) {
+            battleManager.getCurrentEvent().advance();
             if (battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() != null) {
                 battleManager.setCurrentEvent(battleManager.getBattleEventQueue().poll());
                 SoundManager.playSound("ButtonSound");
@@ -130,6 +131,7 @@ public class BattleKeyInput extends KeyInput {
 
     private void progressControls(int keyCode) {
         if (keyCode == KeyEvent.VK_J) {
+            battleManager.getCurrentEvent().advance();
             if (battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() != null) {
                 if (battleManager.getBattleEventQueue().peek() instanceof PokemonFaintEvent)
                     SoundManager.playSound("FaintedSound");

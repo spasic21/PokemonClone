@@ -12,15 +12,17 @@ public class TextEvent extends BattleEvent {
 
     @Override
     public void update() {
+    }
 
+    @Override
+    public void advance() {
+        isFinished = true;
     }
 
     @Override
     public void render(Graphics g, int x, int y) {
         g.setColor(new Color(201, 211, 211));
         g.drawString(text, x, y);
-
-        isFinished = true;
     }
 
     public String getText() {
