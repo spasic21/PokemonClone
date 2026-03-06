@@ -59,19 +59,25 @@ public class GameKeyInput extends KeyAdapter {
     }
 
     public boolean isUp() {
-        return playerKeyInput.up;
+        return movementCooldown <= 0 && playerKeyInput.up;
     }
 
     public boolean isDown() {
-        return playerKeyInput.down;
+        return movementCooldown <= 0 && playerKeyInput.down;
     }
 
     public boolean isRight() {
-        return playerKeyInput.right;
+        return movementCooldown <= 0 && playerKeyInput.right;
     }
 
     public boolean isLeft() {
-        return playerKeyInput.left;
+        return movementCooldown <= 0 && playerKeyInput.left;
+    }
+
+    private int movementCooldown = 0;
+
+    public void tickCooldown() {
+        if (movementCooldown > 0) movementCooldown--;
     }
 
     public void resetKeys() {
@@ -79,6 +85,7 @@ public class GameKeyInput extends KeyAdapter {
         playerKeyInput.down = false;
         playerKeyInput.left = false;
         playerKeyInput.right = false;
+        movementCooldown = 20;
     }
 
     public int getMenuOptionId() {

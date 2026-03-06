@@ -33,5 +33,17 @@
     "dialogue": {
       "default": ["Welcome to the Pokemon Center!", "We restore your Pokemon to full health."]
     }
+  },
+  {
+    "npcId": "POKE_MART_MERCHANT",
+    "name": "Poke Mart Merchant",
+    "direction": "RIGHT",
+    "isTrainer": false,
+    "spriteStartCol": 10,
+    "spriteStartRow": 1,
+    "interactionRange": 4,
+    "dialogue": {
+      "default": ["We don't accept Poke EBT he...", "Oh!", "You're not black.", "Welcome to the Poke Mart!", "How can I help you?"]
+    }
   }
 ]

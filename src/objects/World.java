@@ -199,7 +199,8 @@ public class World {
         return switch (location) {
             case World -> "first_town.json";
             case PlayerHouse -> "player_house.json";
-            case PokeCenter -> "poke_center.json";
+            case PokemonCenter -> "pokemon_center.json";
+            case PokeMart -> "poke_mart.json";
         };
     }
 

@@ -34,8 +34,8 @@ public class BattleKeyInput extends KeyInput {
         } else if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.Battle) {
             progressControls(e.getKeyCode());
         } else if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.BattleWin) {
-
             handler.getGame().setBattleStarted(false);
+            handler.getGame().getMusicManager().resumeLocationMusic();
             handler.getGame().setGameState(GameState.Game);
         }
     }
@@ -78,6 +78,7 @@ public class BattleKeyInput extends KeyInput {
             } else if (battleOptionId == 4) {
                 SoundManager.playSound("RunningAwaySound");
                 handler.getGame().setBattleStarted(false);
+                handler.getGame().getMusicManager().resumeLocationMusic();
                 handler.getGame().setGameState(GameState.Game);
             }
 
@@ -136,8 +137,6 @@ public class BattleKeyInput extends KeyInput {
                 if (battleManager.getBattleEventQueue().peek() instanceof PokemonFaintEvent)
                     SoundManager.playSound("FaintedSound");
 
-//                if(battleManager.getBattleEventQueue().peek() instanceof TextEvent textEvent && textEvent.getText().contains("wins")) handler.getGame().playMusicIfNeeded("/sounds/victory_wild_pokemon.wav");
-
                 battleManager.setCurrentEvent(battleManager.getBattleEventQueue().poll());
             } else if (battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() == null) {
                 battleManager.setCurrentEvent(null);
@@ -147,6 +146,7 @@ public class BattleKeyInput extends KeyInput {
                 if (battleManager.getBattleEventQueue().isEmpty() && battleManager.getCurrentEvent() == null) {
                     if (battleManager.isBattleOver()) {
                         battleManager.setBattleScreenState(BattleManager.BattleScreenState.BattleWin);
+                        handler.getGame().getMusicManager().playVictoryFanfare();
                     } else {
                         battleManager.setBattleScreenState(BattleManager.BattleScreenState.BattleOptionSelect);
                     }

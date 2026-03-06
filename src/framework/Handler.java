@@ -100,6 +100,10 @@ public class Handler {
         return pendingWorld != null;
     }
 
+    public World getPendingWorld() {
+        return pendingWorld;
+    }
+
     public void applyPendingWorld() {
         if (pendingWorld != null) {
             this.world = pendingWorld;

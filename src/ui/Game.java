@@ -4,7 +4,9 @@ import battle.BattleManager;
 import framework.EventFlagManager;
 import framework.Handler;
 import framework.ItemDatabase;
+import framework.MusicManager;
 import framework.SoundManager;
+import framework.enums.Location;
 import framework.npc.NpcDatabase;
 import framework.enums.GameState;
 import framework.pokemon.PokemonDatabase;
@@ -43,6 +45,7 @@ public class Game implements Runnable {
     private PokemonSummaryScreen pokemonSummaryScreen;
     private BagScreen bagScreen;
     private BattleManager battleManager;
+    private MusicManager musicManager;
     private NpcDatabase npcDatabase;
     private Bag bag;
     private boolean running = false;
@@ -106,6 +109,9 @@ public class Game implements Runnable {
         this.bagScreen = new BagScreen(handler);
 
         loadSounds();
+
+        this.musicManager = new MusicManager();
+        preloadMusic();
 
         window.getCanvas().addKeyListener(gameKeyInput);
         databaseLoaded = true;
@@ -172,6 +178,10 @@ public class Game implements Runnable {
     private void update() {
         if (!databaseLoaded && gameState != GameState.Loading) return;
 
+        if (musicManager != null) {
+            musicManager.update();
+        }
+
         if (previousState == GameState.Battle && gameState != GameState.Battle) {
             battleStarted = false;
         }
@@ -180,7 +190,12 @@ public class Game implements Runnable {
         switch (gameState) {
             case Loading -> loadingScreen.update();
             case Game -> {
-//                playMusicIfNeeded("/sounds/azalea_city.wav");
+                if (musicManager != null
+                        && musicManager.getState() == MusicManager.MusicState.IDLE
+                        && handler.getWorld() != null) {
+                    musicManager.playLocationMusic(handler.getWorld().getLocation());
+                }
+                gameKeyInput.tickCooldown();
                 gameScreen.update();
             }
             case Menu, Dialogue -> {
@@ -188,7 +203,16 @@ public class Game implements Runnable {
             }
 
             case Transition -> {
-//                if(handler.getNextGameState() == GameState.Battle) playMusicIfNeeded("/sounds/johto_wild_pokemon_battle.wav");
+                if (musicManager != null) {
+                    if (handler.getNextGameState() == GameState.Battle
+                            && musicManager.getState() != MusicManager.MusicState.PLAYING_BATTLE) {
+                        musicManager.playBattleMusic(true);
+                    } else if (handler.getNextGameState() == GameState.Game
+                            && handler.getPendingWorld() != null
+                            && musicManager.getState() != MusicManager.MusicState.CROSSFADING) {
+                        musicManager.playLocationMusic(handler.getPendingWorld().getLocation());
+                    }
+                }
 
                 transitionScreen.update(handler.getTransitionType());
 
@@ -282,10 +306,15 @@ public class Game implements Runnable {
         SoundManager.loadSound("LowHealthSound", "/sounds/low_health_sound.wav");
     }
 
-    public void playMusicIfNeeded(String path) {
-        if (!SoundManager.isPlaying(path)) {
-            SoundManager.playMusic(path);
+    private void preloadMusic() {
+        for (Location location : Location.values()) {
+            if (location.getMusicPath() != null) {
+                SoundManager.getMusicClip(location.getMusicPath());
+            }
         }
+        SoundManager.getMusicClip("/sounds/johto_wild_pokemon_battle.wav");
+        SoundManager.getMusicClip("/sounds/rival_battle.wav");
+        SoundManager.getMusicClip("/sounds/victory_wild_pokemon.wav");
     }
 
     public GameState getGameState() {
@@ -310,6 +339,10 @@ public class Game implements Runnable {
 
     public void setBattleStarted(boolean battleStarted) {
         this.battleStarted = battleStarted;
+    }
+
+    public MusicManager getMusicManager() {
+        return musicManager;
     }
 
     public GameKeyInput getGameKeyInput() {
