@@ -4,7 +4,10 @@ import framework.Handler;
 import framework.SoundManager;
 import framework.enums.EntityDirection;
 import framework.enums.GameState;
+import objects.Entity;
+import objects.NPC;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class PlayerKeyInput extends KeyInput {
@@ -53,20 +56,42 @@ public class PlayerKeyInput extends KeyInput {
             left = false;
         }
 
-        if(key == KeyEvent.VK_J && handler.isEntityCollision() && handler.getCurrentNpc() != null) {
-            SoundManager.playSound("ButtonSound");
-            float x = handler.getWorld().getEntityManager().getPlayer().getX();
-            float y = handler.getWorld().getEntityManager().getPlayer().getY();
-            float deltaX = x - handler.getCurrentNpc().getX();
-            float deltaY = y - handler.getCurrentNpc().getY();
+        if (key == KeyEvent.VK_J) {
+            NPC targetNpc = null;
 
-            if(Math.abs(deltaX) > Math.abs(deltaY)) {
-                handler.getCurrentNpc().setEntityDirection(deltaX > 0 ? EntityDirection.RIGHT : EntityDirection.LEFT);
-            } else {
-                handler.getCurrentNpc().setEntityDirection(deltaY > 0 ? EntityDirection.DOWN : EntityDirection.UP);
+            // Direct collision (adjacent NPC)
+            if (handler.isEntityCollision() && handler.getCurrentNpc() != null) {
+                targetNpc = handler.getCurrentNpc();
             }
 
-            handler.getGame().setGameState(GameState.Dialogue);
+            // Interaction zone (e.g. NPC behind a counter)
+            if (targetNpc == null) {
+                int stw = handler.getWorld().getScaledTileWidth();
+                int sth = handler.getWorld().getScaledTileHeight();
+                Rectangle playerBounds = handler.getWorld().getEntityManager().getPlayer().getBounds(false);
+                for (Entity entity : handler.getWorld().getEntityManager().getEntities()) {
+                    if (entity instanceof NPC npc && npc.getInteractionZone(stw, sth).intersects(playerBounds)) {
+                        targetNpc = npc;
+                        break;
+                    }
+                }
+            }
+
+            if (targetNpc != null) {
+                SoundManager.playSound("ButtonSound");
+                float px = handler.getWorld().getEntityManager().getPlayer().getX();
+                float py = handler.getWorld().getEntityManager().getPlayer().getY();
+                float deltaX = px - targetNpc.getX();
+                float deltaY = py - targetNpc.getY();
+                if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    targetNpc.setEntityDirection(deltaX > 0 ? EntityDirection.RIGHT : EntityDirection.LEFT);
+                } else {
+                    targetNpc.setEntityDirection(deltaY > 0 ? EntityDirection.DOWN : EntityDirection.UP);
+                }
+                handler.setCurrentNpc(targetNpc);
+                handler.getDialogueScreen().startDialogue(targetNpc);
+                handler.getGame().setGameState(GameState.Dialogue);
+            }
         }
 
         if(key == KeyEvent.VK_ENTER) {

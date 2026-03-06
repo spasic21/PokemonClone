@@ -21,7 +21,11 @@ public class DialogueKeyInput extends KeyInput {
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_J) {
             SoundManager.playSound("ButtonSound");
-            handler.getGame().setGameState(GameState.Game);
+            if (handler.getDialogueScreen().isLastPage()) {
+                handler.getGame().setGameState(GameState.Game);
+            } else {
+                handler.getDialogueScreen().advancePage();
+            }
         }
     }
 }

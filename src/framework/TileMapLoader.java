@@ -36,6 +36,7 @@ public class TileMapLoader {
     private SpriteSheet spriteSheet, collisionSheet;
     private List<MapTransitionPoint> transitionPoints = new ArrayList<>();
     private List<MapSpawnPoint> spawnPoints = new ArrayList<>();
+    private List<MapNpcSpawn> npcSpawns = new ArrayList<>();
 
     public TileMapLoader(String path) throws IOException, ParseException {
         this.path = path;
@@ -144,6 +145,22 @@ public class TileMapLoader {
                     int tileX = (int) Math.round(objX / tileWidth);
                     int tileY = (int) Math.round(objY / tileHeight);
                     spawnPoints.add(new MapSpawnPoint(name, tileX, tileY));
+                } else if ("NPC".equals(type) && isPoint) {
+                    // NPC spawn point — position + npcId reference into npc_database.json
+                    String npcId = null;
+                    for (Object propItem : props) {
+                        JSONObject prop = (JSONObject) propItem;
+                        if ("npcId".equals(prop.get("name"))) {
+                            npcId = (String) prop.get("value");
+                        }
+                    }
+                    if (npcId != null) {
+                        int tileX = (int) Math.round(objX / tileWidth);
+                        int tileY = (int) Math.round(objY / tileHeight);
+                        npcSpawns.add(new MapNpcSpawn(npcId, tileX, tileY));
+                    } else {
+                        System.err.println("NPC object '" + name + "' is missing npcId property");
+                    }
                 }
             }
         }
@@ -245,5 +262,9 @@ public class TileMapLoader {
 
     public List<MapSpawnPoint> getSpawnPoints() {
         return spawnPoints;
+    }
+
+    public List<MapNpcSpawn> getNpcSpawns() {
+        return npcSpawns;
     }
 }

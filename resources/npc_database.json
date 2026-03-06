@@ -1,0 +1,37 @@
+[
+  {
+    "npcId": "RIVAL_FIRST_TOWN",
+    "name": "Rival",
+    "direction": "DOWN",
+    "isTrainer": false,
+    "spriteStartCol": 1,
+    "spriteStartRow": 1,
+    "dialogue": {
+      "RIVAL_DEFEATED_FIRST_TOWN": ["You beat me...", "I'll train harder!"],
+      "default": ["Don't mind me standing here.", "What? You wanna fight?"]
+    }
+  },
+  {
+    "npcId": "RIVAL_2_FIRST_TOWN",
+    "name": "Rival",
+    "direction": "DOWN",
+    "isTrainer": false,
+    "spriteStartCol": 4,
+    "spriteStartRow": 1,
+    "dialogue": {
+      "default": ["..."]
+    }
+  },
+  {
+    "npcId": "NURSE_JOY",
+    "name": "Nurse Joy",
+    "direction": "DOWN",
+    "isTrainer": false,
+    "spriteStartCol": 7,
+    "spriteStartRow": 1,
+    "interactionRange": 4,
+    "dialogue": {
+      "default": ["Welcome to the Pokemon Center!", "We restore your Pokemon to full health."]
+    }
+  }
+]

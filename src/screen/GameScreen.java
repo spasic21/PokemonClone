@@ -1,6 +1,5 @@
 package screen;
 
-import framework.DialogueScreen;
 import framework.Handler;
 import framework.enums.EntityDirection;
 import framework.enums.GameState;
@@ -12,13 +11,11 @@ import java.awt.*;
 public class GameScreen extends Screen {
 
     private MenuScreen menuScreen;
-    private DialogueScreen dialogueScreen;
 
     public GameScreen(Handler handler) {
         super(handler);
 
         menuScreen = new MenuScreen(handler);
-        dialogueScreen = new DialogueScreen(handler);
 
         handler.setWorld(new World(handler, Location.World, 1240, 1816, EntityDirection.DOWN));
     }
@@ -35,7 +32,7 @@ public class GameScreen extends Screen {
         if(handler.getGame().getGameState() == GameState.Menu) {
             menuScreen.render(g);
         } else if(handler.getGame().getGameState() == GameState.Dialogue) {
-            dialogueScreen.render(g);
+            handler.getDialogueScreen().render(g);
         }
     }
 }

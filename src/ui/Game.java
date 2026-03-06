@@ -1,13 +1,14 @@
 package ui;
 
 import battle.BattleManager;
+import framework.EventFlagManager;
 import framework.Handler;
 import framework.ItemDatabase;
 import framework.SoundManager;
+import framework.npc.NpcDatabase;
 import framework.enums.GameState;
 import framework.pokemon.PokemonDatabase;
 import framework.pokemon.PokemonGenerator;
-import framework.spawn.SpawnManager;
 import keyInput.GameKeyInput;
 import objects.Bag;
 import objects.pokemon.Pokemon;
@@ -42,6 +43,7 @@ public class Game implements Runnable {
     private PokemonSummaryScreen pokemonSummaryScreen;
     private BagScreen bagScreen;
     private BattleManager battleManager;
+    private NpcDatabase npcDatabase;
     private Bag bag;
     private boolean running = false;
     private Thread thread;
@@ -81,14 +83,16 @@ public class Game implements Runnable {
     }
 
     private void onDatabaseLoaded() {
+        this.handler.setEventFlagManager(new EventFlagManager());
+
+        this.npcDatabase = new NpcDatabase();
+        this.npcDatabase.initDatabase();
+        this.handler.setNpcDatabase(this.npcDatabase);
+
         this.handler.setPokemonParty(getPlayerParty());
 
-        SpawnManager spawnManager = SpawnManager.getInstance();
-
-        spawnManager.init();
-
-        this.handler.setSpawnManager(spawnManager);
         this.handler.setBag(new Bag(itemDatabase));
+        this.handler.setDialogueScreen(new framework.DialogueScreen(handler));
 
         this.battleManager = BattleManager.getInstance();
         this.gameKeyInput = new GameKeyInput(this.handler, this.battleManager);

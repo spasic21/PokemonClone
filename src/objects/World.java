@@ -2,12 +2,15 @@ package objects;
 
 import framework.Camera;
 import framework.Handler;
+import framework.MapNpcSpawn;
 import framework.MapSpawnPoint;
 import framework.MapTransitionPoint;
 import framework.TileMapLoader;
 import framework.enums.EntityDirection;
 import framework.enums.Location;
 import framework.enums.ObjectId;
+import framework.npc.NpcData;
+import framework.npc.NpcDatabase;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ public class World {
     private int scaledTileWidth, scaledTileHeight, mapCols, mapRows;
     private List<MapTransitionPoint> transitionPoints = new ArrayList<>();
     private List<MapSpawnPoint> spawnPoints = new ArrayList<>();
+    private List<MapNpcSpawn> npcSpawns = new ArrayList<>();
 
     // Used for initial world load with known pixel coords (e.g. game start)
     public World(Handler handler, Location location, int spawnX, int spawnY, EntityDirection entityDirection) {
@@ -43,6 +47,7 @@ public class World {
             loadTileMap();
             this.entityManager = new EntityManager(handler, new Player(handler, spawnX, spawnY, 72, 72, entityDirection, ObjectId.Player));
             camera.update(entityManager.getPlayer());
+            spawnNpcs();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -88,9 +93,57 @@ public class World {
 
             this.entityManager = new EntityManager(handler, new Player(handler, spawnX, spawnY, 72, 72, entityDirection, ObjectId.Player));
             camera.update(entityManager.getPlayer());
+            spawnNpcs();
         } catch(Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void spawnNpcs() {
+        NpcDatabase npcDatabase = handler.getNpcDatabase();
+        if (npcDatabase == null) return;
+
+        for (MapNpcSpawn spawn : npcSpawns) {
+            NpcData data = npcDatabase.getNpcData(spawn.npcId());
+            if (data == null) {
+                System.err.println("NPC not found in database: " + spawn.npcId());
+                continue;
+            }
+            int[] freeTile = findFreeSpawnTile(spawn.tileX(), spawn.tileY(), spawn.npcId());
+            if (freeTile == null) {
+                System.err.println("No free tile found for NPC: " + spawn.npcId() + " near (" + spawn.tileX() + ", " + spawn.tileY() + ") — skipping");
+                continue;
+            }
+            float x = freeTile[0] * scaledTileWidth;
+            float y = freeTile[1] * scaledTileHeight;
+            if (freeTile[0] != spawn.tileX() || freeTile[1] != spawn.tileY()) {
+                System.out.println("NPC '" + spawn.npcId() + "' moved from (" + spawn.tileX() + "," + spawn.tileY() + ") to (" + freeTile[0] + "," + freeTile[1] + ") to avoid collision");
+            }
+            entityManager.addEntity(new NPC(handler, x, y, 72, 72, data, ObjectId.NPC));
+        }
+    }
+
+    /**
+     * Searches outward from (tileX, tileY) in expanding rings for a tile that has no RestrictionTile.
+     * Returns the tile coordinates as [x, y], or null if none found within the search radius.
+     */
+    private int[] findFreeSpawnTile(int tileX, int tileY, String npcId) {
+        final int MAX_RADIUS = 5;
+        for (int radius = 0; radius <= MAX_RADIUS; radius++) {
+            for (int dx = -radius; dx <= radius; dx++) {
+                for (int dy = -radius; dy <= radius; dy++) {
+                    if (Math.abs(dx) != radius && Math.abs(dy) != radius) continue; // only check ring edge
+                    int tx = tileX + dx;
+                    int ty = tileY + dy;
+                    if (tx < 0 || ty < 0 || tx >= mapCols || ty >= mapRows) continue;
+                    Tile collision = collisionLayer[tx][ty];
+                    if (collision == null || collision.getId() != ObjectId.RestrictionTile) {
+                        return new int[]{tx, ty};
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     private void loadTileMap() throws Exception {
@@ -102,6 +155,7 @@ public class World {
         collisionLayer = tileMapLoader.getCollisionLayer();
         transitionPoints = tileMapLoader.getTransitionPoints();
         spawnPoints = tileMapLoader.getSpawnPoints();
+        npcSpawns = tileMapLoader.getNpcSpawns();
 
         scaledTileWidth = tileMapLoader.getTileWidth() * 5;
         scaledTileHeight = tileMapLoader.getTileHeight() * 5;

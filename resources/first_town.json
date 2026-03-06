@@ -322,8 +322,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":336.098567193676,
-                 "y":128.018157114625
+                 "x":337.186067193676,
+                 "y":128.91121267018
                 }, 
                 {
                  "height":0,
@@ -340,8 +340,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":136,
-                 "y":296.054347826087
+                 "x":137.05027173913,
+                 "y":296.941576086957
                 }, 
                 {
                  "height":7.0625,
@@ -396,6 +396,29 @@
                  "width":15.96875,
                  "x":336.004166666667,
                  "y":112.021527777778
+                }, 
+                {
+                 "height":0,
+                 "id":7,
+                 "name":"Rival",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"npcId",
+                         "type":"string",
+                         "value":"RIVAL_FIRST_TOWN"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"NPC"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":152,
+                 "y":135.272727272727
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -404,7 +427,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":7,
+ "nextobjectid":8,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.0",

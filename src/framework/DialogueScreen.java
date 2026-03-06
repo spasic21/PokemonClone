@@ -1,5 +1,6 @@
 package framework;
 
+import objects.NPC;
 import screen.Screen;
 
 import java.awt.*;
@@ -12,9 +13,11 @@ public class DialogueScreen extends Screen {
 
     private int dialogueX, dialogueY, dialogueWidth, dialogueHeight;
 
-    private Font font;
+    private Font dialogueFont;
+    private BasicStroke borderStroke;
 
-    private String dialogueText = "Rival: Don't mind me standing here. What? You wanna fight?";
+    private List<String> currentLines = List.of("...");
+    private int currentPage = 0;
 
     public DialogueScreen(Handler handler) {
         super(handler);
@@ -26,21 +29,35 @@ public class DialogueScreen extends Screen {
 
         try {
             InputStream inputStream = getClass().getResourceAsStream("/font/PokemonFont.ttf");
-            font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            Font base = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            dialogueFont = base.deriveFont(48f);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
+
+        borderStroke = new BasicStroke(5);
+    }
+
+    public void startDialogue(NPC npc) {
+        currentLines = npc.resolveDialogue(handler.getEventFlagManager());
+        currentPage = 0;
+    }
+
+    public void advancePage() {
+        if (!isLastPage()) currentPage++;
+    }
+
+    public boolean isLastPage() {
+        return currentPage >= currentLines.size() - 1;
     }
 
     @Override
     public void update() {
-
     }
 
     @Override
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        Font dialogueFont = font.deriveFont(48f);
         int padding = 60;
         int lineSpacing = 50;
 
@@ -51,21 +68,28 @@ public class DialogueScreen extends Screen {
         g.fillRoundRect(dialogueX, dialogueY, dialogueWidth, dialogueHeight, 20, 20);
 
         g.setColor(Color.BLACK);
-        g2d.setStroke(new BasicStroke(5));
+        g2d.setStroke(borderStroke);
         g.drawRoundRect(dialogueX, dialogueY, dialogueWidth, dialogueHeight, 20, 20);
 
         g.setFont(dialogueFont);
 
-        List<String> lines = getWrappedText(g, dialogueText, dialogueWidth - padding);
+        String pageText = currentLines.get(currentPage);
+        List<String> wrappedLines = getWrappedText(g, pageText, dialogueWidth - padding * 2);
 
         int yOffset = 0;
-
-        for (String line : lines) {
+        for (String line : wrappedLines) {
             g.drawString(line, textX, textY + yOffset);
             yOffset += lineSpacing;
         }
 
-
+        // More pages indicator
+        if (!isLastPage()) {
+            FontMetrics fm = g.getFontMetrics();
+            String arrow = "\u25BA";
+            int arrowX = dialogueX + dialogueWidth - padding;
+            int arrowY = dialogueY + dialogueHeight - padding / 2;
+            g.drawString(arrow, arrowX, arrowY);
+        }
     }
 
     private List<String> getWrappedText(Graphics g, String text, int maxWidth) {

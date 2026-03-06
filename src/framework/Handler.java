@@ -1,7 +1,7 @@
 package framework;
 
 import framework.enums.GameState;
-import framework.spawn.SpawnManager;
+import framework.npc.NpcDatabase;
 import keyInput.GameKeyInput;
 import objects.Bag;
 import objects.NPC;
@@ -16,9 +16,11 @@ public class Handler {
 
     private Game game;
 
-    private List<Pokemon> pokemonParty;
+    private EventFlagManager eventFlagManager;
 
-    private SpawnManager spawnManager;
+    private NpcDatabase npcDatabase;
+
+    private List<Pokemon> pokemonParty;
 
     private World world;
 
@@ -36,12 +38,30 @@ public class Handler {
 
     private Bag bag;
 
+    private DialogueScreen dialogueScreen;
+
     public Handler(Game game) {
         this.game = game;
     }
 
     public Game getGame() {
         return game;
+    }
+
+    public EventFlagManager getEventFlagManager() {
+        return eventFlagManager;
+    }
+
+    public void setEventFlagManager(EventFlagManager eventFlagManager) {
+        this.eventFlagManager = eventFlagManager;
+    }
+
+    public NpcDatabase getNpcDatabase() {
+        return npcDatabase;
+    }
+
+    public void setNpcDatabase(NpcDatabase npcDatabase) {
+        this.npcDatabase = npcDatabase;
     }
 
     public int getWidth() {
@@ -62,14 +82,6 @@ public class Handler {
 
     public void setPokemonParty(List<Pokemon> pokemonParty) {
         this.pokemonParty = pokemonParty;
-    }
-
-    public SpawnManager getSpawnManager() {
-        return spawnManager;
-    }
-
-    public void setSpawnManager(SpawnManager spawnManager) {
-        this.spawnManager = spawnManager;
     }
 
     public World getWorld() {
@@ -136,5 +148,13 @@ public class Handler {
 
     public void setBag(Bag bag) {
         this.bag = bag;
+    }
+
+    public DialogueScreen getDialogueScreen() {
+        return dialogueScreen;
+    }
+
+    public void setDialogueScreen(DialogueScreen dialogueScreen) {
+        this.dialogueScreen = dialogueScreen;
     }
 }
