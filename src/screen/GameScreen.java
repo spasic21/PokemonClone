@@ -22,7 +22,11 @@ public class GameScreen extends Screen {
 
     @Override
     public void update() {
-        handler.getWorld().update();
+        if (handler.getGame().getGameState() == GameState.Menu) {
+            menuScreen.update();
+        } else {
+            handler.getWorld().update();
+        }
     }
 
     @Override

@@ -1,6 +1,8 @@
 package keyInput;
 
 import battle.BattleManager;
+import battle.event.BattleEvent;
+import battle.event.ExpAnimationEvent;
 import battle.event.PokemonFaintEvent;
 import framework.Handler;
 import framework.SoundManager;
@@ -34,9 +36,8 @@ public class BattleKeyInput extends KeyInput {
         } else if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.Battle) {
             progressControls(e.getKeyCode());
         } else if (battleManager.getBattleScreenState() == BattleManager.BattleScreenState.BattleWin) {
-            handler.getGame().setBattleStarted(false);
             handler.getGame().getMusicManager().resumeLocationMusic();
-            handler.getGame().setGameState(GameState.Game);
+            handler.setNextTransition(1, GameState.Game);
         }
     }
 
@@ -132,10 +133,14 @@ public class BattleKeyInput extends KeyInput {
 
     private void progressControls(int keyCode) {
         if (keyCode == KeyEvent.VK_J) {
+            BattleEvent finishedEvent = battleManager.getCurrentEvent();
             battleManager.getCurrentEvent().advance();
             if (battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() != null) {
                 if (battleManager.getBattleEventQueue().peek() instanceof PokemonFaintEvent)
                     SoundManager.playSound("FaintedSound");
+
+                if (finishedEvent instanceof ExpAnimationEvent && battleManager.isBattleOver())
+                    handler.getGame().getMusicManager().playVictoryFanfare();
 
                 battleManager.setCurrentEvent(battleManager.getBattleEventQueue().poll());
             } else if (battleManager.getCurrentEvent().isFinished() && battleManager.getBattleEventQueue().peek() == null) {
@@ -146,7 +151,6 @@ public class BattleKeyInput extends KeyInput {
                 if (battleManager.getBattleEventQueue().isEmpty() && battleManager.getCurrentEvent() == null) {
                     if (battleManager.isBattleOver()) {
                         battleManager.setBattleScreenState(BattleManager.BattleScreenState.BattleWin);
-                        handler.getGame().getMusicManager().playVictoryFanfare();
                     } else {
                         battleManager.setBattleScreenState(BattleManager.BattleScreenState.BattleOptionSelect);
                     }

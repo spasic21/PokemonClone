@@ -1,10 +1,9 @@
 package screen;
 
 import framework.Handler;
+import ui.OptionPointer;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -14,38 +13,35 @@ public class MenuScreen extends Screen {
 
     private int menuX, menuY, menuWidth, menuHeight;
 
-    private int optionPointerWidth, optionPointerHeight;
-
     private Font menuFont;
     private BasicStroke borderStroke;
 
-    private BufferedImage optionPointer;
+    private OptionPointer optionPointer;
 
     private List<String> menuList = Arrays.asList("Pokedex", "Pokemon", "Bag", "Gugi", "Save", "Options", "Exit");
 
     public MenuScreen(Handler handler) {
         super(handler);
 
-        menuWidth = 250;
-        menuX = handler.getWidth() - menuWidth - 50;
-        menuY = 50;
+        this.optionPointer = new OptionPointer();
+        this.menuWidth = 250;
+        this.menuX = handler.getWidth() - this.menuWidth - 50;
+        this.menuY = 50;
 
         try {
             InputStream inputStream = getClass().getResourceAsStream("/font/PokemonFont.ttf");
             Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
             menuFont = font.deriveFont(48f);
             borderStroke = new BasicStroke(5);
-
-            optionPointer = ImageIO.read(getClass().getResource("/hud/option_pointer.png"));
-            optionPointerWidth = optionPointer.getWidth() * 4;
-            optionPointerHeight = optionPointer.getHeight() * 4;
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void update() {}
+    public void update() {
+        optionPointer.update();
+    }
 
     @Override
     public void render(Graphics g) {
@@ -72,6 +68,9 @@ public class MenuScreen extends Screen {
             g.drawString(menuList.get(i), x, y);
         }
 
-        g.drawImage(optionPointer, menuX + 35, menuY + 42 + (optionId * spacing), optionPointerWidth, optionPointerHeight, null);
+        int optionPointerX = menuX + 30;
+        int optionPointerY = menuY + 40 + (optionId * spacing);
+
+        optionPointer.render(g, optionPointerX, optionPointerY);
     }
 }

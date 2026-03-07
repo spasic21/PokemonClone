@@ -25,7 +25,7 @@ Each NPC occupies a 3-column × 4-row block on the sheet.
 
 ---
 
-## NPC Registry
+## NPC Registry Example - Actual json has real data
 
 | npcId               | spriteStartCol | spriteStartRow | interactionRange | Description           |
 |---------------------|----------------|----------------|------------------|-----------------------|

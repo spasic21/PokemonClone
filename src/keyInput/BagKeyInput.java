@@ -37,10 +37,6 @@ public class BagKeyInput extends KeyInput {
         } else if(keyCode == KeyEvent.VK_D && pocketId < 2) {
             switchPocket(1);
         } else if(keyCode == KeyEvent.VK_K) {
-            itemId = 0;
-            pocketId = 0;
-            startIndex = 0;
-
             SoundManager.playSound("ButtonSound");
             handler.setNextTransition(1, GameState.Menu);
         } else if(keyCode == KeyEvent.VK_ENTER) {

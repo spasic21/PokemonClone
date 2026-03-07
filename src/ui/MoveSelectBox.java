@@ -1,16 +1,17 @@
 package ui;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.util.List;
+
 import battle.BattleManager;
 import framework.Handler;
 import framework.SpriteSheet;
 import objects.pokemon.Pokemon;
 import objects.pokemon.PokemonMove;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.List;
 
 public class MoveSelectBox {
 
@@ -18,7 +19,7 @@ public class MoveSelectBox {
 
     private final BattleManager battleManager;
 
-    private BufferedImage optionPointer;
+    private OptionPointer optionPointer;
     private SpriteSheet typeSymbolSpriteSheet;
 
     private int moveBoxHeight;
@@ -27,8 +28,6 @@ public class MoveSelectBox {
     private int moveTwoX, moveTwoY;
     private int moveThreeX, moveThreeY;
     private int moveFourX, moveFourY;
-
-    private int optionPointerWidth, optionPointerHeight;
 
     private int optionOneX, optionOneY;
     private int optionTwoX, optionTwoY;
@@ -40,17 +39,9 @@ public class MoveSelectBox {
         this.handler = handler;
         this.battleManager = battleManager;
 
-        try {
-            optionPointer = ImageIO.read(getClass().getResource("/hud/option_pointer.png"));
-            typeSymbolSpriteSheet = new SpriteSheet("/hud/pokemon_type_icons.png");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.optionPointer = new OptionPointer();
+        this.typeSymbolSpriteSheet = new SpriteSheet("/hud/pokemon_type_icons.png");
 
-        loadDimensions();
-    }
-
-    private void loadDimensions() {
         moveBoxHeight = 220;
 
         moveOneX = 75;
@@ -61,10 +52,6 @@ public class MoveSelectBox {
         moveThreeY = handler.getHeight() - moveBoxHeight + 175;
         moveFourX = 475;
         moveFourY = handler.getHeight() - moveBoxHeight + 175;
-
-        // Original width and height multiplied by a factor value.
-        this.optionPointerWidth = 5 * 5;
-        this.optionPointerHeight = 9 * 5;
 
         optionOneX = moveOneX - 40;
         optionOneY = moveOneY - 40;
@@ -84,6 +71,10 @@ public class MoveSelectBox {
 
     public void render(Graphics g, Pokemon pokemon) {
         renderMoveBox(g, pokemon);
+    }
+
+    public void update() {
+        optionPointer.update();
     }
 
     public void renderMoveBox(Graphics g, Pokemon pokemon) {
@@ -126,10 +117,10 @@ public class MoveSelectBox {
 
     private void renderOptionPointer(Graphics g, int moveOptionId) {
         switch (moveOptionId) {
-            case 2 -> g.drawImage(optionPointer, optionTwoX, optionTwoY, optionPointerWidth, optionPointerHeight, null);
-            case 3 -> g.drawImage(optionPointer, optionThreeX, optionThreeY, optionPointerWidth, optionPointerHeight, null);
-            case 4 -> g.drawImage(optionPointer, optionFourX, optionFourY, optionPointerWidth, optionPointerHeight, null);
-            default -> g.drawImage(optionPointer, optionOneX, optionOneY, optionPointerWidth, optionPointerHeight, null);
+            case 2 -> optionPointer.render(g, optionTwoX, optionTwoY);
+            case 3 -> optionPointer.render(g, optionThreeX, optionThreeY);
+            case 4 -> optionPointer.render(g, optionFourX, optionFourY);
+            default -> optionPointer.render(g, optionOneX, optionOneY);
         }
     }
 

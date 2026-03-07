@@ -19,12 +19,10 @@ public class BattleOptions {
     private int width;
     private int height;
 
-    private BufferedImage optionPointer;
+    private OptionPointer optionPointer;
 
     private int textLocationX;
     private int textLocationY;
-    private int optionPointerWidth;
-    private int optionPointerHeight;
     private int fightOptionX, fightOptionY;
     private int bagOptionX, bagOptionY;
     private int pokemonOptionX, pokemonOptionY;
@@ -37,10 +35,10 @@ public class BattleOptions {
         this.y = y;
         this.width = width;
         this.height = height;
+        this.optionPointer = new OptionPointer();
 
-        // Original width and height multiplied by a factor value.
-        this.optionPointerWidth = 5 * 5;
-        this.optionPointerHeight = 9 * 5;
+        this.textLocationX = 75;
+        this.textLocationY = handler.getHeight() - 125;
 
         this.fightOptionX = x + 40;
         this.fightOptionY = y + 40;
@@ -53,35 +51,10 @@ public class BattleOptions {
 
         this.runOptionX = x + 305;
         this.runOptionY = y + 130;
-
-        try {
-            optionPointer = ImageIO.read(getClass().getResource("/hud/option_pointer.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        loadDimensions();
     }
 
-    private void loadDimensions() {
-        textLocationX = 75;
-        textLocationY = handler.getHeight() - 125;
-
-        // Original width and height multiplied by a factor value.
-        optionPointerWidth = 5 * 5;
-        optionPointerHeight = 9 * 5;
-
-        fightOptionX = x + 40;
-        fightOptionY = y + 40;
-
-        bagOptionX = x + 305;
-        bagOptionY = y + 40;
-
-        pokemonOptionX = x + 40;
-        pokemonOptionY = y + 130;
-
-        runOptionX = x + 305;
-        runOptionY = y + 130;
+    public void update() {
+        optionPointer.update();
     }
 
     public void render(Graphics g) {
@@ -105,16 +78,16 @@ public class BattleOptions {
     private void renderOptionPointer(Graphics g, int battleOptionId) {
         switch (battleOptionId) {
             case 2:
-                g.drawImage(optionPointer, bagOptionX, bagOptionY, optionPointerWidth, optionPointerHeight, null);
+                optionPointer.render(g, bagOptionX, bagOptionY);
                 break;
             case 3:
-                g.drawImage(optionPointer, pokemonOptionX, pokemonOptionY, optionPointerWidth, optionPointerHeight, null);
+                optionPointer.render(g, pokemonOptionX, pokemonOptionY);
                 break;
             case 4:
-                g.drawImage(optionPointer, runOptionX, runOptionY, optionPointerWidth, optionPointerHeight, null);
+                optionPointer.render(g, runOptionX, runOptionY);
                 break;
             default:
-                g.drawImage(optionPointer, fightOptionX, fightOptionY, optionPointerWidth, optionPointerHeight, null);
+                optionPointer.render(g, fightOptionX, fightOptionY);
                 break;
         }
     }

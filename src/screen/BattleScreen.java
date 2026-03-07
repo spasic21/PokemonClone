@@ -102,6 +102,8 @@ public class BattleScreen extends Screen {
                     battleManager.getCurrentEvent().update();
                 }
             }
+            case BattleOptionSelect -> battleOptions.update();
+            default -> moveSelectBox.update();
         }
     }
 

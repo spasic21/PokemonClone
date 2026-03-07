@@ -9,8 +9,11 @@ import objects.NPC;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 public class PlayerKeyInput extends KeyInput {
+
+    private static final Random RANDOM = new Random();
 
     public PlayerKeyInput(Handler handler) {
         super(handler);
@@ -34,6 +37,11 @@ public class PlayerKeyInput extends KeyInput {
 
         if (key == KeyEvent.VK_A && !left) {
             left = true;
+        }
+
+        if (key == KeyEvent.VK_SPACE) {
+            handler.getGameKeyInput().resetKeys();
+            handler.setNextTransition(RANDOM.nextInt(3) + 1, GameState.Battle);
         }
     }
 

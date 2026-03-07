@@ -198,7 +198,8 @@ public class Game implements Runnable {
                 gameKeyInput.tickCooldown();
                 gameScreen.update();
             }
-            case Menu, Dialogue -> {
+            case Menu -> gameScreen.update();
+            case Dialogue -> {
                 // World is paused — only key input handlers update state for these screens
             }
 
