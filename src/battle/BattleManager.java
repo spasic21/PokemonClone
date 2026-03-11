@@ -50,6 +50,8 @@ public class BattleManager {
 
     private boolean isWildBattle;
 
+    private boolean lowHealthSoundPlayed = false;
+
     private final TypeTable typeTable = new TypeTable();
 
     public enum BattleScreenState {
@@ -109,6 +111,7 @@ public class BattleManager {
         battleOver = false;
         isWildBattle = true;
         trainerPartyIndex = 0;
+        lowHealthSoundPlayed = false;
     }
 
     private int calculateDamage(PokemonMove pokemonMove, Pokemon attacker, Pokemon defender) {
@@ -312,6 +315,7 @@ public class BattleManager {
 
     public void setPlayerPokemon(Pokemon playerPokemon) {
         this.playerPokemon = playerPokemon;
+        this.lowHealthSoundPlayed = false;
     }
 
     public Pokemon getTrainerPokemon() {
@@ -324,6 +328,14 @@ public class BattleManager {
 
     public Sprite getTrainerBackSprite() {
         return playerSprite;
+    }
+
+    public boolean isLowHealthSoundPlayed() {
+        return lowHealthSoundPlayed;
+    }
+
+    public void setLowHealthSoundPlayed(boolean lowHealthSoundPlayed) {
+        this.lowHealthSoundPlayed = lowHealthSoundPlayed;
     }
 
     public boolean isPlayerPokemonLowHealth() {

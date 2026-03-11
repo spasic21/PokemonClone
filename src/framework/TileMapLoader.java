@@ -29,6 +29,7 @@ public class TileMapLoader {
     private int tileMapHeight;
     private int tileWidth;
     private int tileHeight;
+    private final int SCALE = 5;
     private Tile[][] tileLayer1;
     private Tile[][] tileLayer2;
     private Tile[][] tileLayer3;
@@ -168,8 +169,8 @@ public class TileMapLoader {
 
     private void loadTiles(int mapWidth, int mapHeight, JSONArray layerData, Tile[][] tileLayer) {
         int count = 0;
-        int scaleWidth = tileWidth * 5;
-        int scaleHeight = tileHeight * 5;
+        int scaleWidth = tileWidth * SCALE;
+        int scaleHeight = tileHeight * SCALE;
 
         int tileLocationX;
         int tileLocationY;

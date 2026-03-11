@@ -26,6 +26,8 @@ public class World {
 
     private Camera camera;
 
+    private final int SCALE = 5;
+
     private TileMapLoader tileMapLoader;
     private Tile[][] tileLayer1;
     private Tile[][] tileLayer2;
@@ -157,8 +159,8 @@ public class World {
         spawnPoints = tileMapLoader.getSpawnPoints();
         npcSpawns = tileMapLoader.getNpcSpawns();
 
-        scaledTileWidth = tileMapLoader.getTileWidth() * 5;
-        scaledTileHeight = tileMapLoader.getTileHeight() * 5;
+        scaledTileWidth = tileMapLoader.getTileWidth() * SCALE;
+        scaledTileHeight = tileMapLoader.getTileHeight() * SCALE;
         mapCols = tileMapLoader.getTileMapWidth();
         mapRows = tileMapLoader.getTileMapHeight();
         camera.setMapBounds(mapCols * scaledTileWidth, mapRows * scaledTileHeight);

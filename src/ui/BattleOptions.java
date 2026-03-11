@@ -1,16 +1,12 @@
 package ui;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import battle.BattleManager;
 import framework.Handler;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
 public class BattleOptions {
-
-    private Handler handler;
 
     private BattleManager battleManager;
 
@@ -29,7 +25,6 @@ public class BattleOptions {
     private int runOptionX, runOptionY;
 
     public BattleOptions(Handler handler, BattleManager battleManager, int x, int y, int width, int height) {
-        this.handler = handler;
         this.battleManager = battleManager;
         this.x = x;
         this.y = y;

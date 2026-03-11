@@ -2,6 +2,7 @@ package screen;
 
 import battle.BattleManager;
 import framework.Handler;
+import framework.SoundManager;
 import framework.SpriteSheet;
 import objects.TrainerBackSprite;
 import objects.pokemon.Pokemon;
@@ -37,6 +38,7 @@ public class BattleScreen extends Screen {
     private final BattleOptions battleOptions;
 
     private final MoveSelectBox moveSelectBox;
+
 
     public BattleScreen(Handler handler, BattleManager battleManager) {
         super(handler);
@@ -102,7 +104,13 @@ public class BattleScreen extends Screen {
                     battleManager.getCurrentEvent().update();
                 }
             }
-            case BattleOptionSelect -> battleOptions.update();
+            case BattleOptionSelect -> {
+                battleOptions.update();
+                if (!battleManager.isLowHealthSoundPlayed() && battleManager.isPlayerPokemonLowHealth()) {
+                    SoundManager.playSound("LowHealthSound", 2.0f);
+                    battleManager.setLowHealthSoundPlayed(true);
+                }
+            }
             default -> moveSelectBox.update();
         }
     }

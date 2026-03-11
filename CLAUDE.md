@@ -81,12 +81,12 @@ A Pokemon fan game built in plain Java (no game engine). Targets Gen 2 visual ae
 
 ### Critical — Fix First
 
-**[Full detailed list with line numbers](docs/fixes_critical.md)**
+**[Full detailed list with line numbers](docs/fixes_critical.md) - if doesn't exist, move on**
 
 ### High Priority
 These break gameplay or cause hard-to-debug misbehavior.
 
-**[Full detailed list with line numbers](docs/fixes_high.md)**
+**[Full detailed list with line numbers](docs/fixes_high.md) - if doesn't exist, move on**
 
 ### Foundation Work (do before Medium bugs or any new features)
 These are prerequisites for most of the codebase to work correctly.

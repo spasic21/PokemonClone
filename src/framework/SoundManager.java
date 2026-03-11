@@ -45,6 +45,21 @@ public class SoundManager {
         }
     }
 
+    public static void playSound(String name, float volume) {
+        Clip clip = soundEffects.get(name);
+
+        if (clip != null) {
+            if (clip.isRunning()) {
+                clip.stop();
+            }
+            setClipVolume(clip, volume);
+            clip.setFramePosition(0);
+            clip.start();
+        } else {
+            System.err.println("Couldn't find sound " + name);
+        }
+    }
+
     // ---- Music Clip Management ----
 
     /**
